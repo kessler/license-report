@@ -35,3 +35,6 @@ exclude (TBD):
 ```
 	license-report --package=/path/to/package.json --excluse=async --exclude=rc
 ```
+
+see lib/config.js for more details
+use [rc](https://github.com/dominictarr/rc) for further customization
