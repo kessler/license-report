@@ -1,6 +1,6 @@
 {
   "name": "license-report",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "creates a short report about project's dependencies (license, url etc)",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "bin": {
     "license-report": "index.js"
-    },
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/ironSource/license-report"
