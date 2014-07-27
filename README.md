@@ -36,7 +36,7 @@ exclude (TBD):
 	license-report --package=/path/to/package.json --excluse=async --exclude=rc
 ```
 
-[!screenshot](screenshot.png)
+![screenshot](screenshot.png)
 
 ### debug
 ```
