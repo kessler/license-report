@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var path = require('path')
 var debug = require('debug')('license-report')
 var config = require('./lib/config.js')
