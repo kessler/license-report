@@ -8,15 +8,18 @@ var async = require('async')
 var _ = require('lodash')
 var table = require('text-table')
 
-if (!config.package)
-	throw new Error('must specify a package (--package)')
+if (!config.package) {
+	config.package = './package.json'
+}
 
 if (path.extname(config.package) !== '.json')
 	throw new Error('invalid package.json ' + config.package)
 
-debug('requiring %s', config.package)
+var resolvedPackageJson = path.resolve(process.cwd(), config.package)
 
-var packageJson = require(config.package)
+debug('requiring %s', resolvedPackageJson)
+
+var packageJson = require(resolvedPackageJson)
 
 var deps = packageJson.dependencies
 var devDeps = packageJson.devDependencies
