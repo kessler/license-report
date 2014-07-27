@@ -1,5 +1,4 @@
-![ironSource logo](ironsource.png) 
-
+![ironSource logo](ironsource.png)
 # license report tool
 
 generate license report of a project's dependencies
