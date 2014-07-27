@@ -1,0 +1,29 @@
+{
+  "name": "license-report",
+  "version": "0.0.1",
+  "description": "creates a short report about project's dependencies (license, url etc)",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -R spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ironSource/license-report"
+  },
+  "author": "Yaniv Kessler",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ironSource/license-report/issues"
+  },
+  "homepage": "https://github.com/ironSource/license-report",
+  "dependencies": {
+    "async": "^0.9.0",
+    "debug": "^1.0.4",
+    "lodash": "^2.4.1",
+    "rc": "^0.4.0",
+    "request": "^2.39.0",
+    "semver": "^3.0.1",
+    "text-table": "^0.2.0",
+    "visit-values": "^1.0.1"
+  }
+}
