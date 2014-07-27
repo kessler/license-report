@@ -29,7 +29,7 @@ different outputs:
 	license-report --package=/path/to/package.json --output=table
 	license-report --package=/path/to/package.json --output=json
 	license-report --package=/path/to/package.json --output=csv
-	license-report --package=/path/to/package.json --output=csv --delimiter=\\t
+	license-report --package=/path/to/package.json --output=csv --delimiter="|"
 ```
 exclude (TBD):
 ```
