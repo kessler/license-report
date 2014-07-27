@@ -36,6 +36,13 @@ exclude (TBD):
 	license-report --package=/path/to/package.json --excluse=async --exclude=rc
 ```
 
+[!screenshot](screenshot.png)
+
+### debug
+```
+export DEBUG=license-report*
+```
+
 see lib/config.js for more details
 
 use [rc](https://github.com/dominictarr/rc) for further customization
