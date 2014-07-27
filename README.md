@@ -1,6 +1,4 @@
 # license report tool
-![ironSource logo](ironsource.png)
-
 generate license report of a project's dependencies
 
 ### install 
@@ -52,3 +50,5 @@ export DEBUG=license-report*
 see lib/config.js for more details
 
 use [rc](https://github.com/dominictarr/rc) for further customization
+
+![ironSource logo](ironsource.png)
