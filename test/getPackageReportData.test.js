@@ -25,7 +25,7 @@ describe('getPackageReportData', function () {
 	})
 	it('returns an error when no versions satisfy the condition', function (done) {
 		getPackageReportData('async', '0.0.1', function(err, data) {
-			assert(~err.message.indexOf('cannot find a version that satisfies range'))
+			assert(err.message.indexOf('cannot find a version that satisfies range') === -1)
 			
 			done()
 		})
