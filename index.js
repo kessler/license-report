@@ -114,7 +114,7 @@ function addAll(packages, packageIndex) {
 
 		var package = p + '@' + packages[p]
 
-		if (~~packageIndex.indexOf(package)) {
+		if (packageIndex.indexOf(package) === -1) {
 			packageIndex.push(package)
 		}
 	}	
