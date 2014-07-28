@@ -51,4 +51,8 @@ see lib/config.js for more details
 
 use [rc](https://github.com/dominictarr/rc) for further customization
 
+### TODO
+1. complete exclude libraries feature
+2. refactor getPackageJson and getPackageReportData to be usable for both local filesystem and npm
+
 ![ironSource logo](ironsource.png)
