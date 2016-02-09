@@ -12,10 +12,13 @@ simple:
 	> cd your/project/
 	> license-report
 ```
-by default, `license-report` only outputs packages from `dependencies`.
-To include `devDependencies` add `--dev`
+by default, `license-report` outputs all licenses from `dependencies` and `devDependencies`.
+To specify one or the other, use `--only`
 ```
-	> license-report --dev
+	> license-report --only=dev
+```
+```
+	> license-report --only=prod
 ```
 explicit package.json:
 ```

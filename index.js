@@ -29,9 +29,10 @@ var devDeps = packageJson.devDependencies
 */
 var depsIndex = []
 
-addAll(deps, depsIndex)
+if(!config.only || config.only.indexOf('prod') > -1)
+	addAll(deps, depsIndex)
 
-if(config.dev)
+if(!config.only || config.only.indexOf('dev') > -1)
 	addAll(devDeps, depsIndex)
 
 async.map(depsIndex, getPackageReportData, function(err, results) {
