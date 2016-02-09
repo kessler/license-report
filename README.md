@@ -12,6 +12,11 @@ simple:
 	> cd your/project/
 	> license-report
 ```
+by default, `license-report` only outputs packages from `dependencies`.
+To include `devDependencies` add `--dev`
+```
+	> license-report --dev
+```
 explicit package.json:
 ```
 	license-report --package=/path/to/package.json
