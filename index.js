@@ -114,7 +114,9 @@ function addAll(packages, packageIndex) {
 		
 	// iterate over packages and prepare urls before I call the registry
 	for (var p in packages) {
-
+		if(p.indexOf("@") == 0) {
+			p = p.substring(p.indexOf("/") + 1, p.length)
+		}
 		var package = p + '@' + packages[p]
 
 		if (packageIndex.indexOf(package) === -1) {
