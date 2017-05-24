@@ -1,6 +1,6 @@
 {
   "name": "license-report",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "description": "creates a short report about project's dependencies (license, url etc)",
   "main": "index.js",
   "scripts": {
@@ -24,6 +24,7 @@
     "debug": "^1.0.4",
     "lodash": "^2.4.1",
     "rc": "^0.4.0",
+    "read-installed": "^4.0.3",
     "request": "^2.39.0",
     "semver": "^3.0.1",
     "text-table": "^0.2.0",

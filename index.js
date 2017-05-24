@@ -4,9 +4,9 @@ var path = require('path')
 var debug = require('debug')('license-report')
 var config = require('./lib/config.js')
 var getPackageReportData = require('./lib/getPackageReportData.js')
-var async = require('async')
 var _ = require('lodash')
 var table = require('text-table')
+var readInstalled = require('read-installed')
 
 if (!config.package) {
 	config.package = './package.json'
@@ -27,20 +27,23 @@ var devDeps = packageJson.devDependencies
 /*
 	an index of all the dependencies
 */
-var depsIndex = []
+var depsIndex = {}
 
 if(!config.only || config.only.indexOf('prod') > -1)
-	addAll(deps, depsIndex)
+        _.merge(depsIndex, deps)
 
 if(!config.only || config.only.indexOf('dev') > -1)
-	addAll(devDeps, depsIndex)
-
-async.map(depsIndex, getPackageReportData, function(err, results) {
-	if (err) return console.error(err)
-
-	if (results.length === 0) return console.log('nothing to do')
-
+        _.merge(depsIndex, devDeps)
+readInstalled(path.dirname(resolvedPackageJson), {depth: 1}, function(err, deps) {
 	try {
+            if (err) return console.error(err)
+            var results =
+              _(deps.dependencies).filter(
+                  dep => {
+                      return _.has(depsIndex, dep.name)
+                  }
+              ).map(getPackageReportData).value();
+            if (results.length === 0) return console.log('nothing to do')
 
 		for (var i = 0; i < results.length; i++) {
 			var packageData = results[i]
@@ -105,20 +108,3 @@ async.map(depsIndex, getPackageReportData, function(err, results) {
 		process.exit(1)
 	}	
 })
-
-/*
-	add all packages to a package index array. 
-	maintaining uniqueness (crude methods)
-*/
-function addAll(packages, packageIndex) {
-		
-	// iterate over packages and prepare urls before I call the registry
-	for (var p in packages) {
-
-		var package = p + '@' + packages[p]
-
-		if (packageIndex.indexOf(package) === -1) {
-			packageIndex.push(package)
-		}
-	}	
-}
