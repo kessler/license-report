@@ -89,8 +89,8 @@ readInstalled(path.dirname(resolvedPackageJson), {depth: 1}, function(err, deps)
 				lines.push(line.toString())
 			}
 			
-			results.unshift(lines)
-			results.unshift(labels)
+			//results.unshift(lines)
+			//results.unshift(labels)
 
 			console.log(table(results))
 		} else if (config.output = 'csv') {
