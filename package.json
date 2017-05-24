@@ -26,6 +26,7 @@
     "rc": "^0.4.0",
     "request": "^2.39.0",
     "semver": "^3.0.1",
+    "stubborn": "^1.2.0",
     "text-table": "^0.2.0",
     "visit-values": "^1.0.1"
   }
