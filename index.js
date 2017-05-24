@@ -12,8 +12,9 @@ if (!config.package) {
 	config.package = './package.json'
 }
 
-if (path.extname(config.package) !== '.json')
+if (path.extname(config.package) !== '.json') {
 	throw new Error('invalid package.json ' + config.package)
+}
 
 var resolvedPackageJson = path.resolve(process.cwd(), config.package)
 
@@ -29,11 +30,13 @@ var devDeps = packageJson.devDependencies
 */
 var depsIndex = []
 
-if(!config.only || config.only.indexOf('prod') > -1)
+if(!config.only || config.only.indexOf('prod') > -1) {
 	addAll(deps, depsIndex)
+}
 
-if(!config.only || config.only.indexOf('dev') > -1)
+if(!config.only || config.only.indexOf('dev') > -1) {
 	addAll(devDeps, depsIndex)
+}
 
 async.map(depsIndex, getPackageReportData, function(err, results) {
 	if (err) return console.error(err)
@@ -53,8 +56,9 @@ async.map(depsIndex, getPackageReportData, function(err, results) {
 				finalData[fieldName] = packageData[fieldName]
 
 				// fill in defaults
-				if (!(fieldName in packageData))
+				if (!(fieldName in packageData)) {
 					finalData[fieldName] = config[fieldName].value	
+				}
 			}
 
 			// turn every object to an array, make sure there are no undefined elements anywhere
@@ -62,8 +66,9 @@ async.map(depsIndex, getPackageReportData, function(err, results) {
 				finalData = _.toArray(finalData)
 
 				for (var j = finalData.length - 1; j >= 0; j--) {
-					if (!finalData[j])
+					if (!finalData[j]) {
 						finalData[j] = 'n/a'
+					}
 				}
 			}
 
@@ -114,8 +119,8 @@ function addAll(packages, packageIndex) {
 		
 	// iterate over packages and prepare urls before I call the registry
 	for (var p in packages) {
-		if(p.indexOf("@") == 0) {
-			p = p.substring(p.indexOf("/") + 1, p.length)
+		if(p.indexOf('@') === 0) {
+			p = p.substring(p.indexOf('/') + 1, p.length)
 		}
 		var package = p + '@' + packages[p]
 

@@ -1,7 +1,7 @@
 var assert = require('assert')
 var extractLicense = require('../lib/extractLicense.js')
 
-describe.only('extractLicense', function () {
+describe('extractLicense', function () {
 	
 	it('if its a string', function () {
 		var license = extractLicense({ license: '123' })
