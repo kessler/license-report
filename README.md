@@ -1,7 +1,7 @@
 # license report tool
 generate license report of a project's dependencies
 
-### install 
+### install
 ```
 	npm install -g license-report
 ```
@@ -35,6 +35,10 @@ customize a default value (only applicable for some fields):
 another registry:
 ```
 	license-report --registry=https://myregistry.com/
+```
+limit number of outgoing requests (if you are getting no output this might help):
+```
+  license-report --limit=5
 ```
 different outputs:
 ```
