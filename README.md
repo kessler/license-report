@@ -9,16 +9,16 @@ npm install -g license-report
 ### usage
 simple:
 ```
-> cd your/project/
-> license-report
+cd your/project/
+license-report
 ```
 by default, `license-report` outputs all licenses from `dependencies` and `devDependencies`.
 To specify one or the other, use `--only`
 ```
-> license-report --only=dev
+license-report --only=dev
 ```
 ```
-> license-report --only=prod
+license-report --only=prod
 ```
 explicit package.json:
 ```
