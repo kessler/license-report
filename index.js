@@ -25,17 +25,18 @@ var packageJson = require(resolvedPackageJson)
 var deps = packageJson.dependencies
 var devDeps = packageJson.devDependencies
 
+var exclusions = Array.isArray(config.exclude) ? config.exclude : [config.exclude]
 /*
 	an index of all the dependencies
 */
 var depsIndex = []
 
 if(!config.only || config.only.indexOf('prod') > -1) {
-	addAll(deps, depsIndex)
+	addAll(deps, depsIndex, exclusions)
 }
 
 if(!config.only || config.only.indexOf('dev') > -1) {
-	addAll(devDeps, depsIndex)
+	addAll(devDeps, depsIndex, exclusions)
 }
 
 async.map(depsIndex, getPackageReportData, function(err, results) {
@@ -115,10 +116,14 @@ async.map(depsIndex, getPackageReportData, function(err, results) {
 	add all packages to a package index array. 
 	maintaining uniqueness (crude methods)
 */
-function addAll(packages, packageIndex) {
+function addAll(packages, packageIndex, exclusions) {
 		
 	// iterate over packages and prepare urls before I call the registry
 	for (var p in packages) {
+		if (_.indexOf(exclusions, p) !== -1) {
+			continue
+		}
+
 		if(p.indexOf('@') === 0) {
 			p = p.substring(p.indexOf('/') + 1, p.length)
 		}
