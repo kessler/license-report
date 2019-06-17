@@ -21,4 +21,9 @@ describe('extractLink', function () {
 		var link = extractLink({ url: 'lala.com' })
 		assert(!link)
 	})
+
+	it('does not break when processing packages with no repository link and non-string properties', function () {
+		var link = extractLink({ someNonStringProperty: false })
+		assert(!link)
+	})
 })

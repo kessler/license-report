@@ -1,7 +1,7 @@
 var assert = require('assert')
 var getPackageReportData = require('../lib/getPackageReportData.js')
 
-describe.only('getPackageReportData', function () {
+describe('getPackageReportData', function () {
 	this.timeout(20000)
 
 	it('gets the package report data', function (done) {
