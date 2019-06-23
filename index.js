@@ -7,6 +7,7 @@ var getPackageReportData = require('./lib/getPackageReportData.js')
 var async = require('async')
 var _ = require('lodash')
 var table = require('text-table')
+var addPackagesToIndex = require('./lib/addPackagesToIndex')
 
 if (!config.package) {
 	config.package = './package.json'
@@ -32,11 +33,11 @@ var exclusions = Array.isArray(config.exclude) ? config.exclude : [config.exclud
 var depsIndex = []
 
 if(!config.only || config.only.indexOf('prod') > -1) {
-	addAll(deps, depsIndex, exclusions)
+	addPackagesToIndex(deps, depsIndex, exclusions)
 }
 
 if(!config.only || config.only.indexOf('dev') > -1) {
-	addAll(devDeps, depsIndex, exclusions)
+	addPackagesToIndex(devDeps, depsIndex, exclusions)
 }
 
 async.map(depsIndex, getPackageReportData, function(err, results) {
@@ -115,26 +116,3 @@ async.map(depsIndex, getPackageReportData, function(err, results) {
 		process.exit(1)
 	}	
 })
-
-/*
-	add all packages to a package index array. 
-	maintaining uniqueness (crude methods)
-*/
-function addAll(packages, packageIndex, exclusions) {
-		
-	// iterate over packages and prepare urls before I call the registry
-	for (var p in packages) {
-		if (_.indexOf(exclusions, p) !== -1) {
-			continue
-		}
-
-		if(p.indexOf('@') === 0) {
-			p = p.substring(p.indexOf('/') + 1, p.length)
-		}
-		var package = p + '@' + packages[p]
-
-		if (packageIndex.indexOf(package) === -1) {
-			packageIndex.push(package)
-		}
-	}	
-}

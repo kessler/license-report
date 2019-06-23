@@ -20,9 +20,8 @@
   },
   "homepage": "https://github.com/ironSource/license-report",
   "dependencies": {
-    "@kessler/exponential-backoff": "^2.0.0",
     "async": "^0.9.0",
-    "debug": "^3.1.0",
+    "debug": "^3.2.6",
     "lodash": "^4.17.11",
     "rc": "^1.2.8",
     "request": "^2.88.0",
@@ -30,5 +29,8 @@
     "stubborn": "^1.2.5",
     "text-table": "^0.2.0",
     "visit-values": "^1.0.1"
+  },
+  "devDependencies": {
+    "@kessler/exponential-backoff": "^2.0.0"
   }
 }
