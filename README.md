@@ -41,7 +41,12 @@ different outputs:
 license-report --output=table
 license-report --output=json
 license-report --output=csv
-license-report --output=csv --delimiter="|"
+
+# replace default ',' separator with something else
+license-report --output=csv --delimiter="|" 
+
+# output csv headers (fields) on first row
+license-report --output=csv --csvHeaders
 ```
 exclude:
 ```
@@ -60,6 +65,6 @@ see lib/config.js for more details
 use [rc](https://github.com/dominictarr/rc) for further customization
 
 ### TODO
-1. refactor getPackageJson and getPackageReportData to be usable for both local filesystem and npm
+Requires a serious refactor!
 
 ![ironSource logo](ironsource.png)

@@ -44,6 +44,7 @@ async.map(depsIndex, getPackageReportData, function(err, results) {
 
 	if (results.length === 0) return console.log('nothing to do')
 
+	// TODO decouple !!! this is terrible
 	try {
 
 		for (var i = 0; i < results.length; i++) {
@@ -97,6 +98,9 @@ async.map(depsIndex, getPackageReportData, function(err, results) {
 
 			console.log(table(results))
 		} else if (config.output = 'csv') {
+			if (config.csvHeaders) {
+				results.unshift(config.fields)
+			}
 			for (var i = results.length - 1; i >= 0; i--) {
 				results[i] = results[i].join(config.delimiter)
 			}
