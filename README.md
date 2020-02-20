@@ -50,7 +50,7 @@ license-report --output=csv --csvHeaders
 ```
 exclude:
 ```
-license-report --excluse=async --exclude=rc
+license-report --exclude=async --exclude=rc
 ```
 
 ![screenshot](screenshot.png)
