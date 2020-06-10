@@ -1,11 +1,14 @@
 var cp = require('child_process')
 var path = require('path')
+var _ = require('lodash')
 var assert = require('assert')
 
-var scriptPath = path.resolve(__dirname, '..', 'index.js')
+var scriptPath = path
+	.resolve(__dirname, '..', 'index.js')
+	.replace(/(\s+)/g, '\\$1');
 
 describe('end to end test', function() {
-	it('produce a json report', function(done) {
+	it.only('produce a json report', function(done) {
 		this.timeout(50000)
 
 		cp.exec('node ' + scriptPath, function(err, stdout, stderr) {
@@ -50,6 +53,7 @@ describe('end to end test', function() {
 })
 
 var EXPECTED_JSON_RESULT = [{
+		author: 'Caolan McMahon',
 		department: 'kessler',
 		relatedTo: 'stuff',
 		name: 'async',
@@ -60,6 +64,7 @@ var EXPECTED_JSON_RESULT = [{
 		comment: '0.9.2'
 	},
 	{
+		author: 'TJ Holowaychuk',
 		department: 'kessler',
 		relatedTo: 'stuff',
 		name: 'debug',
@@ -70,6 +75,7 @@ var EXPECTED_JSON_RESULT = [{
 		comment: '3.2.6'
 	},
 	{
+		author: 'John-David Dalton',
 		department: 'kessler',
 		relatedTo: 'stuff',
 		name: 'lodash',
@@ -77,9 +83,10 @@ var EXPECTED_JSON_RESULT = [{
 		material: 'material',
 		licenseType: 'MIT',
 		link: 'git+https://github.com/lodash/lodash.git',
-		comment: '4.17.11'
+		comment: '4.17.15'
 	},
 	{
+		author: 'Dominic Tarr',
 		department: 'kessler',
 		relatedTo: 'stuff',
 		name: 'rc',
@@ -90,6 +97,7 @@ var EXPECTED_JSON_RESULT = [{
 		comment: '1.2.8'
 	},
 	{
+		author: 'Mikeal Rogers',
 		department: 'kessler',
 		relatedTo: 'stuff',
 		name: 'request',
@@ -97,7 +105,7 @@ var EXPECTED_JSON_RESULT = [{
 		material: 'material',
 		licenseType: 'Apache-2.0',
 		link: 'git+https://github.com/request/request.git',
-		comment: '2.88.0'
+		comment: '2.88.2'
 	},
 	{
 		department: 'kessler',
@@ -107,9 +115,10 @@ var EXPECTED_JSON_RESULT = [{
 		material: 'material',
 		licenseType: 'ISC',
 		link: 'git+https://github.com/npm/node-semver.git',
-		comment: '5.7.0'
+		comment: '5.7.1'
 	},
 	{
+		author: 'Roman Grudzinski',
 		department: 'kessler',
 		relatedTo: 'stuff',
 		name: 'stubborn',
@@ -120,6 +129,7 @@ var EXPECTED_JSON_RESULT = [{
 		comment: '1.2.5'
 	},
 	{
+		author: 'James Halliday',
 		department: 'kessler',
 		relatedTo: 'stuff',
 		name: 'text-table',
@@ -130,6 +140,7 @@ var EXPECTED_JSON_RESULT = [{
 		comment: '0.2.0'
 	},
 	{
+		author: 'Yaniv Kessler',
 		department: 'kessler',
 		relatedTo: 'stuff',
 		name: 'visit-values',
@@ -140,11 +151,12 @@ var EXPECTED_JSON_RESULT = [{
 		comment: '1.0.4'
 	},
 	{
-		comment: '2.0.0',
+		author: 'Yaniv Kessler',
+		comment: '2.0.1',
 		department: 'kessler',
 		licensePeriod: 'perpetual',
 		licenseType: 'MIT',
-		link: 'https://registry.npmjs.org/@kessler/exponential-backoff/-/exponential-backoff-2.0.0.tgz',
+		link: 'https://registry.npmjs.org/@kessler/exponential-backoff/-/exponential-backoff-2.0.1.tgz',
 		material: 'material',
 		name: '@kessler/exponential-backoff',
 		relatedTo: 'stuff'

@@ -60,7 +60,7 @@ async.map(depsIndex, getPackageReportData, function(err, results) {
 
 				// fill in defaults
 				if (!(fieldName in packageData)) {
-					finalData[fieldName] = config[fieldName].value	
+					finalData[fieldName] = config[fieldName].value
 				}
 			}
 
@@ -93,7 +93,7 @@ async.map(depsIndex, getPackageReportData, function(err, results) {
 				line.fill('-')
 				lines.push(line.toString())
 			}
-			
+
 			results.unshift(lines)
 			results.unshift(labels)
 
@@ -114,5 +114,5 @@ async.map(depsIndex, getPackageReportData, function(err, results) {
 	} catch (e) {
 		console.error(e.stack)
 		process.exit(1)
-	}	
+	}
 })
