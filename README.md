@@ -55,6 +55,23 @@ license-report --excluse=async --exclude=rc
 
 ![screenshot](screenshot.png)
 
+### available fields
+Fields with data of the installed packages:
+| fieldname | column title | data source |
+|---|---|---|
+| name | name | name of the package |
+| licenseType | license type | type of the license of the package (e.g. MIT) |
+| link | link | link to the repository of the package |
+| comment | comment | latest available version of the package (can be different from the installed version) |
+
+Fields with data set in the configuration of license-report:
+| fieldname | column title | set value |
+|--|---|---|
+| department | department | --department.value=kessler |
+| relatedTo | related to | --relatedTo.value=stuff |
+| licensePeriod | license period | --licensePeriod.value=perpetual |
+| material | material / not material | --material.value=material |
+
 ### debug
 ```
 export DEBUG=license-report*
