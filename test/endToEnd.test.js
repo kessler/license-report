@@ -57,7 +57,7 @@ var EXPECTED_JSON_RESULT = [{
 		material: 'material',
 		licenseType: 'MIT',
 		link: 'git+https://github.com/caolan/async.git',
-		comment: '0.9.2'
+		comment: '3.2.0'
 	},
 	{
 		department: 'kessler',
@@ -67,7 +67,7 @@ var EXPECTED_JSON_RESULT = [{
 		material: 'material',
 		licenseType: 'MIT',
 		link: 'git://github.com/visionmedia/debug.git',
-		comment: '3.2.6'
+		comment: '4.1.1'
 	},
 	{
 		department: 'kessler',
@@ -107,7 +107,7 @@ var EXPECTED_JSON_RESULT = [{
 		material: 'material',
 		licenseType: 'ISC',
 		link: 'git+https://github.com/npm/node-semver.git',
-		comment: '5.7.1'
+		comment: '7.3.2'
 	},
 	{
 		department: 'kessler',
@@ -137,7 +137,7 @@ var EXPECTED_JSON_RESULT = [{
 		material: 'material',
 		licenseType: 'MIT',
 		link: 'https://github.com/kessler/node-visit-values',
-		comment: '1.0.4'
+		comment: '2.0.0'
 	},
 	{
 		comment: '2.0.1',
@@ -151,6 +151,6 @@ var EXPECTED_JSON_RESULT = [{
 	}
 ]
 
-var EXPECTED_TABLE_RESULT = "department  related to  name                          license period  material / not material  license type                         link                                                                                     comment\n----------  ----------  ----                          --------------  -----------------------  ------------                         ----                                                                                     -------\nkessler     stuff       async                         perpetual       material                 MIT                                  git+https://github.com/caolan/async.git                                                  0.9.2\nkessler     stuff       debug                         perpetual       material                 MIT                                  git://github.com/visionmedia/debug.git                                                   3.2.6\nkessler     stuff       lodash                        perpetual       material                 MIT                                  git+https://github.com/lodash/lodash.git                                                 4.17.15\nkessler     stuff       rc                            perpetual       material                 (BSD-2-Clause OR MIT OR Apache-2.0)  git+https://github.com/dominictarr/rc.git                                                1.2.8\nkessler     stuff       request                       perpetual       material                 Apache-2.0                           git+https://github.com/request/request.git                                               2.88.2\nkessler     stuff       semver                        perpetual       material                 ISC                                  git+https://github.com/npm/node-semver.git                                               5.7.1\nkessler     stuff       stubborn                      perpetual       material                 ISC                                  git://github.com/grudzinski/stubborn.git                                                 1.2.5\nkessler     stuff       text-table                    perpetual       material                 MIT                                  git://github.com/substack/text-table.git                                                 0.2.0\nkessler     stuff       visit-values                  perpetual       material                 MIT                                  https://github.com/kessler/node-visit-values                                             1.0.4\nkessler     stuff       @kessler/exponential-backoff  perpetual       material                 MIT                                  https://registry.npmjs.org/@kessler/exponential-backoff/-/exponential-backoff-2.0.1.tgz  2.0.1\n"
+var EXPECTED_TABLE_RESULT = "department  related to  name                          license period  material / not material  license type                         link                                                                                     comment\n----------  ----------  ----                          --------------  -----------------------  ------------                         ----                                                                                     -------\nkessler     stuff       async                         perpetual       material                 MIT                                  git+https://github.com/caolan/async.git                                                  3.2.0\nkessler     stuff       debug                         perpetual       material                 MIT                                  git://github.com/visionmedia/debug.git                                                   4.1.1\nkessler     stuff       lodash                        perpetual       material                 MIT                                  git+https://github.com/lodash/lodash.git                                                 4.17.15\nkessler     stuff       rc                            perpetual       material                 (BSD-2-Clause OR MIT OR Apache-2.0)  git+https://github.com/dominictarr/rc.git                                                1.2.8\nkessler     stuff       request                       perpetual       material                 Apache-2.0                           git+https://github.com/request/request.git                                               2.88.2\nkessler     stuff       semver                        perpetual       material                 ISC                                  git+https://github.com/npm/node-semver.git                                               7.3.2\nkessler     stuff       stubborn                      perpetual       material                 ISC                                  git://github.com/grudzinski/stubborn.git                                                 1.2.5\nkessler     stuff       text-table                    perpetual       material                 MIT                                  git://github.com/substack/text-table.git                                                 0.2.0\nkessler     stuff       visit-values                  perpetual       material                 MIT                                  https://github.com/kessler/node-visit-values                                             2.0.0\nkessler     stuff       @kessler/exponential-backoff  perpetual       material                 MIT                                  https://registry.npmjs.org/@kessler/exponential-backoff/-/exponential-backoff-2.0.1.tgz  2.0.1\n"
 
-var EXPECTED_CSV_RESULT = "department,relatedTo,name,licensePeriod,material,licenseType,link,comment\nkessler,stuff,async,perpetual,material,MIT,git+https://github.com/caolan/async.git,0.9.2\nkessler,stuff,debug,perpetual,material,MIT,git://github.com/visionmedia/debug.git,3.2.6\nkessler,stuff,lodash,perpetual,material,MIT,git+https://github.com/lodash/lodash.git,4.17.15\nkessler,stuff,rc,perpetual,material,(BSD-2-Clause OR MIT OR Apache-2.0),git+https://github.com/dominictarr/rc.git,1.2.8\nkessler,stuff,request,perpetual,material,Apache-2.0,git+https://github.com/request/request.git,2.88.2\nkessler,stuff,semver,perpetual,material,ISC,git+https://github.com/npm/node-semver.git,5.7.1\nkessler,stuff,stubborn,perpetual,material,ISC,git://github.com/grudzinski/stubborn.git,1.2.5\nkessler,stuff,text-table,perpetual,material,MIT,git://github.com/substack/text-table.git,0.2.0\nkessler,stuff,visit-values,perpetual,material,MIT,https://github.com/kessler/node-visit-values,1.0.4\nkessler,stuff,@kessler/exponential-backoff,perpetual,material,MIT,https://registry.npmjs.org/@kessler/exponential-backoff/-/exponential-backoff-2.0.1.tgz,2.0.1\n"
+var EXPECTED_CSV_RESULT = "department,relatedTo,name,licensePeriod,material,licenseType,link,comment\nkessler,stuff,async,perpetual,material,MIT,git+https://github.com/caolan/async.git,3.2.0\nkessler,stuff,debug,perpetual,material,MIT,git://github.com/visionmedia/debug.git,4.1.1\nkessler,stuff,lodash,perpetual,material,MIT,git+https://github.com/lodash/lodash.git,4.17.15\nkessler,stuff,rc,perpetual,material,(BSD-2-Clause OR MIT OR Apache-2.0),git+https://github.com/dominictarr/rc.git,1.2.8\nkessler,stuff,request,perpetual,material,Apache-2.0,git+https://github.com/request/request.git,2.88.2\nkessler,stuff,semver,perpetual,material,ISC,git+https://github.com/npm/node-semver.git,7.3.2\nkessler,stuff,stubborn,perpetual,material,ISC,git://github.com/grudzinski/stubborn.git,1.2.5\nkessler,stuff,text-table,perpetual,material,MIT,git://github.com/substack/text-table.git,0.2.0\nkessler,stuff,visit-values,perpetual,material,MIT,https://github.com/kessler/node-visit-values,2.0.0\nkessler,stuff,@kessler/exponential-backoff,perpetual,material,MIT,https://registry.npmjs.org/@kessler/exponential-backoff/-/exponential-backoff-2.0.1.tgz,2.0.1\n"
