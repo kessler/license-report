@@ -4,7 +4,7 @@
   "description": "creates a short report about project's dependencies (license, url etc)",
   "main": "index.js",
   "scripts": {
-    "test": "mocha -R spec"
+    "test": "npx mocha -R spec"
   },
   "bin": {
     "license-report": "index.js"
