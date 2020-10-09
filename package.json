@@ -31,6 +31,7 @@
     "visit-values": "^2.0.0"
   },
   "devDependencies": {
-    "@kessler/exponential-backoff": "^2.0.1"
+    "@kessler/exponential-backoff": "^2.0.1",
+    "mocha": "^8.1.3"
   }
 }
