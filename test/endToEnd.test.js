@@ -1,8 +1,11 @@
 var cp = require('child_process')
 var path = require('path')
+var _ = require('lodash')
 var assert = require('assert')
 
-var scriptPath = path.resolve(__dirname, '..', 'index.js')
+var scriptPath = path
+	.resolve(__dirname, '..', 'index.js')
+	.replace(/(\s+)/g, '\\$1');
 
 describe('end to end test', function() {
 	it('produce a json report', function(done) {
@@ -15,6 +18,7 @@ describe('end to end test', function() {
 			}
 
 			var result = JSON.parse(stdout)
+		
 			assert.deepStrictEqual(result, EXPECTED_JSON_RESULT)
 			done()
 		})
@@ -50,6 +54,7 @@ describe('end to end test', function() {
 })
 
 var EXPECTED_JSON_RESULT = [{
+		author: 'Caolan McMahon',
 		department: 'kessler',
 		relatedTo: 'stuff',
 		name: 'async',
@@ -61,6 +66,7 @@ var EXPECTED_JSON_RESULT = [{
 		installedVersion: '3.2.0'
 	},
 	{
+		author: 'TJ Holowaychuk',
 		department: 'kessler',
 		relatedTo: 'stuff',
 		name: 'debug',
@@ -72,6 +78,7 @@ var EXPECTED_JSON_RESULT = [{
 		installedVersion: '4.1.1'
 	},
 	{
+		author: 'John-David Dalton',
 		department: 'kessler',
 		relatedTo: 'stuff',
 		name: 'lodash',
@@ -83,6 +90,7 @@ var EXPECTED_JSON_RESULT = [{
 		installedVersion: '4.17.15'
 	},
 	{
+		author: 'Dominic Tarr',
 		department: 'kessler',
 		relatedTo: 'stuff',
 		name: 'rc',
@@ -94,6 +102,7 @@ var EXPECTED_JSON_RESULT = [{
 		installedVersion: '1.2.8'
 	},
 	{
+		author: 'Mikeal Rogers',
 		department: 'kessler',
 		relatedTo: 'stuff',
 		name: 'request',
@@ -116,6 +125,7 @@ var EXPECTED_JSON_RESULT = [{
 		installedVersion: '7.3.2'
 	},
 	{
+		author: 'Roman Grudzinski',
 		department: 'kessler',
 		relatedTo: 'stuff',
 		name: 'stubborn',
@@ -127,6 +137,7 @@ var EXPECTED_JSON_RESULT = [{
 		installedVersion: '1.2.5'
 	},
 	{
+		author: 'James Halliday',
 		department: 'kessler',
 		relatedTo: 'stuff',
 		name: 'text-table',
@@ -138,6 +149,7 @@ var EXPECTED_JSON_RESULT = [{
 		installedVersion: '0.2.0'
 	},
 	{
+		author: 'Yaniv Kessler',
 		department: 'kessler',
 		relatedTo: 'stuff',
 		name: 'visit-values',
@@ -151,6 +163,7 @@ var EXPECTED_JSON_RESULT = [{
 	{
 		comment: '2.0.1',
 		installedVersion: '2.0.1',
+		author: 'Yaniv Kessler',
 		department: 'kessler',
 		licensePeriod: 'perpetual',
 		licenseType: 'MIT',
@@ -160,6 +173,7 @@ var EXPECTED_JSON_RESULT = [{
 		relatedTo: 'stuff'
 	},
 	{
+		author: 'TJ Holowaychuk',
 		comment: '8.1.3',
 		department: 'kessler',
 		installedVersion: '8.1.3',
@@ -172,32 +186,32 @@ var EXPECTED_JSON_RESULT = [{
 	}
 ]
 
-var EXPECTED_TABLE_RESULT = `department  related to  name                          license period  material / not material  license type                         link                                                                                     comment  installed version
-----------  ----------  ----                          --------------  -----------------------  ------------                         ----                                                                                     -------  -----------------
-kessler     stuff       async                         perpetual       material                 MIT                                  git+https://github.com/caolan/async.git                                                  3.2.0    3.2.0
-kessler     stuff       debug                         perpetual       material                 MIT                                  git://github.com/visionmedia/debug.git                                                   4.3.0    4.1.1
-kessler     stuff       lodash                        perpetual       material                 MIT                                  git+https://github.com/lodash/lodash.git                                                 4.17.20  4.17.15
-kessler     stuff       rc                            perpetual       material                 (BSD-2-Clause OR MIT OR Apache-2.0)  git+https://github.com/dominictarr/rc.git                                                1.2.8    1.2.8
-kessler     stuff       request                       perpetual       material                 Apache-2.0                           git+https://github.com/request/request.git                                               2.88.2   2.88.2
-kessler     stuff       semver                        perpetual       material                 ISC                                  git+https://github.com/npm/node-semver.git                                               7.3.2    7.3.2
-kessler     stuff       stubborn                      perpetual       material                 ISC                                  git://github.com/grudzinski/stubborn.git                                                 1.2.5    1.2.5
-kessler     stuff       text-table                    perpetual       material                 MIT                                  git://github.com/substack/text-table.git                                                 0.2.0    0.2.0
-kessler     stuff       visit-values                  perpetual       material                 MIT                                  https://github.com/kessler/node-visit-values                                             2.0.0    2.0.0
-kessler     stuff       @kessler/exponential-backoff  perpetual       material                 MIT                                  https://registry.npmjs.org/@kessler/exponential-backoff/-/exponential-backoff-2.0.1.tgz  2.0.1    2.0.1
-kessler     stuff       mocha                         perpetual       material                 MIT                                  git+https://github.com/mochajs/mocha.git                                                 8.1.3    8.1.3
+var EXPECTED_TABLE_RESULT = `department  related to  name                          license period  material / not material  license type                         link                                                                                     comment  installed version  author
+----------  ----------  ----                          --------------  -----------------------  ------------                         ----                                                                                     -------  -----------------  ------
+kessler     stuff       async                         perpetual       material                 MIT                                  git+https://github.com/caolan/async.git                                                  3.2.0    3.2.0              Caolan McMahon
+kessler     stuff       debug                         perpetual       material                 MIT                                  git://github.com/visionmedia/debug.git                                                   4.3.0    4.1.1              TJ Holowaychuk
+kessler     stuff       lodash                        perpetual       material                 MIT                                  git+https://github.com/lodash/lodash.git                                                 4.17.20  4.17.15            John-David Dalton
+kessler     stuff       rc                            perpetual       material                 (BSD-2-Clause OR MIT OR Apache-2.0)  git+https://github.com/dominictarr/rc.git                                                1.2.8    1.2.8              Dominic Tarr
+kessler     stuff       request                       perpetual       material                 Apache-2.0                           git+https://github.com/request/request.git                                               2.88.2   2.88.2             Mikeal Rogers
+kessler     stuff       semver                        perpetual       material                 ISC                                  git+https://github.com/npm/node-semver.git                                               7.3.2    7.3.2              n/a
+kessler     stuff       stubborn                      perpetual       material                 ISC                                  git://github.com/grudzinski/stubborn.git                                                 1.2.5    1.2.5              Roman Grudzinski
+kessler     stuff       text-table                    perpetual       material                 MIT                                  git://github.com/substack/text-table.git                                                 0.2.0    0.2.0              James Halliday
+kessler     stuff       visit-values                  perpetual       material                 MIT                                  https://github.com/kessler/node-visit-values                                             2.0.0    2.0.0              Yaniv Kessler
+kessler     stuff       @kessler/exponential-backoff  perpetual       material                 MIT                                  https://registry.npmjs.org/@kessler/exponential-backoff/-/exponential-backoff-2.0.1.tgz  2.0.1    2.0.1              Yaniv Kessler
+kessler     stuff       mocha                         perpetual       material                 MIT                                  git+https://github.com/mochajs/mocha.git                                                 8.1.3    8.1.3              TJ Holowaychuk
 `;
 
 
-var EXPECTED_CSV_RESULT = `department,relatedTo,name,licensePeriod,material,licenseType,link,comment,installedVersion
-kessler,stuff,async,perpetual,material,MIT,git+https://github.com/caolan/async.git,3.2.0,3.2.0
-kessler,stuff,debug,perpetual,material,MIT,git://github.com/visionmedia/debug.git,4.3.0,4.1.1
-kessler,stuff,lodash,perpetual,material,MIT,git+https://github.com/lodash/lodash.git,4.17.20,4.17.15
-kessler,stuff,rc,perpetual,material,(BSD-2-Clause OR MIT OR Apache-2.0),git+https://github.com/dominictarr/rc.git,1.2.8,1.2.8
-kessler,stuff,request,perpetual,material,Apache-2.0,git+https://github.com/request/request.git,2.88.2,2.88.2
-kessler,stuff,semver,perpetual,material,ISC,git+https://github.com/npm/node-semver.git,7.3.2,7.3.2
-kessler,stuff,stubborn,perpetual,material,ISC,git://github.com/grudzinski/stubborn.git,1.2.5,1.2.5
-kessler,stuff,text-table,perpetual,material,MIT,git://github.com/substack/text-table.git,0.2.0,0.2.0
-kessler,stuff,visit-values,perpetual,material,MIT,https://github.com/kessler/node-visit-values,2.0.0,2.0.0
-kessler,stuff,@kessler/exponential-backoff,perpetual,material,MIT,https://registry.npmjs.org/@kessler/exponential-backoff/-/exponential-backoff-2.0.1.tgz,2.0.1,2.0.1
-kessler,stuff,mocha,perpetual,material,MIT,git+https://github.com/mochajs/mocha.git,8.1.3,8.1.3
+var EXPECTED_CSV_RESULT = `department,relatedTo,name,licensePeriod,material,licenseType,link,comment,installedVersion,author
+kessler,stuff,async,perpetual,material,MIT,git+https://github.com/caolan/async.git,3.2.0,3.2.0,Caolan McMahon
+kessler,stuff,debug,perpetual,material,MIT,git://github.com/visionmedia/debug.git,4.3.0,4.1.1,TJ Holowaychuk
+kessler,stuff,lodash,perpetual,material,MIT,git+https://github.com/lodash/lodash.git,4.17.20,4.17.15,John-David Dalton
+kessler,stuff,rc,perpetual,material,(BSD-2-Clause OR MIT OR Apache-2.0),git+https://github.com/dominictarr/rc.git,1.2.8,1.2.8,Dominic Tarr
+kessler,stuff,request,perpetual,material,Apache-2.0,git+https://github.com/request/request.git,2.88.2,2.88.2,Mikeal Rogers
+kessler,stuff,semver,perpetual,material,ISC,git+https://github.com/npm/node-semver.git,7.3.2,7.3.2,n/a
+kessler,stuff,stubborn,perpetual,material,ISC,git://github.com/grudzinski/stubborn.git,1.2.5,1.2.5,Roman Grudzinski
+kessler,stuff,text-table,perpetual,material,MIT,git://github.com/substack/text-table.git,0.2.0,0.2.0,James Halliday
+kessler,stuff,visit-values,perpetual,material,MIT,https://github.com/kessler/node-visit-values,2.0.0,2.0.0,Yaniv Kessler
+kessler,stuff,@kessler/exponential-backoff,perpetual,material,MIT,https://registry.npmjs.org/@kessler/exponential-backoff/-/exponential-backoff-2.0.1.tgz,2.0.1,2.0.1,Yaniv Kessler
+kessler,stuff,mocha,perpetual,material,MIT,git+https://github.com/mochajs/mocha.git,8.1.3,8.1.3,TJ Holowaychuk
 `;
