@@ -2,6 +2,7 @@ var cp = require('child_process')
 var path = require('path')
 var _ = require('lodash')
 var assert = require('assert')
+var fs = require('fs')
 
 var scriptPath = path
 	.resolve(__dirname, '..', 'index.js')
@@ -18,7 +19,7 @@ describe('end to end test', function() {
 			}
 
 			var result = JSON.parse(stdout)
-		
+
 			assert.deepStrictEqual(result, EXPECTED_JSON_RESULT)
 			done()
 		})
@@ -51,9 +52,35 @@ describe('end to end test', function() {
 			done()
 		})
 	})
+
+	it('produce an html report', function(done) {
+		this.timeout(50000)
+
+		cp.exec('node ' + scriptPath + ' --output=html', function(err, stdout, stderr) {
+			if (err) {
+				console.error(stderr)
+				return done(err)
+			}
+
+			assert.strictEqual(stdout, fs.readFileSync(path.join(__dirname, 'expectedOutput.html'), 'utf8'))
+			done()
+		})
+	})
 })
 
 var EXPECTED_JSON_RESULT = [{
+		author: 'Dan VerWeire, Yaniv Kessler',
+		comment: '1.0.2',
+		department: 'kessler',
+		installedVersion: '1.0.2',
+		licensePeriod: 'perpetual',
+		licenseType: 'MIT',
+		link: 'git+https://github.com/kessler/node-tableify.git',
+		material: 'material',
+		name: '@kessler/tableify',
+		relatedTo: 'stuff'
+	},
+	{
 		author: 'Caolan McMahon',
 		department: 'kessler',
 		relatedTo: 'stuff',
@@ -188,6 +215,7 @@ var EXPECTED_JSON_RESULT = [{
 
 var EXPECTED_TABLE_RESULT = `department  related to  name                          license period  material / not material  license type                         link                                                                                     comment  installed version  author
 ----------  ----------  ----                          --------------  -----------------------  ------------                         ----                                                                                     -------  -----------------  ------
+kessler     stuff       @kessler/tableify             perpetual       material                 MIT                                  git+https://github.com/kessler/node-tableify.git                                         1.0.2    1.0.2              Dan VerWeire, Yaniv Kessler
 kessler     stuff       async                         perpetual       material                 MIT                                  git+https://github.com/caolan/async.git                                                  3.2.0    3.2.0              Caolan McMahon
 kessler     stuff       debug                         perpetual       material                 MIT                                  git://github.com/visionmedia/debug.git                                                   4.3.0    4.1.1              TJ Holowaychuk
 kessler     stuff       lodash                        perpetual       material                 MIT                                  git+https://github.com/lodash/lodash.git                                                 4.17.20  4.17.15            John-David Dalton
@@ -203,6 +231,7 @@ kessler     stuff       mocha                         perpetual       material  
 
 
 var EXPECTED_CSV_RESULT = `department,relatedTo,name,licensePeriod,material,licenseType,link,comment,installedVersion,author
+kessler,stuff,@kessler/tableify,perpetual,material,MIT,git+https://github.com/kessler/node-tableify.git,1.0.2,1.0.2,Dan VerWeire, Yaniv Kessler
 kessler,stuff,async,perpetual,material,MIT,git+https://github.com/caolan/async.git,3.2.0,3.2.0,Caolan McMahon
 kessler,stuff,debug,perpetual,material,MIT,git://github.com/visionmedia/debug.git,4.3.0,4.1.1,TJ Holowaychuk
 kessler,stuff,lodash,perpetual,material,MIT,git+https://github.com/lodash/lodash.git,4.17.20,4.17.15,John-David Dalton

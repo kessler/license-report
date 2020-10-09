@@ -7,7 +7,8 @@ npm install -g license-report
 ```
 
 ### usage
-simple:
+
+#### simple:
 ```
 cd your/project/
 license-report
@@ -20,40 +21,56 @@ license-report --only=dev
 ```
 license-report --only=prod
 ```
-explicit package.json:
+
+#### explicit package.json:
 ```
 license-report --package=/path/to/package.json
 ```
-customize a field's label:
+
+#### customize a field's label:
 ```
 license-report --report.label.department=division
 ```
-customize a default value (only applicable for some fields):
+
+#### customize a default value (only applicable for some fields):
 ```
 license-report --department.label=division --department.value=ninjaSquad
 ```
-another registry:
+
+#### another registry:
 ```
 license-report --registry=https://myregistry.com/
 ```
-different outputs:
+
+#### different outputs:
 ```
 license-report --output=table
 license-report --output=json
 license-report --output=csv
+license-report --output=html
 
 # replace default ',' separator with something else
 license-report --output=csv --delimiter="|" 
 
 # output csv headers (fields) on first row
 license-report --output=csv --csvHeaders
+
+# use custom stylesheet for html output
+license-report --output=html --html.cssFile=/a/b/c.css
+
+# see the output immediately in your browser, use hcat (npm i -g hcat)
+license-report --output=html | hcat
 ```
-exclude:
+
+#### exclude:
 ```
 license-report --exclude=async --exclude=rc
 ```
 
+### screenshots
+
 ![screenshot](screenshot.png)
+![screenshot1](html.png)
 
 ### available fields
 Fields with data of the installed packages:
