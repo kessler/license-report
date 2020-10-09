@@ -32,11 +32,11 @@ const exclusions = Array.isArray(config.exclude) ? config.exclude : [config.excl
 */
 let depsIndex = []
 
-if(!config.only || config.only.indexOf('prod') > -1) {
+if (!config.only || config.only.indexOf('prod') > -1) {
 	addPackagesToIndex(deps, depsIndex, exclusions)
 }
 
-if(!config.only || config.only.indexOf('dev') > -1) {
+if (!config.only || config.only.indexOf('dev') > -1) {
 	addPackagesToIndex(devDeps, depsIndex, exclusions)
 }
 
@@ -50,5 +50,5 @@ async.map(depsIndex, getPackageReportData, function(err, results) {
 	} catch (e) {
 		console.error(e.stack)
 		process.exit(1)
-	}	
+	}
 })
