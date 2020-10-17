@@ -3,6 +3,7 @@ var path = require('path')
 var _ = require('lodash')
 var assert = require('assert')
 var fs = require('fs')
+const eol = require('eol')
 
 var scriptPath = path
 	.resolve(__dirname, '..', 'index.js')
@@ -62,7 +63,9 @@ describe('end to end test', function() {
 				return done(err)
 			}
 
-			assert.strictEqual(stdout, fs.readFileSync(path.join(__dirname, 'expectedOutput.html'), 'utf8'))
+			const expectedResult = eol.auto(fs.readFileSync(path.join(__dirname, 'expectedOutput.html'), 'utf8'))
+			const actualResult = eol.auto(stdout)
+			assert.strictEqual(actualResult, expectedResult)
 			done()
 		})
 	})
@@ -104,6 +107,18 @@ var EXPECTED_JSON_RESULT = [{
 		comment: '4.3.0',
 		installedVersion: '4.1.1'
 	},
+  {
+    "department": "kessler",
+    "relatedTo": "stuff",
+    "name": "eol",
+    "licensePeriod": "perpetual",
+    "material": "material",
+    "licenseType": "MIT",
+    "link": "git+https://github.com/ryanve/eol.git",
+    "comment": "0.9.1",
+    "installedVersion": "0.9.1",
+    "author": "Ryan Van Etten"
+  },
 	{
 		author: 'John-David Dalton',
 		department: 'kessler',
@@ -218,6 +233,7 @@ var EXPECTED_TABLE_RESULT = `department  related to  name                       
 kessler     stuff       @kessler/tableify             perpetual       material                 MIT                                  git+https://github.com/kessler/node-tableify.git                                         1.0.2    1.0.2              Dan VerWeire, Yaniv Kessler
 kessler     stuff       async                         perpetual       material                 MIT                                  git+https://github.com/caolan/async.git                                                  3.2.0    3.2.0              Caolan McMahon
 kessler     stuff       debug                         perpetual       material                 MIT                                  git://github.com/visionmedia/debug.git                                                   4.3.0    4.1.1              TJ Holowaychuk
+kessler     stuff       eol                           perpetual       material                 MIT                                  git+https://github.com/ryanve/eol.git                                                    0.9.1    0.9.1              Ryan Van Etten
 kessler     stuff       lodash                        perpetual       material                 MIT                                  git+https://github.com/lodash/lodash.git                                                 4.17.20  4.17.15            John-David Dalton
 kessler     stuff       rc                            perpetual       material                 (BSD-2-Clause OR MIT OR Apache-2.0)  git+https://github.com/dominictarr/rc.git                                                1.2.8    1.2.8              Dominic Tarr
 kessler     stuff       request                       perpetual       material                 Apache-2.0                           git+https://github.com/request/request.git                                               2.88.2   2.88.2             Mikeal Rogers
@@ -234,6 +250,7 @@ var EXPECTED_CSV_RESULT = `department,relatedTo,name,licensePeriod,material,lice
 kessler,stuff,@kessler/tableify,perpetual,material,MIT,git+https://github.com/kessler/node-tableify.git,1.0.2,1.0.2,Dan VerWeire, Yaniv Kessler
 kessler,stuff,async,perpetual,material,MIT,git+https://github.com/caolan/async.git,3.2.0,3.2.0,Caolan McMahon
 kessler,stuff,debug,perpetual,material,MIT,git://github.com/visionmedia/debug.git,4.3.0,4.1.1,TJ Holowaychuk
+kessler,stuff,eol,perpetual,material,MIT,git+https://github.com/ryanve/eol.git,0.9.1,0.9.1,Ryan Van Etten
 kessler,stuff,lodash,perpetual,material,MIT,git+https://github.com/lodash/lodash.git,4.17.20,4.17.15,John-David Dalton
 kessler,stuff,rc,perpetual,material,(BSD-2-Clause OR MIT OR Apache-2.0),git+https://github.com/dominictarr/rc.git,1.2.8,1.2.8,Dominic Tarr
 kessler,stuff,request,perpetual,material,Apache-2.0,git+https://github.com/request/request.git,2.88.2,2.88.2,Mikeal Rogers
