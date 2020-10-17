@@ -57,6 +57,14 @@ license-report --department.value=ninjaSquad
 license-report --registry=https://myregistry.com/
 ```
 
+#### private registry:
+To use a npm registry that requires authorization, the option `npmTokenEnvVar` must contain the name of an environment variable that contains the required npm authorization token (the default name is 'NPM_TOKEN'). An example:
+```
+# if environment variable 'NPM_TOKEN' contains bearer token for npm authorization
+license-report --registry=https://myregistry.com/ --npmTokenEnvVar=NPM_TOKEN
+```
+The name of this environment variable (in the example: 'npm_token') should not be added as an option to the license-report config file, as this implies a severe security risk, when this file is checked in into a git repository. A warning is emitted if such an option is found in the config file.
+
 #### generate different outputs:
 ```
 license-report --output=table
