@@ -62,6 +62,29 @@ license-report --output=html --html.cssFile=/a/b/c.css
 license-report --output=html | hcat
 ```
 
+#### select fields for output:
+```
+# set options with command line options and config file
+license-report --output=csv --config license-report-config.json
+```
+```
+# example of config file for backward compatible output:
+{
+  "fields": [
+    "department",
+    "relatedTo",
+    "name",
+    "licensePeriod",
+    "material",
+    "licenseType",
+    "link",
+    "comment",
+    "installedVersion",
+    "author"
+  ]
+}
+```
+
 #### exclude:
 ```
 license-report --exclude=async --exclude=rc
@@ -79,7 +102,10 @@ Fields with data of the installed packages:
 | name | name | name of the package |
 | licenseType | license type | type of the license of the package (e.g. MIT) |
 | link | link | link to the repository of the package |
-| comment | comment | latest available version of the package (can be different from the installed version) |
+| remoteVersion | remoteVersion | latest available version of the package (can be different from the installed version) |
+| installedVersion | installedVersion | installed version of the package (can be different from the remote version) |
+| comment | comment | deprecated (replaced by field 'remoteVersion'); will be removed in a future version |
+| author | author | author of the package |
 
 Fields with data set in the configuration of license-report:
 | fieldname | column title | set value |
