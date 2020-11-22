@@ -22,8 +22,7 @@ describe('getPackageReportData', function() {
 			if (err) return done(err)
 
 			assert.strictEqual(data.name, 'async')
-			assert.strictEqual(data.comment, 'skipping async@a.b.c (invalid semversion)')
-
+			assert.strictEqual(data.remoteVersion, 'skipping async@a.b.c (invalid semversion)')
 			done()
 		})
 	})
