@@ -64,7 +64,4 @@ see lib/config.js for more details
 
 use [rc](https://github.com/dominictarr/rc) for further customization
 
-### TODO
-Requires a serious refactor!
-
 ![ironSource logo](ironsource.png)
