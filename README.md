@@ -27,14 +27,15 @@ license-report --only=prod
 license-report --package=/path/to/package.json
 ```
 
-#### customize a field's label:
+#### customize a fields label:
 ```
-license-report --report.label.department=division
+license-report --department.label=division
 ```
 
-#### customize a default value (only applicable for some fields):
+#### customize a fields default value:
+Only applicable for the fields in the list later in this document (look for "Fields with data set in the configuration of license-report")
 ```
-license-report --department.label=division --department.value=ninjaSquad
+license-report --department.value=ninjaSquad
 ```
 
 #### another registry:
