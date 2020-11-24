@@ -1,11 +1,11 @@
-var cp = require('child_process')
-var path = require('path')
-var _ = require('lodash')
-var assert = require('assert')
-var fs = require('fs')
+const cp = require('child_process')
+const path = require('path')
+const _ = require('lodash')
+const assert = require('assert')
+const fs = require('fs')
 const eol = require('eol')
 
-var scriptPath = path
+const scriptPath = path
 	.resolve(__dirname, '..', 'index.js')
 	.replace(/(\s+)/g, '\\$1');
 
@@ -19,7 +19,7 @@ describe('end to end test', function() {
 				return done(err)
 			}
 
-			var result = JSON.parse(stdout)
+			const result = JSON.parse(stdout)
 
 			assert.deepStrictEqual(result, EXPECTED_JSON_RESULT)
 			done()
@@ -71,7 +71,7 @@ describe('end to end test', function() {
 	})
 })
 
-var EXPECTED_JSON_RESULT = [{
+const EXPECTED_JSON_RESULT = [{
 		author: 'Dan VerWeire, Yaniv Kessler',
 		department: 'kessler',
 		relatedTo: 'stuff',
@@ -228,7 +228,7 @@ var EXPECTED_JSON_RESULT = [{
 	}
 ]
 
-var EXPECTED_TABLE_RESULT = `department  related to  name                          license period  material / not material  license type                         link                                                                                     remote version  installed version  author
+const EXPECTED_TABLE_RESULT = `department  related to  name                          license period  material / not material  license type                         link                                                                                     remote version  installed version  author
 ----------  ----------  ----                          --------------  -----------------------  ------------                         ----                                                                                     --------------  -----------------  ------
 kessler     stuff       @kessler/tableify             perpetual       material                 MIT                                  git+https://github.com/kessler/node-tableify.git                                         1.0.2           1.0.2              Dan VerWeire, Yaniv Kessler
 kessler     stuff       async                         perpetual       material                 MIT                                  git+https://github.com/caolan/async.git                                                  3.2.0           3.2.0              Caolan McMahon
@@ -245,7 +245,7 @@ kessler     stuff       @kessler/exponential-backoff  perpetual       material  
 kessler     stuff       mocha                         perpetual       material                 MIT                                  git+https://github.com/mochajs/mocha.git                                                 8.2.1           8.2.0              TJ Holowaychuk
 `;
 
-var EXPECTED_CSV_RESULT = `department,relatedTo,name,licensePeriod,material,licenseType,link,remoteVersion,installedVersion,author
+const EXPECTED_CSV_RESULT = `department,related to,name,license period,material / not material,license type,link,remote version,installed version,author
 kessler,stuff,@kessler/tableify,perpetual,material,MIT,git+https://github.com/kessler/node-tableify.git,1.0.2,1.0.2,Dan VerWeire, Yaniv Kessler
 kessler,stuff,async,perpetual,material,MIT,git+https://github.com/caolan/async.git,3.2.0,3.2.0,Caolan McMahon
 kessler,stuff,debug,perpetual,material,MIT,git://github.com/visionmedia/debug.git,4.3.1,4.2.0,TJ Holowaychuk
