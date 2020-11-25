@@ -7,15 +7,18 @@ describe('private repository access test', function() {
 
 	let originalConfigRegistry
 	let originalConfigNpmTokenEnvVar
+	let originalHttpRetry
 
 	beforeEach(function() {
 		originalConfigRegistry = config.registry
 		originalConfigNpmTokenEnvVar = config.npmTokenEnvVar
+		originalHttpRetry = config.httpRetryOptions.maxAttempts
   });
 
   afterEach(function() {
 		config.registry = originalConfigRegistry
 		config.npmTokenEnvVar = originalConfigNpmTokenEnvVar
+		config.httpRetryOptions.maxAttempts = originalHttpRetry
 		nock.cleanAll()
   });
 
@@ -30,13 +33,42 @@ describe('private repository access test', function() {
 		assert.strictEqual(npmTokenFromConfig, testToken)
 	})
 
-	it('get data from remote repository', function(done) {
+	it('get data from remote repository without authorization', function(done) {
+		// Mock the config for accessing a npm private repository
+		const npmRegistryHost = 'my.private.registry.com'
+		const npmRegistry = `https://${npmRegistryHost}/`
+		config.registry = npmRegistry
+		process.env['NPM_TOKEN'] = ''
+		config.httpRetryOptions.maxAttempts = 1
+
+		// Mock the npm private repository response
+		const scope = nock(npmRegistry, {"encodedQueryParams":true})
+	  .get('/async')
+	  .reply(200, responses.async);
+
+		const packageName = 'async'
+		getPackageJson(packageName, function(err, json) {
+			if (err) {
+				done(err)
+				return
+			}
+
+			assert.strictEqual(json.name, packageName)
+			assert.ok(json.versions.hasOwnProperty('3.2.0'))
+			assert.ok(json.versions['3.2.0'].hasOwnProperty('license'))
+			assert.ok(scope.isDone())
+			done()
+		})
+	})
+
+	it('get data from remote repository with authorization', function(done) {
 		// Mock the config for accessing a npm private repository
 		const npmRegistryHost = 'my.private.registry.com'
 		const npmRegistry = `https://${npmRegistryHost}/`
 		const npmToken = 'pp6j6gzcge'
 		config.registry = npmRegistry
 		process.env['NPM_TOKEN'] = npmToken
+		config.httpRetryOptions.maxAttempts = 1
 
 		// Mock the npm private repository response
 		const scope = nock(npmRegistry, {"encodedQueryParams":true})

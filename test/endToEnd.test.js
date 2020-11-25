@@ -277,6 +277,7 @@ const EXPECTED_CSV_TEMPLATE = `department,related to,name,license period,materia
 {{department}},{{relatedTo}},[[visit-values]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{author}}
 {{department}},{{relatedTo}},[[@kessler/exponential-backoff]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{author}}
 {{department}},{{relatedTo}},[[mocha]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{author}}
+{{department}},{{relatedTo}},[[nock]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{author}}
 `;
 
 /*
@@ -299,4 +300,5 @@ const EXPECTED_TABLE_TEMPLATE = `{{department}}  {{relatedTo}}  {{name}}  {{lice
 {{department}}  {{relatedTo}}  [[visit-values]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{author}}
 {{department}}  {{relatedTo}}  [[@kessler/exponential-backoff]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{author}}
 {{department}}  {{relatedTo}}  [[mocha]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{author}}
+{{department}}  {{relatedTo}}  [[nock]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{author}}
 `;
