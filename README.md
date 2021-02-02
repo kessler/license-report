@@ -30,12 +30,13 @@ license-report --package=/path/to/package.json
 #### customize a field's label:
 Used as column headers in table / csv / html output. For html output the labels of all fields in the output must be unique.
 ```
-license-report --report.label.department=division
+license-report --department.label=division
 ```
 
-#### customize a default value (only applicable for some fields):
+#### customize a fields default value:
+Only applicable for the fields in the list later in this document (look for "Fields with data set in the configuration of license-report")
 ```
-license-report --department.label=division --department.value=ninjaSquad
+license-report --department.value=ninjaSquad
 ```
 
 #### another registry:
