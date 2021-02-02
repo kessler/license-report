@@ -27,7 +27,8 @@ license-report --only=prod
 license-report --package=/path/to/package.json
 ```
 
-#### customize a fields label:
+#### customize a field's label:
+Used as column headers in table / csv / html output. For html output the labels of all fields in the output must be unique.
 ```
 license-report --department.label=division
 ```
