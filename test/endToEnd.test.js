@@ -104,7 +104,7 @@ const EXPECTED_JSON_RESULT = [{
 		material: 'material',
 		licenseType: 'MIT',
 		link: 'git://github.com/visionmedia/debug.git',
-		remoteVersion: '4.3.1',
+		remoteVersion: '4.3.2',
 		installedVersion: '4.2.0'
 	},
   {
@@ -163,7 +163,7 @@ const EXPECTED_JSON_RESULT = [{
 		material: 'material',
 		licenseType: 'ISC',
 		link: 'git+https://github.com/npm/node-semver.git',
-		remoteVersion: '7.3.2',
+		remoteVersion: '7.3.4',
 		installedVersion: '7.3.2'
 	},
 	{
@@ -232,12 +232,12 @@ const EXPECTED_TABLE_RESULT = `department  related to  name                     
 ----------  ----------  ----                          --------------  -----------------------  ------------                         ----                                                                                     --------------  -----------------  ------
 kessler     stuff       @kessler/tableify             perpetual       material                 MIT                                  git+https://github.com/kessler/node-tableify.git                                         1.0.2           1.0.2              Dan VerWeire, Yaniv Kessler
 kessler     stuff       async                         perpetual       material                 MIT                                  git+https://github.com/caolan/async.git                                                  3.2.0           3.2.0              Caolan McMahon
-kessler     stuff       debug                         perpetual       material                 MIT                                  git://github.com/visionmedia/debug.git                                                   4.3.1           4.2.0              TJ Holowaychuk
+kessler     stuff       debug                         perpetual       material                 MIT                                  git://github.com/visionmedia/debug.git                                                   4.3.2           4.2.0              TJ Holowaychuk
 kessler     stuff       eol                           perpetual       material                 MIT                                  git+https://github.com/ryanve/eol.git                                                    0.9.1           0.9.1              Ryan Van Etten
 kessler     stuff       lodash                        perpetual       material                 MIT                                  git+https://github.com/lodash/lodash.git                                                 4.17.20         4.17.20            John-David Dalton
 kessler     stuff       rc                            perpetual       material                 (BSD-2-Clause OR MIT OR Apache-2.0)  git+https://github.com/dominictarr/rc.git                                                1.2.8           1.2.8              Dominic Tarr
 kessler     stuff       request                       perpetual       material                 Apache-2.0                           git+https://github.com/request/request.git                                               2.88.2          2.88.2             Mikeal Rogers
-kessler     stuff       semver                        perpetual       material                 ISC                                  git+https://github.com/npm/node-semver.git                                               7.3.2           7.3.2              n/a
+kessler     stuff       semver                        perpetual       material                 ISC                                  git+https://github.com/npm/node-semver.git                                               7.3.4           7.3.2              n/a
 kessler     stuff       stubborn                      perpetual       material                 ISC                                  git://github.com/grudzinski/stubborn.git                                                 1.2.5           1.2.5              Roman Grudzinski
 kessler     stuff       text-table                    perpetual       material                 MIT                                  git://github.com/substack/text-table.git                                                 0.2.0           0.2.0              James Halliday
 kessler     stuff       visit-values                  perpetual       material                 MIT                                  https://github.com/kessler/node-visit-values                                             2.0.0           2.0.0              Yaniv Kessler
@@ -248,12 +248,12 @@ kessler     stuff       mocha                         perpetual       material  
 const EXPECTED_CSV_RESULT = `department,related to,name,license period,material / not material,license type,link,remote version,installed version,author
 kessler,stuff,@kessler/tableify,perpetual,material,MIT,git+https://github.com/kessler/node-tableify.git,1.0.2,1.0.2,Dan VerWeire, Yaniv Kessler
 kessler,stuff,async,perpetual,material,MIT,git+https://github.com/caolan/async.git,3.2.0,3.2.0,Caolan McMahon
-kessler,stuff,debug,perpetual,material,MIT,git://github.com/visionmedia/debug.git,4.3.1,4.2.0,TJ Holowaychuk
+kessler,stuff,debug,perpetual,material,MIT,git://github.com/visionmedia/debug.git,4.3.2,4.2.0,TJ Holowaychuk
 kessler,stuff,eol,perpetual,material,MIT,git+https://github.com/ryanve/eol.git,0.9.1,0.9.1,Ryan Van Etten
 kessler,stuff,lodash,perpetual,material,MIT,git+https://github.com/lodash/lodash.git,4.17.20,4.17.20,John-David Dalton
 kessler,stuff,rc,perpetual,material,(BSD-2-Clause OR MIT OR Apache-2.0),git+https://github.com/dominictarr/rc.git,1.2.8,1.2.8,Dominic Tarr
 kessler,stuff,request,perpetual,material,Apache-2.0,git+https://github.com/request/request.git,2.88.2,2.88.2,Mikeal Rogers
-kessler,stuff,semver,perpetual,material,ISC,git+https://github.com/npm/node-semver.git,7.3.2,7.3.2,n/a
+kessler,stuff,semver,perpetual,material,ISC,git+https://github.com/npm/node-semver.git,7.3.4,7.3.2,n/a
 kessler,stuff,stubborn,perpetual,material,ISC,git://github.com/grudzinski/stubborn.git,1.2.5,1.2.5,Roman Grudzinski
 kessler,stuff,text-table,perpetual,material,MIT,git://github.com/substack/text-table.git,0.2.0,0.2.0,James Halliday
 kessler,stuff,visit-values,perpetual,material,MIT,https://github.com/kessler/node-visit-values,2.0.0,2.0.0,Yaniv Kessler
