@@ -4,13 +4,14 @@ const _ = require('lodash')
 const assert = require('assert')
 const fs = require('fs')
 const eol = require('eol')
+const expectedOutput = require('./fixture/expectedOutput.js')
 
 const scriptPath = path
 	.resolve(__dirname, '..', 'index.js')
 	.replace(/(\s+)/g, '\\$1');
 
 describe('end to end test', function() {
-	it('produce a json report', function(done) {
+	it.only('produce a json report', function(done) {
 		this.timeout(50000)
 
 		cp.exec('node ' + scriptPath, function(err, stdout, stderr) {
@@ -63,7 +64,7 @@ describe('end to end test', function() {
 				return done(err)
 			}
 
-			const expectedResult = eol.auto(fs.readFileSync(path.join(__dirname, 'expectedOutput.html'), 'utf8'))
+			const expectedResult = eol.auto(fs.readFileSync(path.join(__dirname, 'fixture', 'expectedOutput.html'), 'utf8'))
 			const actualResult = eol.auto(stdout)
 			assert.strictEqual(actualResult, expectedResult)
 			done()
@@ -71,7 +72,7 @@ describe('end to end test', function() {
 	})
 })
 
-const EXPECTED_JSON_RESULT = [{
+const EXPECTED_JSON_RESULT = expectedOutput.jsonUpdateVersions([{
 		author: 'Dan VerWeire, Yaniv Kessler',
 		department: 'kessler',
 		relatedTo: 'stuff',
@@ -80,8 +81,8 @@ const EXPECTED_JSON_RESULT = [{
 		material: 'material',
 		licenseType: 'MIT',
 		link: 'git+https://github.com/kessler/node-tableify.git',
-		remoteVersion: '1.0.2',
-		installedVersion: '1.0.2'
+		remoteVersion: '_VERSION_',
+		installedVersion: '_VERSION_'
 	},
 	{
 		author: 'Caolan McMahon',
@@ -92,8 +93,8 @@ const EXPECTED_JSON_RESULT = [{
 		material: 'material',
 		licenseType: 'MIT',
 		link: 'git+https://github.com/caolan/async.git',
-		remoteVersion: '3.2.0',
-		installedVersion: '3.2.0'
+		remoteVersion: '_VERSION_',
+		installedVersion: '_VERSION_'
 	},
 	{
 		author: 'TJ Holowaychuk',
@@ -104,8 +105,8 @@ const EXPECTED_JSON_RESULT = [{
 		material: 'material',
 		licenseType: 'MIT',
 		link: 'git://github.com/visionmedia/debug.git',
-		remoteVersion: '4.3.1',
-		installedVersion: '4.2.0'
+		remoteVersion: '_VERSION_',
+		installedVersion: '_VERSION_'
 	},
   {
     author: 'Ryan Van Etten',
@@ -116,8 +117,8 @@ const EXPECTED_JSON_RESULT = [{
     material: 'material',
     licenseType: 'MIT',
     link: 'git+https://github.com/ryanve/eol.git',
-    remoteVersion: '0.9.1',
-    installedVersion: '0.9.1'
+    remoteVersion: '_VERSION_',
+    installedVersion: '_VERSION_'
   },
 	{
 		author: 'John-David Dalton',
@@ -128,8 +129,8 @@ const EXPECTED_JSON_RESULT = [{
 		material: 'material',
 		licenseType: 'MIT',
 		link: 'git+https://github.com/lodash/lodash.git',
-		remoteVersion: '4.17.20',
-		installedVersion: '4.17.20'
+		remoteVersion: '_VERSION_',
+		installedVersion: '_VERSION_'
 	},
 	{
 		author: 'Dominic Tarr',
@@ -140,8 +141,8 @@ const EXPECTED_JSON_RESULT = [{
 		material: 'material',
 		licenseType: '(BSD-2-Clause OR MIT OR Apache-2.0)',
 		link: 'git+https://github.com/dominictarr/rc.git',
-		remoteVersion: '1.2.8',
-		installedVersion: '1.2.8'
+		remoteVersion: '_VERSION_',
+		installedVersion: '_VERSION_'
 	},
 	{
 		author: 'Mikeal Rogers',
@@ -152,8 +153,8 @@ const EXPECTED_JSON_RESULT = [{
 		material: 'material',
 		licenseType: 'Apache-2.0',
 		link: 'git+https://github.com/request/request.git',
-		remoteVersion: '2.88.2',
-		installedVersion: '2.88.2'
+		remoteVersion: '_VERSION_2',
+		installedVersion: '_VERSION_'
 	},
 	{
 		department: 'kessler',
@@ -163,8 +164,8 @@ const EXPECTED_JSON_RESULT = [{
 		material: 'material',
 		licenseType: 'ISC',
 		link: 'git+https://github.com/npm/node-semver.git',
-		remoteVersion: '7.3.2',
-		installedVersion: '7.3.2'
+		remoteVersion: '_VERSION_',
+		installedVersion: '_VERSION_'
 	},
 	{
 		author: 'Roman Grudzinski',
@@ -175,8 +176,8 @@ const EXPECTED_JSON_RESULT = [{
 		material: 'material',
 		licenseType: 'ISC',
 		link: 'git://github.com/grudzinski/stubborn.git',
-		remoteVersion: '1.2.5',
-		installedVersion: '1.2.5'
+		remoteVersion: '_VERSION_',
+		installedVersion: '_VERSION_'
 	},
 	{
 		author: 'James Halliday',
@@ -187,8 +188,8 @@ const EXPECTED_JSON_RESULT = [{
 		material: 'material',
 		licenseType: 'MIT',
 		link: 'git://github.com/substack/text-table.git',
-		remoteVersion: '0.2.0',
-		installedVersion: '0.2.0'
+		remoteVersion: '_VERSION_',
+		installedVersion: '_VERSION_'
 	},
 	{
 		author: 'Yaniv Kessler',
@@ -199,8 +200,8 @@ const EXPECTED_JSON_RESULT = [{
 		material: 'material',
 		licenseType: 'MIT',
 		link: 'https://github.com/kessler/node-visit-values',
-		remoteVersion: '2.0.0',
-		installedVersion: '2.0.0'
+		remoteVersion: '_VERSION_',
+		installedVersion: '_VERSION_'
 	},
 	{
 		author: 'Yaniv Kessler',
@@ -211,8 +212,8 @@ const EXPECTED_JSON_RESULT = [{
 		material: 'material',
 		licenseType: 'MIT',
 		link: 'https://registry.npmjs.org/@kessler/exponential-backoff/-/exponential-backoff-2.0.1.tgz',
-		remoteVersion: '2.0.1',
-		installedVersion: '2.0.1'
+		remoteVersion: '_VERSION_',
+		installedVersion: '_VERSION_'
 	},
 	{
 		author: 'TJ Holowaychuk',
@@ -223,10 +224,10 @@ const EXPECTED_JSON_RESULT = [{
 		material: 'material',
 		licenseType: 'MIT',
 		link: 'git+https://github.com/mochajs/mocha.git',
-		remoteVersion: '8.2.1',
-		installedVersion: '8.2.0'
+		remoteVersion: '_VERSION_',
+		installedVersion: '_VERSION_'
 	}
-]
+])
 
 const EXPECTED_TABLE_RESULT = `department  related to  name                          license period  material / not material  license type                         link                                                                                     remote version  installed version  author
 ----------  ----------  ----                          --------------  -----------------------  ------------                         ----                                                                                     --------------  -----------------  ------
