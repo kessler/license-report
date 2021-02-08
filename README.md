@@ -46,7 +46,7 @@ license-report --registry=https://myregistry.com/
 
 #### private registry:
 ```
-# if environment variable 'NPM_TOKEN' contains bearer token for npm authorization
+# if the name of the environment variable containing the bearer token for npm authorization is 'NPM_TOKEN'
 license-report --registry=https://myregistry.com/ --npmTokenEnvVar=NPM_TOKEN
 ```
 
