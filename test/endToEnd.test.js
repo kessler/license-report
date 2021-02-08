@@ -63,7 +63,7 @@ describe('end to end test', function() {
 				return done(err)
 			}
 
-			const expectedResult = eol.auto(fs.readFileSync(path.join(__dirname, 'expectedOutput.html'), 'utf8'))
+			const expectedResult = eol.auto(fs.readFileSync(path.join(__dirname, 'expectedOutput.e2e.html'), 'utf8'))
 			const actualResult = eol.auto(stdout)
 			assert.strictEqual(actualResult, expectedResult)
 			done()
