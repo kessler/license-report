@@ -25,4 +25,29 @@ module.exports.addVersionToMockupData = (dependencies)  => {
 module.exports.rawDataToJson = (rawData) => {
 	return rawData
 }
+
+/*
+	create expected value for csv output
+*/
+module.exports.rawDataToCsv = (expectedData, csvTemplate) => {
+	const packageNamePattern = /\[\[(.+)]]/
+	const templateLines = csvTemplate.split('\n')
+	const resultLines = templateLines.map( line => {
+		// find package name in line
+		const found = line.match(packageNamePattern)
+		if ((found !== null) && Array.isArray(found) && (found.length === 2)) {
+			// get package data from expectedData
+			const packageName = found[1]
+			const expectedPackageData = expectedData.find(element => element.name === packageName)
+			if (expectedPackageData !== undefined) {
+				line = line.replace(found[0], expectedPackageData.name)
+				line = line.replace('{{installedVersion}}', expectedPackageData.installedVersion)
+				line = line.replace('{{remoteVersion}}', expectedPackageData.remoteVersion)
+			}
+		}
+
+		return line
+	})
+
+	return resultLines.join('\n')
 }
