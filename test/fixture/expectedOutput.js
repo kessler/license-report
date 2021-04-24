@@ -1,12 +1,28 @@
 const packageLock = require('../../package-lock.json')
 
-module.exports.jsonUpdateVersions = (dependencies) => {
-	const { packages } = packageLock
-	for (const dependency of dependencies) {
-		const package = packages[`node_modules/${dependency.name}`]
-		dependency.remoteVersion = package.version
-		dependency.installedVersion = package.version
-	}
+const NPM_V6 = 1
 
-	return dependencies
+module.exports.addVersionToMockupData = (dependencies)  => {
+	const result = dependencies.map( dependency => {
+		let packagelockData
+		if (packageLock.lockfileVersion === NPM_V6) {
+			packagelockData = packageLock.dependencies[dependency.name]
+		} else {
+			packagelockData = packageLock.packages[`node_modules/${dependency.name}`]
+		}
+		const installedVersion = packagelockData.version
+		dependency.installedVersion = installedVersion
+		dependency.remoteVersion = installedVersion
+		return dependency
+	})
+
+	return result
+}
+
+/*
+	create expected value for json output
+*/
+module.exports.rawDataToJson = (rawData) => {
+	return rawData
+}
 }

@@ -21,8 +21,10 @@ describe('end to end test', function() {
 			}
 
 			const result = JSON.parse(stdout)
+			const expectedData = expectedOutput.addVersionToMockupData(EXPECTED_RAW_DATA)
+			const expectedJsonResult = expectedOutput.rawDataToJson(expectedData)
 
-			assert.deepStrictEqual(result, EXPECTED_JSON_RESULT)
+			assert.deepStrictEqual(result, expectedJsonResult)
 			done()
 		})
 	})
@@ -72,7 +74,9 @@ describe('end to end test', function() {
 	})
 })
 
-const EXPECTED_JSON_RESULT = expectedOutput.jsonUpdateVersions([{
+// raw data we use to generate the expected results
+const EXPECTED_RAW_DATA = [
+	{
 		author: 'Dan VerWeire, Yaniv Kessler',
 		department: 'kessler',
 		relatedTo: 'stuff',
@@ -227,7 +231,8 @@ const EXPECTED_JSON_RESULT = expectedOutput.jsonUpdateVersions([{
 		remoteVersion: '_VERSION_',
 		installedVersion: '_VERSION_'
 	}
-])
+]
+
 
 const EXPECTED_TABLE_RESULT = `department  related to  name                          license period  material / not material  license type                         link                                                                                     remote version  installed version  author
 ----------  ----------  ----                          --------------  -----------------------  ------------                         ----                                                                                     --------------  -----------------  ------
