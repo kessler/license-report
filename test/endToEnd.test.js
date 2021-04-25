@@ -10,7 +10,13 @@ const scriptPath = path
 	.resolve(__dirname, '..', 'index.js')
 	.replace(/(\s+)/g, '\\$1');
 
+	let expectedData
+
 describe('end to end test', function() {
+	beforeEach(function() {
+		expectedData = expectedOutput.addVersionToMockupData(EXPECTED_RAW_DATA)
+  });
+
 	it.only('produce a json report', (done) => {
 		this.timeout(50000)
 
@@ -21,7 +27,6 @@ describe('end to end test', function() {
 			}
 
 			const result = JSON.parse(stdout)
-			const expectedData = expectedOutput.addVersionToMockupData(EXPECTED_RAW_DATA)
 			const expectedJsonResult = expectedOutput.rawDataToJson(expectedData)
 
 			assert.deepStrictEqual(result, expectedJsonResult)
@@ -38,7 +43,6 @@ describe('end to end test', function() {
 				return done(err)
 			}
 
-			const expectedData = expectedOutput.addVersionToMockupData(EXPECTED_RAW_DATA)
 			const expectedTableResult = expectedOutput.rawDataToTable(expectedData, EXPECTED_TABLE_TEMPLATE)
 
 			assert.strictEqual(stdout, expectedTableResult)
@@ -55,7 +59,6 @@ describe('end to end test', function() {
 				return done(err)
 			}
 
-			const expectedData = expectedOutput.addVersionToMockupData(EXPECTED_RAW_DATA)
 			const expectedCsvResult = expectedOutput.rawDataToCsv(expectedData, EXPECTED_CSV_TEMPLATE)
 
 			assert.strictEqual(stdout, expectedCsvResult)
@@ -73,8 +76,6 @@ describe('end to end test', function() {
 			}
 
 			const actualResult = eol.auto(stdout)
-
-			const expectedData = expectedOutput.addVersionToMockupData(EXPECTED_RAW_DATA)
 			const expectedHtmlTemplate = eol.auto(fs.readFileSync(path.join(__dirname, 'fixture', 'expectedOutput.html'), 'utf8'))
 			const expectedHtmlResult = expectedOutput.rawDataToHtml(expectedData, expectedHtmlTemplate)
 
