@@ -17,7 +17,7 @@ describe('end to end test', function() {
 		expectedData = expectedOutput.addVersionToMockupData(EXPECTED_RAW_DATA)
   });
 
-	it.only('produce a json report', (done) => {
+	it('produce a json report', (done) => {
 		this.timeout(50000)
 
 		cp.exec('node ' + scriptPath, function(err, stdout, stderr) {
@@ -34,7 +34,7 @@ describe('end to end test', function() {
 		})
 	})
 
-	it.only('produce a table report', (done) => {
+	it('produce a table report', (done) => {
 		this.timeout(50000)
 
 		cp.exec('node ' + scriptPath + ' --output=table', function(err, stdout, stderr) {
@@ -50,7 +50,7 @@ describe('end to end test', function() {
 		})
 	})
 
-	it.only('produce a csv report', (done) => {
+	it('produce a csv report', (done) => {
 		this.timeout(50000)
 
 		cp.exec('node ' + scriptPath + ' --output=csv --csvHeaders', function(err, stdout, stderr) {
@@ -66,7 +66,7 @@ describe('end to end test', function() {
 		})
 	})
 
-	it.only('produce an html report', (done) => {
+	it('produce an html report', (done) => {
 		this.timeout(50000)
 
 		cp.exec('node ' + scriptPath + ' --output=html', function(err, stdout, stderr) {
