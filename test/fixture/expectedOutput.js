@@ -125,3 +125,35 @@ module.exports.rawDataToTable = (expectedData, tableTemplate) => {
 
 	return templateLines.join('\n')
 }
+
+/*
+	create expected value for html output
+*/
+module.exports.rawDataToHtml = (expectedData, htmlTemplate) => {
+	const packageNamePattern = /\[\[(.+)]]/
+
+	let startOfRow = htmlTemplate.indexOf('</thead><tbody>') + '</thead><tbody>'.length
+	let updatedTemplate = htmlTemplate.slice(0, startOfRow)
+	let endOfRow = htmlTemplate.indexOf('</td></tr>', startOfRow) + '</td></tr>'.length
+
+	do {
+		let row = htmlTemplate.substring(startOfRow, endOfRow)
+		const found = row.match(packageNamePattern)
+		if ((found !== null) && Array.isArray(found) && (found.length === 2)) {
+			// get package data from expectedData
+			const packageName = found[1]
+			const expectedPackageData = expectedData.find(element => element.name === packageName)
+			if (expectedPackageData !== undefined) {
+				row = row.replace(found[0], expectedPackageData.name)
+				row = row.replace('{{installedVersion}}', (expectedPackageData.installedVersion))
+				row = row.replace('{{remoteVersion}}', (expectedPackageData.remoteVersion))
+			}
+		}
+		updatedTemplate += row
+		startOfRow = endOfRow
+		endOfRow = htmlTemplate.indexOf('</td></tr>', startOfRow) + '</td></tr>'.length
+	} while (endOfRow > startOfRow)
+
+	updatedTemplate += htmlTemplate.slice(startOfRow)
+	return updatedTemplate
+}

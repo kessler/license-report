@@ -72,9 +72,13 @@ describe('end to end test', function() {
 				return done(err)
 			}
 
-			const expectedResult = eol.auto(fs.readFileSync(path.join(__dirname, 'fixture', 'expectedOutput.html'), 'utf8'))
 			const actualResult = eol.auto(stdout)
-			assert.strictEqual(actualResult, expectedResult)
+
+			const expectedData = expectedOutput.addVersionToMockupData(EXPECTED_RAW_DATA)
+			const expectedHtmlTemplate = eol.auto(fs.readFileSync(path.join(__dirname, 'fixture', 'expectedOutput.html'), 'utf8'))
+			const expectedHtmlResult = expectedOutput.rawDataToHtml(expectedData, expectedHtmlTemplate)
+
+			assert.strictEqual(actualResult, expectedHtmlResult)
 			done()
 		})
 	})
