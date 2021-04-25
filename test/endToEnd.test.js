@@ -11,7 +11,7 @@ const scriptPath = path
 	.replace(/(\s+)/g, '\\$1');
 
 describe('end to end test', function() {
-	it.only('produce a json report', function(done) {
+	it.only('produce a json report', (done) => {
 		this.timeout(50000)
 
 		cp.exec('node ' + scriptPath, function(err, stdout, stderr) {
@@ -29,7 +29,7 @@ describe('end to end test', function() {
 		})
 	})
 
-	it.only('produce a table report', function(done) {
+	it.only('produce a table report', (done) => {
 		this.timeout(50000)
 
 		cp.exec('node ' + scriptPath + ' --output=table', function(err, stdout, stderr) {
@@ -46,7 +46,7 @@ describe('end to end test', function() {
 		})
 	})
 
-	it.only('produce a csv report', function(done) {
+	it.only('produce a csv report', (done) => {
 		this.timeout(50000)
 
 		cp.exec('node ' + scriptPath + ' --output=csv --csvHeaders', function(err, stdout, stderr) {
@@ -63,7 +63,7 @@ describe('end to end test', function() {
 		})
 	})
 
-	it('produce an html report', function(done) {
+	it.only('produce an html report', (done) => {
 		this.timeout(50000)
 
 		cp.exec('node ' + scriptPath + ' --output=html', function(err, stdout, stderr) {
