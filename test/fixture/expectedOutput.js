@@ -1,22 +1,57 @@
-const packageLock = require('../../package-lock.json')
+const _ = require('lodash')
+const async = require('async')
+const request = require('request')
+const semver = require('semver')
+const packageJson = require('../../package.json')
+const config = require('../../lib/config.js')
 
-const NPM_V6 = 1
-
-module.exports.addVersionToMockupData = (dependencies)  => {
-	const result = dependencies.map( dependency => {
-		let packagelockData
-		if (packageLock.lockfileVersion === NPM_V6) {
-			packagelockData = packageLock.dependencies[dependency.name]
-		} else {
-			packagelockData = packageLock.packages[`node_modules/${dependency.name}`]
+/*
+	get latest version from registry and add it to the list of expectedData
+*/
+function addRemoteVersion(dependency, callback) {
+	dependency.remoteVersion = 'n/a'
+	let uri = config.registry + dependency.name
+	request(uri, function(err, response, body) {
+		if (!err && !((response.statusCode > 399) && (response.statusCode < 599))) {
+			try {
+				const json = JSON.parse(body)
+				// find the right version for this package
+				const versions = _.keys(json.versions)
+				// es fehlt die lokale Version mit Range statt dependency.installedVersion!
+				const version = semver.maxSatisfying(versions, dependency.installedVersion)
+				if (version) {
+					dependency.remoteVersion = version.toString()
+				}
+			} catch (e) {
+				console.log(e)
+			}
 		}
-		const installedVersion = packagelockData.version
-		dependency.installedVersion = installedVersion
-		dependency.remoteVersion = installedVersion
-		return dependency
+
+		return callback()
+	})
+}
+
+/*
+	add current values for installedVersion and remoteVersion to list of expectedData
+*/
+module.exports.addVersionToExpectedData = (expectedData, done)  => {
+	// add version from package.json (dev-) dependencies as installedVersion
+	const packagesList = Object.assign(Object.assign({}, packageJson.dependencies), packageJson.devDependencies)
+	const packagesData = expectedData.map(packageData => {
+		packageData.installedVersion = packagesList[packageData.name]
+		return packageData
 	})
 
-	return result
+	async.each(packagesData, addRemoteVersion, function() {
+		// remove range character from installedVersion
+		packagesData.forEach(packageData => {
+			if (packageData.installedVersion.match(/^[\^~].*/)) {
+				packageData.installedVersion = packageData.installedVersion.substring(1);
+			}
+		});
+
+		done()
+	});
 }
 
 /*

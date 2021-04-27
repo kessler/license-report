@@ -10,11 +10,12 @@ const scriptPath = path
 	.resolve(__dirname, '..', 'index.js')
 	.replace(/(\s+)/g, '\\$1');
 
-	let expectedData
+var expectedData
 
 describe('end to end test', function() {
-	beforeEach(function() {
-		expectedData = expectedOutput.addVersionToMockupData(EXPECTED_RAW_DATA)
+	beforeEach(function(done) {
+		expectedData = EXPECTED_RAW_DATA.slice(0)
+		expectedOutput.addVersionToExpectedData(expectedData, done)
   });
 
 	it('produce a json report', (done) => {
