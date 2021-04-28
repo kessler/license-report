@@ -65,6 +65,7 @@ module.exports.rawDataToJson = (rawData) => {
 	create expected value for csv output
 */
 module.exports.rawDataToCsv = (expectedData, csvTemplate) => {
+	const fieldNames = ['author', 'department', 'relatedTo', 'licensePeriod', 'material', 'licenseType', 'link', 'remoteVersion', 'installedVersion']
 	const packageNamePattern = /\[\[(.+)]]/
 	const templateLines = csvTemplate.split('\n')
 	const resultLines = templateLines.map( line => {
@@ -76,8 +77,9 @@ module.exports.rawDataToCsv = (expectedData, csvTemplate) => {
 			const expectedPackageData = expectedData.find(element => element.name === packageName)
 			if (expectedPackageData !== undefined) {
 				line = line.replace(found[0], expectedPackageData.name)
-				line = line.replace('{{installedVersion}}', expectedPackageData.installedVersion)
-				line = line.replace('{{remoteVersion}}', expectedPackageData.remoteVersion)
+				fieldNames.forEach(fieldName => {
+					line = line.replace(`{{${fieldName}}}`, expectedPackageData[fieldName])
+				});
 			}
 		}
 
@@ -88,57 +90,46 @@ module.exports.rawDataToCsv = (expectedData, csvTemplate) => {
 }
 
 /*
-	update width of title and corresponding dashes if any version number is wider than the default title
-*/
-function updateHeaderLines(startOfVersionTitle, widthOfVersionTitle, versionTitleText, titleLine, dashesLine) {
-	if (widthOfVersionTitle > versionTitleText.length) {
-		titleLine = titleLine.replace(versionTitleText, versionTitleText.padEnd(widthOfVersionTitle))
-		dashesLine = dashesLine.slice(0, startOfVersionTitle) + ''.padEnd(widthOfVersionTitle, '-') + dashesLine.slice(startOfVersionTitle + versionTitleText.length)
-	}
-	return {
-		titleLine: titleLine,
-		dashesLine: dashesLine
-	}
-}
-
-/*
 	create expected value for table output
 */
 module.exports.rawDataToTable = (expectedData, tableTemplate) => {
-	// find max width of remoteVersion and installedVersion
-	let maxWidthOfRemoteVersion = 0
-	let maxWidthOfInstalledVersion = 0
-	expectedData.forEach(element => {
-		if (element.installedVersion.length > maxWidthOfInstalledVersion) {
-			maxWidthOfInstalledVersion = element.installedVersion.length
+	const columnDefinitions = {
+		author: {title: 'author', maxColumnWidth: 0},
+		department: {title: 'department', maxColumnWidth: 0},
+		relatedTo: {title: 'related to', maxColumnWidth: 0},
+		name: {title: 'name', maxColumnWidth: 0},
+		licensePeriod: {title: 'license period', maxColumnWidth: 0},
+		material: {title: 'material / not material', maxColumnWidth: 0},
+		licenseType: {title: 'license type', maxColumnWidth: 0},
+		link: {title: 'link', maxColumnWidth: 0},
+		remoteVersion: {title: 'remote version', maxColumnWidth: 0},
+		installedVersion: {title: 'installed version', maxColumnWidth: 0}
+	}
+	// get width of header columns
+	for (const key in columnDefinitions) {
+		if (Object.hasOwnProperty.call(columnDefinitions, key)) {
+			columnDefinitions[key].maxColumnWidth = columnDefinitions[key].title.length;
 		}
-		if (element.remoteVersion.length > maxWidthOfRemoteVersion) {
-			maxWidthOfRemoteVersion = element.remoteVersion.length
+	}
+	// take account of the maximum width of data columns
+	expectedData.forEach(element => {
+		for (const [key, value] of Object.entries(element)) {
+			columnDefinitions[key].maxColumnWidth = Math.max(columnDefinitions[key].maxColumnWidth, value.length)
 		}
 	})
 
 	const templateLines = tableTemplate.split('\n')
-	const remoteVersionTitleText = 'remote version'
-	const installedVersionTitleText = 'installed version'
-	const startOfRemoteVersion = templateLines[0].indexOf(remoteVersionTitleText)
-	const startOfInstalledVersion = templateLines[0].indexOf(installedVersionTitleText)
-	const widthOfRemoteVersion = Math.max(remoteVersionTitleText.length, maxWidthOfRemoteVersion)
-	const widthOfInstalledVersion = Math.max(installedVersionTitleText.length, maxWidthOfInstalledVersion)
 
 	// adapt title lines
-	let updatedHeader = {}
-	// titles / dashes must be adapted from right to left
-	if (startOfRemoteVersion < startOfInstalledVersion) {
-		updatedHeader = updateHeaderLines(startOfRemoteVersion, widthOfRemoteVersion, remoteVersionTitleText, templateLines[0], templateLines[1])
-		updatedHeader = updateHeaderLines(startOfInstalledVersion, widthOfInstalledVersion, installedVersionTitleText, updatedHeader.titleLine, updatedHeader.dashesLine)
-	} else {
-		updatedHeader = updateHeaderLines(startOfInstalledVersion, widthOfInstalledVersion, installedVersionTitleText, templateLines[0], templateLines[1])
-		updatedHeader = updateHeaderLines(startOfRemoteVersion, widthOfRemoteVersion, remoteVersionTitleText, updatedHeader.titleLine, updatedHeader.dashesLine)
+	let headerLines = {titleLine: templateLines[0], dashesLine: templateLines[1]}
+	for (const [key, value] of Object.entries(columnDefinitions)) {
+		headerLines.titleLine = headerLines.titleLine.replace(`{{${key}}}`, value.title.padEnd(value.maxColumnWidth))
+		headerLines.dashesLine = headerLines.dashesLine.replace(`{{${key}}}`, '-'.repeat(value.title.length).padEnd(value.maxColumnWidth))
 	}
-	templateLines[0] = updatedHeader.titleLine
-	templateLines[1] = updatedHeader.dashesLine
+	templateLines[0] = headerLines.titleLine.trimEnd()
+	templateLines[1] = headerLines.dashesLine.trimEnd()
 
-	// replace placeholders with values
+	// replace placeholders in all lines
 	const packageNamePattern = /\[\[(.+)]]/
 	for (let i = 2; i < templateLines.length; i++) {
 		let line = templateLines[i]
@@ -148,14 +139,16 @@ module.exports.rawDataToTable = (expectedData, tableTemplate) => {
 			// get package data from expectedData
 			const packageName = found[1]
 			const expectedPackageData = expectedData.find(element => element.name === packageName)
+			// replace placeholders with values
 			if (expectedPackageData !== undefined) {
-				line = line.replace(found[0], expectedPackageData.name)
-				line = line.replace('{{installedVersion}}', (expectedPackageData.installedVersion).padEnd(widthOfInstalledVersion))
-				line = line.replace('{{remoteVersion}}', (expectedPackageData.remoteVersion).padEnd(widthOfRemoteVersion))
+				line = line.replace(found[0], expectedPackageData.name.padEnd(columnDefinitions.name.maxColumnWidth))
+				for (const [key, value] of Object.entries(columnDefinitions)) {
+					line = line.replace(`{{${key}}}`, (expectedPackageData[key]).padEnd(value.maxColumnWidth))
+				}
 			}
 		}
 
-		templateLines[i] = line
+		templateLines[i] = line.trimEnd()
 	}
 
 	return templateLines.join('\n')
@@ -165,6 +158,7 @@ module.exports.rawDataToTable = (expectedData, tableTemplate) => {
 	create expected value for html output
 */
 module.exports.rawDataToHtml = (expectedData, htmlTemplate) => {
+	const fieldNames = ['author', 'department', 'relatedTo', 'licensePeriod', 'material', 'licenseType', 'link', 'remoteVersion', 'installedVersion']
 	const packageNamePattern = /\[\[(.+)]]/
 
 	let startOfRow = htmlTemplate.indexOf('</thead><tbody>') + '</thead><tbody>'.length
@@ -180,8 +174,9 @@ module.exports.rawDataToHtml = (expectedData, htmlTemplate) => {
 			const expectedPackageData = expectedData.find(element => element.name === packageName)
 			if (expectedPackageData !== undefined) {
 				row = row.replace(found[0], expectedPackageData.name)
-				row = row.replace('{{installedVersion}}', (expectedPackageData.installedVersion))
-				row = row.replace('{{remoteVersion}}', (expectedPackageData.remoteVersion))
+				fieldNames.forEach(fieldName => {
+					row = row.replace(`{{${fieldName}}}`, expectedPackageData[fieldName])
+				});
 			}
 		}
 		updatedTemplate += row
