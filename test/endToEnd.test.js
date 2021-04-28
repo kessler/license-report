@@ -113,7 +113,7 @@ const EXPECTED_RAW_DATA = [
 		installedVersion: '_VERSION_'
 	},
 	{
-		author: 'TJ Holowaychuk',
+		author: 'TJ Holowaychuk tj@vision-media.ca',
 		department: 'kessler',
 		relatedTo: 'stuff',
 		name: 'debug',
@@ -137,7 +137,7 @@ const EXPECTED_RAW_DATA = [
     installedVersion: '_VERSION_'
   },
 	{
-		author: 'John-David Dalton',
+		author: 'John-David Dalton john.david.dalton@gmail.com',
 		department: 'kessler',
 		relatedTo: 'stuff',
 		name: 'lodash',
@@ -149,7 +149,7 @@ const EXPECTED_RAW_DATA = [
 		installedVersion: '_VERSION_'
 	},
 	{
-		author: 'Dominic Tarr',
+		author: 'Dominic Tarr dominic.tarr@gmail.com dominictarr.com',
 		department: 'kessler',
 		relatedTo: 'stuff',
 		name: 'rc',
@@ -161,7 +161,7 @@ const EXPECTED_RAW_DATA = [
 		installedVersion: '_VERSION_'
 	},
 	{
-		author: 'Mikeal Rogers',
+		author: 'Mikeal Rogers mikeal.rogers@gmail.com',
 		department: 'kessler',
 		relatedTo: 'stuff',
 		name: 'request',
@@ -173,6 +173,7 @@ const EXPECTED_RAW_DATA = [
 		installedVersion: '_VERSION_'
 	},
 	{
+		author: '',
 		department: 'kessler',
 		relatedTo: 'stuff',
 		name: 'semver',
@@ -196,7 +197,7 @@ const EXPECTED_RAW_DATA = [
 		installedVersion: '_VERSION_'
 	},
 	{
-		author: 'James Halliday',
+		author: 'James Halliday mail@substack.net http://substack.net',
 		department: 'kessler',
 		relatedTo: 'stuff',
 		name: 'text-table',
@@ -220,7 +221,7 @@ const EXPECTED_RAW_DATA = [
 		installedVersion: '_VERSION_'
 	},
 	{
-		author: 'Yaniv Kessler',
+		author: 'Yaniv Kessler yanivk@gmail.com',
 		department: 'kessler',
 		relatedTo: 'stuff',
 		name: '@kessler/exponential-backoff',
@@ -232,7 +233,7 @@ const EXPECTED_RAW_DATA = [
 		installedVersion: '_VERSION_'
 	},
 	{
-		author: 'TJ Holowaychuk',
+		author: 'TJ Holowaychuk tj@vision-media.ca',
 		department: 'kessler',
 		relatedTo: 'stuff',
 		name: 'mocha',
@@ -251,19 +252,19 @@ const EXPECTED_RAW_DATA = [
 	[[package-name]] - name of the package
 */
 const EXPECTED_CSV_TEMPLATE = `department,related to,name,license period,material / not material,license type,link,remote version,installed version,author
-kessler,stuff,[[@kessler/tableify]],perpetual,material,MIT,git+https://github.com/kessler/node-tableify.git,{{remoteVersion}},{{installedVersion}},Dan VerWeire, Yaniv Kessler
-kessler,stuff,[[async]],perpetual,material,MIT,git+https://github.com/caolan/async.git,{{remoteVersion}},{{installedVersion}},Caolan McMahon
-kessler,stuff,[[debug]],perpetual,material,MIT,git://github.com/visionmedia/debug.git,{{remoteVersion}},{{installedVersion}},TJ Holowaychuk
-kessler,stuff,[[eol]],perpetual,material,MIT,git+https://github.com/ryanve/eol.git,{{remoteVersion}},{{installedVersion}},Ryan Van Etten
-kessler,stuff,[[lodash]],perpetual,material,MIT,git+https://github.com/lodash/lodash.git,{{remoteVersion}},{{installedVersion}},John-David Dalton
-kessler,stuff,[[rc]],perpetual,material,(BSD-2-Clause OR MIT OR Apache-2.0),git+https://github.com/dominictarr/rc.git,{{remoteVersion}},{{installedVersion}},Dominic Tarr
-kessler,stuff,[[request]],perpetual,material,Apache-2.0,git+https://github.com/request/request.git,{{remoteVersion}},{{installedVersion}},Mikeal Rogers
-kessler,stuff,[[semver]],perpetual,material,ISC,git+https://github.com/npm/node-semver.git,{{remoteVersion}},{{installedVersion}},n/a
-kessler,stuff,[[stubborn]],perpetual,material,ISC,git://github.com/grudzinski/stubborn.git,{{remoteVersion}},{{installedVersion}},Roman Grudzinski
-kessler,stuff,[[text-table]],perpetual,material,MIT,git://github.com/substack/text-table.git,{{remoteVersion}},{{installedVersion}},James Halliday
-kessler,stuff,[[visit-values]],perpetual,material,MIT,https://github.com/kessler/node-visit-values,{{remoteVersion}},{{installedVersion}},Yaniv Kessler
-kessler,stuff,[[@kessler/exponential-backoff]],perpetual,material,MIT,git+https://github.com/kessler/exponential-backoff.git,{{remoteVersion}},{{installedVersion}},Yaniv Kessler
-kessler,stuff,[[mocha]],perpetual,material,MIT,git+https://github.com/mochajs/mocha.git,{{remoteVersion}},{{installedVersion}},TJ Holowaychuk
+{{department}},{{relatedTo}},[[@kessler/tableify]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{author}}
+{{department}},{{relatedTo}},[[async]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{author}}
+{{department}},{{relatedTo}},[[debug]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{author}}
+{{department}},{{relatedTo}},[[eol]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{author}}
+{{department}},{{relatedTo}},[[lodash]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{author}}
+{{department}},{{relatedTo}},[[rc]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{author}}
+{{department}},{{relatedTo}},[[request]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{author}}
+{{department}},{{relatedTo}},[[semver]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{author}}
+{{department}},{{relatedTo}},[[stubborn]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{author}}
+{{department}},{{relatedTo}},[[text-table]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{author}}
+{{department}},{{relatedTo}},[[visit-values]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{author}}
+{{department}},{{relatedTo}},[[@kessler/exponential-backoff]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{author}}
+{{department}},{{relatedTo}},[[mocha]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{author}}
 `;
 
 /*
@@ -271,19 +272,19 @@ kessler,stuff,[[mocha]],perpetual,material,MIT,git+https://github.com/mochajs/mo
 	{{key}} - value to be replaced with value from package information
 	[[package-name]] - name of the package
 */
-const EXPECTED_TABLE_TEMPLATE = `department  related to  name                          license period  material / not material  license type                         link                                                    remote version  installed version  author
-----------  ----------  ----                          --------------  -----------------------  ------------                         ----                                                    --------------  -----------------  ------
-kessler     stuff       [[@kessler/tableify]]             perpetual       material                 MIT                                  git+https://github.com/kessler/node-tableify.git        {{remoteVersion}}  {{installedVersion}}  Dan VerWeire, Yaniv Kessler
-kessler     stuff       [[async]]                         perpetual       material                 MIT                                  git+https://github.com/caolan/async.git                 {{remoteVersion}}  {{installedVersion}}  Caolan McMahon
-kessler     stuff       [[debug]]                         perpetual       material                 MIT                                  git://github.com/visionmedia/debug.git                  {{remoteVersion}}  {{installedVersion}}  TJ Holowaychuk
-kessler     stuff       [[eol]]                           perpetual       material                 MIT                                  git+https://github.com/ryanve/eol.git                   {{remoteVersion}}  {{installedVersion}}  Ryan Van Etten
-kessler     stuff       [[lodash]]                        perpetual       material                 MIT                                  git+https://github.com/lodash/lodash.git                {{remoteVersion}}  {{installedVersion}}  John-David Dalton
-kessler     stuff       [[rc]]                            perpetual       material                 (BSD-2-Clause OR MIT OR Apache-2.0)  git+https://github.com/dominictarr/rc.git               {{remoteVersion}}  {{installedVersion}}  Dominic Tarr
-kessler     stuff       [[request]]                       perpetual       material                 Apache-2.0                           git+https://github.com/request/request.git              {{remoteVersion}}  {{installedVersion}}  Mikeal Rogers
-kessler     stuff       [[semver]]                        perpetual       material                 ISC                                  git+https://github.com/npm/node-semver.git              {{remoteVersion}}  {{installedVersion}}  n/a
-kessler     stuff       [[stubborn]]                      perpetual       material                 ISC                                  git://github.com/grudzinski/stubborn.git                {{remoteVersion}}  {{installedVersion}}  Roman Grudzinski
-kessler     stuff       [[text-table]]                    perpetual       material                 MIT                                  git://github.com/substack/text-table.git                {{remoteVersion}}  {{installedVersion}}  James Halliday
-kessler     stuff       [[visit-values]]                  perpetual       material                 MIT                                  https://github.com/kessler/node-visit-values            {{remoteVersion}}  {{installedVersion}}  Yaniv Kessler
-kessler     stuff       [[@kessler/exponential-backoff]]  perpetual       material                 MIT                                  git+https://github.com/kessler/exponential-backoff.git  {{remoteVersion}}  {{installedVersion}}  Yaniv Kessler
-kessler     stuff       [[mocha]]                         perpetual       material                 MIT                                  git+https://github.com/mochajs/mocha.git                {{remoteVersion}}  {{installedVersion}}  TJ Holowaychuk
+const EXPECTED_TABLE_TEMPLATE = `{{department}}  {{relatedTo}}  {{name}}  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{author}}
+{{department}}  {{relatedTo}}  {{name}}  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{author}}
+{{department}}  {{relatedTo}}  [[@kessler/tableify]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{author}}
+{{department}}  {{relatedTo}}  [[async]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{author}}
+{{department}}  {{relatedTo}}  [[debug]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{author}}
+{{department}}  {{relatedTo}}  [[eol]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{author}}
+{{department}}  {{relatedTo}}  [[lodash]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{author}}
+{{department}}  {{relatedTo}}  [[rc]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{author}}
+{{department}}  {{relatedTo}}  [[request]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{author}}
+{{department}}  {{relatedTo}}  [[semver]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{author}}
+{{department}}  {{relatedTo}}  [[stubborn]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{author}}
+{{department}}  {{relatedTo}}  [[text-table]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{author}}
+{{department}}  {{relatedTo}}  [[visit-values]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{author}}
+{{department}}  {{relatedTo}}  [[@kessler/exponential-backoff]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{author}}
+{{department}}  {{relatedTo}}  [[mocha]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{author}}
 `;
