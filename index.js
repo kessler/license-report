@@ -8,6 +8,12 @@ const getFormatter = require('./lib/getFormatter')
 const addPackagesToIndex = require('./lib/addPackagesToIndex')
 const getPackageReportData = require('./lib/getPackageReportData.js')
 const packageDataToReportData = require('./lib/packageDataToReportData')
+const utils = require('./lib/util')
+
+if (config.help) {
+	console.log(utils.helpText)
+	return
+}
 
 if (!config.package) {
 	config.package = './package.json'
