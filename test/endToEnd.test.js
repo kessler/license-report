@@ -77,7 +77,7 @@ describe('end to end test', function() {
 			}
 
 			const actualResult = eol.auto(stdout)
-			const expectedHtmlTemplate = eol.auto(fs.readFileSync(path.join(__dirname, 'fixture', 'expectedOutput.html'), 'utf8'))
+			const expectedHtmlTemplate = eol.auto(fs.readFileSync(path.join(__dirname, 'fixture', 'expectedOutput.e2e.html'), 'utf8'))
 			const expectedHtmlResult = expectedOutput.rawDataToHtml(expectedData, expectedHtmlTemplate)
 
 			assert.strictEqual(actualResult, expectedHtmlResult)
@@ -227,7 +227,7 @@ const EXPECTED_RAW_DATA = [
 		licensePeriod: 'perpetual',
 		material: 'material',
 		licenseType: 'MIT',
-		link: 'https://registry.npmjs.org/@kessler/exponential-backoff/-/exponential-backoff-2.0.1.tgz',
+		link: 'git+https://github.com/kessler/exponential-backoff.git',
 		remoteVersion: '_VERSION_',
 		installedVersion: '_VERSION_'
 	},
@@ -262,7 +262,7 @@ kessler,stuff,[[semver]],perpetual,material,ISC,git+https://github.com/npm/node-
 kessler,stuff,[[stubborn]],perpetual,material,ISC,git://github.com/grudzinski/stubborn.git,{{remoteVersion}},{{installedVersion}},Roman Grudzinski
 kessler,stuff,[[text-table]],perpetual,material,MIT,git://github.com/substack/text-table.git,{{remoteVersion}},{{installedVersion}},James Halliday
 kessler,stuff,[[visit-values]],perpetual,material,MIT,https://github.com/kessler/node-visit-values,{{remoteVersion}},{{installedVersion}},Yaniv Kessler
-kessler,stuff,[[@kessler/exponential-backoff]],perpetual,material,MIT,https://registry.npmjs.org/@kessler/exponential-backoff/-/exponential-backoff-2.0.1.tgz,{{remoteVersion}},{{installedVersion}},Yaniv Kessler
+kessler,stuff,[[@kessler/exponential-backoff]],perpetual,material,MIT,git+https://github.com/kessler/exponential-backoff.git,{{remoteVersion}},{{installedVersion}},Yaniv Kessler
 kessler,stuff,[[mocha]],perpetual,material,MIT,git+https://github.com/mochajs/mocha.git,{{remoteVersion}},{{installedVersion}},TJ Holowaychuk
 `;
 
@@ -271,19 +271,19 @@ kessler,stuff,[[mocha]],perpetual,material,MIT,git+https://github.com/mochajs/mo
 	{{key}} - value to be replaced with value from package information
 	[[package-name]] - name of the package
 */
-const EXPECTED_TABLE_TEMPLATE = `department  related to  name                          license period  material / not material  license type                         link                                                                                     remote version  installed version  author
-----------  ----------  ----                          --------------  -----------------------  ------------                         ----                                                                                     --------------  -----------------  ------
-kessler     stuff       [[@kessler/tableify]]             perpetual       material                 MIT                                  git+https://github.com/kessler/node-tableify.git                                         {{remoteVersion}}  {{installedVersion}}  Dan VerWeire, Yaniv Kessler
-kessler     stuff       [[async]]                         perpetual       material                 MIT                                  git+https://github.com/caolan/async.git                                                  {{remoteVersion}}  {{installedVersion}}  Caolan McMahon
-kessler     stuff       [[debug]]                         perpetual       material                 MIT                                  git://github.com/visionmedia/debug.git                                                   {{remoteVersion}}  {{installedVersion}}  TJ Holowaychuk
-kessler     stuff       [[eol]]                           perpetual       material                 MIT                                  git+https://github.com/ryanve/eol.git                                                    {{remoteVersion}}  {{installedVersion}}  Ryan Van Etten
-kessler     stuff       [[lodash]]                        perpetual       material                 MIT                                  git+https://github.com/lodash/lodash.git                                                 {{remoteVersion}}  {{installedVersion}}  John-David Dalton
-kessler     stuff       [[rc]]                            perpetual       material                 (BSD-2-Clause OR MIT OR Apache-2.0)  git+https://github.com/dominictarr/rc.git                                                {{remoteVersion}}  {{installedVersion}}  Dominic Tarr
-kessler     stuff       [[request]]                       perpetual       material                 Apache-2.0                           git+https://github.com/request/request.git                                               {{remoteVersion}}  {{installedVersion}}  Mikeal Rogers
-kessler     stuff       [[semver]]                        perpetual       material                 ISC                                  git+https://github.com/npm/node-semver.git                                               {{remoteVersion}}  {{installedVersion}}  n/a
-kessler     stuff       [[stubborn]]                      perpetual       material                 ISC                                  git://github.com/grudzinski/stubborn.git                                                 {{remoteVersion}}  {{installedVersion}}  Roman Grudzinski
-kessler     stuff       [[text-table]]                    perpetual       material                 MIT                                  git://github.com/substack/text-table.git                                                 {{remoteVersion}}  {{installedVersion}}  James Halliday
-kessler     stuff       [[visit-values]]                  perpetual       material                 MIT                                  https://github.com/kessler/node-visit-values                                             {{remoteVersion}}  {{installedVersion}}  Yaniv Kessler
-kessler     stuff       [[@kessler/exponential-backoff]]  perpetual       material                 MIT                                  https://registry.npmjs.org/@kessler/exponential-backoff/-/exponential-backoff-2.0.1.tgz  {{remoteVersion}}  {{installedVersion}}  Yaniv Kessler
-kessler     stuff       [[mocha]]                         perpetual       material                 MIT                                  git+https://github.com/mochajs/mocha.git                                                 {{remoteVersion}}  {{installedVersion}}  TJ Holowaychuk
+const EXPECTED_TABLE_TEMPLATE = `department  related to  name                          license period  material / not material  license type                         link                                                    remote version  installed version  author
+----------  ----------  ----                          --------------  -----------------------  ------------                         ----                                                    --------------  -----------------  ------
+kessler     stuff       [[@kessler/tableify]]             perpetual       material                 MIT                                  git+https://github.com/kessler/node-tableify.git        {{remoteVersion}}  {{installedVersion}}  Dan VerWeire, Yaniv Kessler
+kessler     stuff       [[async]]                         perpetual       material                 MIT                                  git+https://github.com/caolan/async.git                 {{remoteVersion}}  {{installedVersion}}  Caolan McMahon
+kessler     stuff       [[debug]]                         perpetual       material                 MIT                                  git://github.com/visionmedia/debug.git                  {{remoteVersion}}  {{installedVersion}}  TJ Holowaychuk
+kessler     stuff       [[eol]]                           perpetual       material                 MIT                                  git+https://github.com/ryanve/eol.git                   {{remoteVersion}}  {{installedVersion}}  Ryan Van Etten
+kessler     stuff       [[lodash]]                        perpetual       material                 MIT                                  git+https://github.com/lodash/lodash.git                {{remoteVersion}}  {{installedVersion}}  John-David Dalton
+kessler     stuff       [[rc]]                            perpetual       material                 (BSD-2-Clause OR MIT OR Apache-2.0)  git+https://github.com/dominictarr/rc.git               {{remoteVersion}}  {{installedVersion}}  Dominic Tarr
+kessler     stuff       [[request]]                       perpetual       material                 Apache-2.0                           git+https://github.com/request/request.git              {{remoteVersion}}  {{installedVersion}}  Mikeal Rogers
+kessler     stuff       [[semver]]                        perpetual       material                 ISC                                  git+https://github.com/npm/node-semver.git              {{remoteVersion}}  {{installedVersion}}  n/a
+kessler     stuff       [[stubborn]]                      perpetual       material                 ISC                                  git://github.com/grudzinski/stubborn.git                {{remoteVersion}}  {{installedVersion}}  Roman Grudzinski
+kessler     stuff       [[text-table]]                    perpetual       material                 MIT                                  git://github.com/substack/text-table.git                {{remoteVersion}}  {{installedVersion}}  James Halliday
+kessler     stuff       [[visit-values]]                  perpetual       material                 MIT                                  https://github.com/kessler/node-visit-values            {{remoteVersion}}  {{installedVersion}}  Yaniv Kessler
+kessler     stuff       [[@kessler/exponential-backoff]]  perpetual       material                 MIT                                  git+https://github.com/kessler/exponential-backoff.git  {{remoteVersion}}  {{installedVersion}}  Yaniv Kessler
+kessler     stuff       [[mocha]]                         perpetual       material                 MIT                                  git+https://github.com/mochajs/mocha.git                {{remoteVersion}}  {{installedVersion}}  TJ Holowaychuk
 `;

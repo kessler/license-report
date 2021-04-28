@@ -42,7 +42,6 @@ if (!config.only || config.only.indexOf('dev') > -1) {
 
 async.map(depsIndex, getPackageReportData, function(err, results) {
 	if (err) return console.error(err)
-	if (results.length === 0) return console.log('nothing to do')
 
 	try {
 		packagesData = results.map(element => packageDataToReportData(element, config))
