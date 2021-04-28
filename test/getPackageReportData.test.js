@@ -33,4 +33,38 @@ describe('getPackageReportData', function() {
 			done()
 		})
 	})
+
+	it('return only author name', function(done) {
+		getPackageReportData({ name: 'google-auth-library', fullName: 'google-auth-library', version: '7.0.2' }, function(err, data) {
+			if (err) return done(err)
+			assert.strictEqual(data.author, 'Google Inc.')
+			done()
+		})
+	})
+	it('return only author email', function(done) {
+		getPackageReportData({ name: 'react-hook-form', fullName: 'react-hook-form', version: '6.15.1' }, function(err, data) {
+			if (err) return done(err)
+
+			assert.strictEqual(data.author, 'bluebill1049@hotmail.com')
+			done()
+		})
+	})
+
+	it('return author name with url', function(done) {
+		getPackageReportData({ name: 'knex', fullName: 'knex', version: '0.21.17' }, function(err, data) {
+			if (err) return done(err)
+
+			assert.strictEqual(data.author, 'Tim Griesser https://github.com/tgriesser')
+			done()
+		})
+	})
+
+	it('return author name with email', function(done) {
+		getPackageReportData({ name: 'typeorm', fullName: 'typeorm', version: '0.2.31' }, function(err, data) {
+			if (err) return done(err)
+
+			assert.strictEqual(data.author, 'Umed Khudoiberdiev pleerock.me@gmail.com')
+			done()
+		})
+	})
 })
