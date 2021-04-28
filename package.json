@@ -4,8 +4,7 @@
   "description": "creates a short report about project's dependencies (license, url etc)",
   "main": "index.js",
   "scripts": {
-    "test": "npx mocha -R spec",
-    "createExpectedHtmlOutput": "node index --output=html > test/expectedOutput.e2e.html"
+    "test": "npx mocha -R spec"
   },
   "bin": {
     "license-report": "index.js"

@@ -91,7 +91,7 @@ describe('formatter for html', () => {
   it('produces a report', () => {
     const htmlFormatter = getFormatter('html')
     const htmlResult = eol.auto(htmlFormatter(testData, config))
-    const expectedResult = eol.auto(fs.readFileSync(path.join(__dirname, 'expectedOutput.formatter.html'), 'utf8'))
+    const expectedResult = eol.auto(fs.readFileSync(path.join(__dirname, 'fixture', 'expectedOutput.formatter.html'), 'utf8'))
 
 		assert.strictEqual(htmlResult, expectedResult)
   })
@@ -99,7 +99,7 @@ describe('formatter for html', () => {
   it('produces a report for an empty data array', () => {
     const htmlFormatter = getFormatter('html')
     const htmlResult = eol.auto(htmlFormatter([], config))
-    const expectedResult = eol.auto(fs.readFileSync(path.join(__dirname, 'expectedOutput.formatter.empty.html'), 'utf8'))
+    const expectedResult = eol.auto(fs.readFileSync(path.join(__dirname, 'fixture', 'expectedOutput.formatter.empty.html'), 'utf8'))
 
 		assert.strictEqual(htmlResult, expectedResult)
   })
@@ -189,5 +189,3 @@ kessler,stuff,debug,perpetual,material,MIT,git://github.com/visionmedia/debug.gi
 const EXPECTED_CSV_RESULT_WITH_DELIMITER = `kessler,stuff,@kessler/tableify,perpetual,material,MIT,git+https://github.com/kessler/node-tableify.git,1.0.2,1.0.2,Dan VerWeire, Yaniv Kessler
 kessler,stuff,async,perpetual,material,MIT,git+https://github.com/caolan/async.git,3.2.0,3.2.0,Caolan McMahon
 kessler,stuff,debug,perpetual,material,MIT,git://github.com/visionmedia/debug.git,4.3.0,4.1.1,TJ Holowaychuk`
-
-const EXPECTED_HTML_RESULT = ''
