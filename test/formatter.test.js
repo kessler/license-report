@@ -38,15 +38,15 @@ describe('formatter for table', () => {
 })
 
 describe('formatter for csv', function() {
-  let csvHeadersBackup;
+  let csvHeadersBackup
 
   beforeEach(function() {
     csvHeadersBackup = config.csvHeaders
-  });
+  })
 
   afterEach(function() {
-    config.csvHeaders = csvHeadersBackup;
-  });
+    config.csvHeaders = csvHeadersBackup
+  })
 
 	it('produces a report without header', function() {
     const csvFormatter = getFormatter('csv')

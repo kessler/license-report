@@ -79,7 +79,7 @@ module.exports.rawDataToCsv = (expectedData, csvTemplate) => {
 				line = line.replace(found[0], expectedPackageData.name)
 				fieldNames.forEach(fieldName => {
 					line = line.replace(`{{${fieldName}}}`, expectedPackageData[fieldName])
-				});
+				})
 			}
 		}
 
@@ -108,7 +108,7 @@ module.exports.rawDataToTable = (expectedData, tableTemplate) => {
 	// get width of header columns
 	for (const key in columnDefinitions) {
 		if (Object.hasOwnProperty.call(columnDefinitions, key)) {
-			columnDefinitions[key].maxColumnWidth = columnDefinitions[key].title.length;
+			columnDefinitions[key].maxColumnWidth = columnDefinitions[key].title.length
 		}
 	}
 	// take account of the maximum width of data columns
@@ -176,7 +176,7 @@ module.exports.rawDataToHtml = (expectedData, htmlTemplate) => {
 				row = row.replace(found[0], expectedPackageData.name)
 				fieldNames.forEach(fieldName => {
 					row = row.replace(`{{${fieldName}}}`, expectedPackageData[fieldName])
-				});
+				})
 			}
 		}
 		updatedTemplate += row
