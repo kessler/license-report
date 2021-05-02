@@ -6,7 +6,11 @@ const packageJson = require('../../package.json')
 const config = require('../../lib/config.js')
 
 /*
-	get latest version from registry and add it to the list of expectedData
+	get latest version from registry and add it to the entry in the expectedData;
+	the field 'installedVersion' in the packagesData entries must contain the
+	package name with the range character from the package.json to find the
+	latest version satisfying the defined range (the range character will be
+	removed later)
 */
 function addRemoteVersion(dependency, callback) {
 	dependency.remoteVersion = 'n/a'
@@ -17,7 +21,6 @@ function addRemoteVersion(dependency, callback) {
 				const json = JSON.parse(body)
 				// find the right version for this package
 				const versions = _.keys(json.versions)
-				// es fehlt die lokale Version mit Range statt dependency.installedVersion!
 				const version = semver.maxSatisfying(versions, dependency.installedVersion)
 				if (version) {
 					dependency.remoteVersion = version.toString()
