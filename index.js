@@ -1,17 +1,16 @@
 #!/usr/bin/env node
 
 const path = require('path')
-const async = require('async')
 const debug = require('debug')('license-report')
 const config = require('./lib/config.js')
 const getFormatter = require('./lib/getFormatter')
 const addPackagesToIndex = require('./lib/addPackagesToIndex')
 const getPackageReportData = require('./lib/getPackageReportData.js')
 const packageDataToReportData = require('./lib/packageDataToReportData')
-const utils = require('./lib/util')
+const util = require('./lib/util')
 
 if (config.help) {
-	console.log(utils.helpText)
+	console.log(util.helpText)
 	return
 }
 
@@ -46,9 +45,12 @@ if (!config.only || config.only.indexOf('dev') > -1) {
 	addPackagesToIndex(devDeps, depsIndex, exclusions)
 }
 
-async.map(depsIndex, getPackageReportData, function(err, results) {
-	if (err) return console.error(err)
-
+Promise.all(
+	depsIndex.map(async (packageEntry) => {
+		return await getPackageReportData(packageEntry)
+	})
+)
+.then((results) => {
 	try {
 		packagesData = results.map(element => packageDataToReportData(element, config))
 		console.log(outputFormatter(packagesData, config))
@@ -56,4 +58,5 @@ async.map(depsIndex, getPackageReportData, function(err, results) {
 		console.error(e.stack)
 		process.exit(1)
 	}
-})
+ })
+.catch(err => console.log(err))
