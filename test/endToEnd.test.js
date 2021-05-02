@@ -8,7 +8,7 @@ const expectedOutput = require('./fixture/expectedOutput.js')
 
 const scriptPath = path
 	.resolve(__dirname, '..', 'index.js')
-	.replace(/(\s+)/g, '\\$1');
+	.replace(/(\s+)/g, '\\$1')
 
 var expectedData
 
