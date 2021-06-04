@@ -66,7 +66,8 @@ const EXPECTED_RAW_DATA = [
 		licenseType: 'MIT',
 		link: 'git+https://github.com/kessler/node-tableify.git',
 		remoteVersion: '_VERSION_',
-		installedVersion: '_VERSION_'
+		installedVersion: '_VERSION_',
+		definedVersion: '_VERSION_'
 	},
 	{
 		author: 'TJ Holowaychuk tj@vision-media.ca',
@@ -78,7 +79,8 @@ const EXPECTED_RAW_DATA = [
 		licenseType: 'MIT',
 		link: 'git://github.com/visionmedia/debug.git',
 		remoteVersion: '_VERSION_',
-		installedVersion: '_VERSION_'
+		installedVersion: '_VERSION_',
+		definedVersion: '_VERSION_'
 	},
   {
     author: 'Ryan Van Etten',
@@ -90,7 +92,8 @@ const EXPECTED_RAW_DATA = [
     licenseType: 'MIT',
     link: 'git+https://github.com/ryanve/eol.git',
     remoteVersion: '_VERSION_',
-    installedVersion: '_VERSION_'
+    installedVersion: '_VERSION_',
+		definedVersion: '_VERSION_'
   },
 	{
 		author: '',
@@ -102,7 +105,8 @@ const EXPECTED_RAW_DATA = [
 		licenseType: 'MIT',
 		link: 'git+https://github.com/sindresorhus/got.git',
 		remoteVersion: '_VERSION_',
-		installedVersion: '_VERSION_'
+		installedVersion: '_VERSION_',
+		definedVersion: '_VERSION_'
 	},
 	{
 		author: 'Dominic Tarr dominic.tarr@gmail.com dominictarr.com',
@@ -114,7 +118,8 @@ const EXPECTED_RAW_DATA = [
 		licenseType: '(BSD-2-Clause OR MIT OR Apache-2.0)',
 		link: 'git+https://github.com/dominictarr/rc.git',
 		remoteVersion: '_VERSION_',
-		installedVersion: '_VERSION_'
+		installedVersion: '_VERSION_',
+		definedVersion: '_VERSION_'
 	},
 	{
 		author: '',
@@ -126,7 +131,8 @@ const EXPECTED_RAW_DATA = [
 		licenseType: 'ISC',
 		link: 'git+https://github.com/npm/node-semver.git',
 		remoteVersion: '_VERSION_',
-		installedVersion: '_VERSION_'
+		installedVersion: '_VERSION_',
+		definedVersion: '_VERSION_'
 	},
 	{
 		author: 'James Halliday mail@substack.net http://substack.net',
@@ -138,7 +144,8 @@ const EXPECTED_RAW_DATA = [
 		licenseType: 'MIT',
 		link: 'git://github.com/substack/text-table.git',
 		remoteVersion: '_VERSION_',
-		installedVersion: '_VERSION_'
+		installedVersion: '_VERSION_',
+		definedVersion: '_VERSION_'
 	},
 	{
 		author: 'Yaniv Kessler',
@@ -150,7 +157,8 @@ const EXPECTED_RAW_DATA = [
 		licenseType: 'MIT',
 		link: 'https://github.com/kessler/node-visit-values',
 		remoteVersion: '_VERSION_',
-		installedVersion: '_VERSION_'
+		installedVersion: '_VERSION_',
+		definedVersion: '_VERSION_'
 	},
 	{
 		author: 'TJ Holowaychuk tj@vision-media.ca',
@@ -162,7 +170,8 @@ const EXPECTED_RAW_DATA = [
 		licenseType: 'MIT',
 		link: 'git+https://github.com/mochajs/mocha.git',
 		remoteVersion: '_VERSION_',
-		installedVersion: '_VERSION_'
+		installedVersion: '_VERSION_',
+		definedVersion: '_VERSION_'
 	}
 ]
 
@@ -171,16 +180,16 @@ const EXPECTED_RAW_DATA = [
 	{{key}} - value to be replaced with value from package information
 	[[package-name]] - name of the package
 */
-const EXPECTED_CSV_TEMPLATE = `department,related to,name,license period,material / not material,license type,link,remote version,installed version,author
-{{department}},{{relatedTo}},[[@kessler/tableify]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{author}}
-{{department}},{{relatedTo}},[[debug]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{author}}
-{{department}},{{relatedTo}},[[eol]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{author}}
-{{department}},{{relatedTo}},[[got]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{author}}
-{{department}},{{relatedTo}},[[rc]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{author}}
-{{department}},{{relatedTo}},[[semver]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{author}}
-{{department}},{{relatedTo}},[[text-table]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{author}}
-{{department}},{{relatedTo}},[[visit-values]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{author}}
-{{department}},{{relatedTo}},[[mocha]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{author}}
+const EXPECTED_CSV_TEMPLATE = `department,related to,name,license period,material / not material,license type,link,remote version,installed version,defined version,author
+{{department}},{{relatedTo}},[[@kessler/tableify]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{definedVersion}},{{author}}
+{{department}},{{relatedTo}},[[debug]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{definedVersion}},{{author}}
+{{department}},{{relatedTo}},[[eol]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{definedVersion}},{{author}}
+{{department}},{{relatedTo}},[[got]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{definedVersion}},{{author}}
+{{department}},{{relatedTo}},[[rc]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{definedVersion}},{{author}}
+{{department}},{{relatedTo}},[[semver]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{definedVersion}},{{author}}
+{{department}},{{relatedTo}},[[text-table]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{definedVersion}},{{author}}
+{{department}},{{relatedTo}},[[visit-values]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{definedVersion}},{{author}}
+{{department}},{{relatedTo}},[[mocha]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{definedVersion}},{{author}}
 `
 
 /*
@@ -188,15 +197,15 @@ const EXPECTED_CSV_TEMPLATE = `department,related to,name,license period,materia
 	{{key}} - value to be replaced with value from package information
 	[[package-name]] - name of the package
 */
-const EXPECTED_TABLE_TEMPLATE = `{{department}}  {{relatedTo}}  {{name}}  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{author}}
-{{department}}  {{relatedTo}}  {{name}}  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{author}}
-{{department}}  {{relatedTo}}  [[@kessler/tableify]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{author}}
-{{department}}  {{relatedTo}}  [[debug]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{author}}
-{{department}}  {{relatedTo}}  [[eol]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{author}}
-{{department}}  {{relatedTo}}  [[got]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{author}}
-{{department}}  {{relatedTo}}  [[rc]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{author}}
-{{department}}  {{relatedTo}}  [[semver]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{author}}
-{{department}}  {{relatedTo}}  [[text-table]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{author}}
-{{department}}  {{relatedTo}}  [[visit-values]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{author}}
-{{department}}  {{relatedTo}}  [[mocha]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{author}}
+const EXPECTED_TABLE_TEMPLATE = `{{department}}  {{relatedTo}}  {{name}}  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
+{{department}}  {{relatedTo}}  {{name}}  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
+{{department}}  {{relatedTo}}  [[@kessler/tableify]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
+{{department}}  {{relatedTo}}  [[debug]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
+{{department}}  {{relatedTo}}  [[eol]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
+{{department}}  {{relatedTo}}  [[got]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
+{{department}}  {{relatedTo}}  [[rc]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
+{{department}}  {{relatedTo}}  [[semver]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
+{{department}}  {{relatedTo}}  [[text-table]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
+{{department}}  {{relatedTo}}  [[visit-values]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
+{{department}}  {{relatedTo}}  [[mocha]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
 `

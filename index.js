@@ -5,6 +5,7 @@ const path = require('path')
 const debug = require('debug')('license-report')
 const config = require('./lib/config.js')
 const getFormatter = require('./lib/getFormatter')
+const getInstalledVersions = require('./lib/getInstalledVersions')
 const addPackagesToIndex = require('./lib/addPackagesToIndex')
 const getPackageReportData = require('./lib/getPackageReportData.js')
 const packageDataToReportData = require('./lib/packageDataToReportData')
@@ -54,11 +55,23 @@ const util = require('./lib/util');
 			addPackagesToIndex(devDeps, depsIndex, exclusions)
 		}
 
+		// package-lock.json is used to get the installed versions from
+		let installedVersions = {}
+		const resolvedPackageLockJson = path.resolve(path.dirname(resolvedPackageJson), 'package-lock.json')
+		debug('loading %s', resolvedPackageLockJson)
+		if (fs.existsSync(resolvedPackageLockJson)) {
+			const packageLockContent = await util.readJson(resolvedPackageLockJson)
+			installedVersions = getInstalledVersions(packageLockContent, depsIndex)
+		} else {
+			console.warn(`Warning: the file '${resolvedPackageLockJson}' is required to get installed versions of packages`)
+		}
+
 		const results = await Promise.all(
 			depsIndex.map(async (packageEntry) => {
-				return await getPackageReportData(packageEntry)
+				return await getPackageReportData(packageEntry, installedVersions)
 			})
 		)
+
 		packagesData = results.map(element => packageDataToReportData(element, config))
 		console.log(outputFormatter(packagesData, config))
 	} catch (e) {
