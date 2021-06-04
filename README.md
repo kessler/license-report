@@ -1,12 +1,14 @@
 # license report tool
-generate license report of a project's dependencies
+generate a license report of the projects dependencies
 
-### install 
+## Installation
 ```
 npm install -g license-report
 ```
+## Functionality
+`license-report` reads data from a `package.json` file and adds detailed version information about the installed versions from the corresponding `package-lock.json` file and about the latest available version from the (npm) registry.
 
-### usage
+## Usage
 
 #### simple:
 ```
@@ -39,12 +41,12 @@ Only applicable for the fields in the list later in this document (look for "Fie
 license-report --department.value=ninjaSquad
 ```
 
-#### another registry:
+#### use another registry:
 ```
 license-report --registry=https://myregistry.com/
 ```
 
-#### different outputs:
+#### generate different outputs:
 ```
 license-report --output=table
 license-report --output=json
@@ -87,25 +89,26 @@ license-report --output=csv --config license-report-config.json
 }
 ```
 
-#### exclude:
+#### exclude packages:
 ```
 license-report --exclude=async --exclude=rc
 ```
 
-### screenshots
+## Screenshots
 
 ![screenshot](screenshot.png)
 ![screenshot1](html.png)
 
-### available fields
+## Available fields
 Fields with data of the installed packages:
 | fieldname | column title | data source |
 |---|---|---|
 | name | name | name of the package |
 | licenseType | license type | type of the license of the package (e.g. MIT) |
 | link | link | link to the repository of the package |
-| remoteVersion | remoteVersion | latest available version of the package (can be different from the installed version) |
-| installedVersion | installedVersion | installed version of the package (can be different from the remote version) |
+| remoteVersion | remote version | latest available version of the package (can be different from the installed version) |
+| installedVersion | installed version | installed version of the package (can be different from the remote version) |
+| definedVersion | defined version | version of the package as defined in the (dev-) dependencies entry (can start with a semver range character) |
 | comment | comment | deprecated (replaced by field 'remoteVersion'); will be removed in a future version |
 | author | author | author of the package |
 
@@ -117,13 +120,16 @@ Fields with data set in the configuration of license-report:
 | licensePeriod | license period | --licensePeriod.value=perpetual |
 | material | material / not material | --material.value=material |
 
-### debug
+## More configuration options
+See lib/config.js for more details e.g. on customizing the generated html data.
+
+Use [rc](https://github.com/dominictarr/rc) for further customization.
+
+## Debug report generation
+
+By setting the debug environment variable as follows, detailed log information is generated during the report generation. For details see the documentation of the debug package on npm.
 ```
 export DEBUG=license-report*
 ```
-
-see lib/config.js for more details
-
-use [rc](https://github.com/dominictarr/rc) for further customization
 
 ![ironSource logo](ironsource.png)
