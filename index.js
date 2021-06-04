@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+const fs = require('fs')
 const path = require('path')
 const debug = require('debug')('license-report')
 const config = require('./lib/config.js')
@@ -25,28 +26,34 @@ const util = require('./lib/util');
 
 	const outputFormatter = getFormatter(config.output)
 
-	const resolvedPackageJson = path.resolve(process.cwd(), config.package)
-	debug('requiring %s', resolvedPackageJson)
-	const packageJson = require(resolvedPackageJson)
-
-	const deps = packageJson.dependencies
-	const devDeps = packageJson.devDependencies
-
-	const exclusions = Array.isArray(config.exclude) ? config.exclude : [config.exclude]
-	/*
-		an index of all the dependencies
-	*/
-	let depsIndex = []
-
-	if (!config.only || config.only.indexOf('prod') > -1) {
-		addPackagesToIndex(deps, depsIndex, exclusions)
-	}
-
-	if (!config.only || config.only.indexOf('dev') > -1) {
-		addPackagesToIndex(devDeps, depsIndex, exclusions)
-	}
-
 	try {
+		const resolvedPackageJson = path.resolve(process.cwd(), config.package)
+
+		debug('loading %s', resolvedPackageJson)
+		let packageJson
+		if (fs.existsSync(resolvedPackageJson)) {
+			packageJson = await util.readJson(resolvedPackageJson)
+		} else {
+			throw new Error(`Warning: the file '${resolvedPackageJson}' is required to get installed versions of packages`)
+		}
+
+		const deps = packageJson.dependencies
+		const devDeps = packageJson.devDependencies
+
+		const exclusions = Array.isArray(config.exclude) ? config.exclude : [config.exclude]
+		/*
+			an index of all the dependencies
+		*/
+		let depsIndex = []
+
+		if (!config.only || config.only.indexOf('prod') > -1) {
+			addPackagesToIndex(deps, depsIndex, exclusions)
+		}
+
+		if (!config.only || config.only.indexOf('dev') > -1) {
+			addPackagesToIndex(devDeps, depsIndex, exclusions)
+		}
+
 		const results = await Promise.all(
 			depsIndex.map(async (packageEntry) => {
 				return await getPackageReportData(packageEntry)
