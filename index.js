@@ -38,7 +38,6 @@ const util = require('./lib/util');
       throw new Error(`Warning: the file '${resolvedPackageJson}' is required to get installed versions of packages`)
     }
 
-    // fill deps with "dependencies"; dpendingon options, other dependencies will be added later
     const deps = packageJson.dependencies
     const peerDeps = packageJson.peerDependencies
     const optDeps = packageJson.optionalDependencies
@@ -46,7 +45,7 @@ const util = require('./lib/util');
 
     const exclusions = Array.isArray(config.exclude) ? config.exclude : [config.exclude]
 
-    //  an index of all the dependencies
+    // an index of all the dependencies
     let depsIndex = []
 
     if (!config.only || config.only.indexOf('prod') > -1) {
@@ -55,11 +54,15 @@ const util = require('./lib/util');
 
     if (!config.only || config.only.indexOf('dev') > -1) {
 			addPackagesToIndex(devDeps, depsIndex, exclusions)
+    }
 
+    if (!config.only || config.only.indexOf('peer') > -1) {
       if (peerDeps) {
         addPackagesToIndex(peerDeps, depsIndex, exclusions)
       }
+    }
 
+    if (!config.only || config.only.indexOf('opt') > -1) {
       if (optDeps) {
         addPackagesToIndex(optDeps, depsIndex, exclusions)
       }
