@@ -10,6 +10,10 @@ const scriptPath = path
 	.resolve(__dirname, '..', 'index.js')
 	.replace(/(\s+)/g, '\\$1')
 
+const packagePath = path
+	.resolve(__dirname, 'fixture', 'packageForE2eTest.json')
+	.replace(/(\s+)/g, '\\$1')
+
 const execAsPromise = util.promisify(cp.exec);
 
 let expectedData
@@ -53,6 +57,40 @@ describe('end to end test', function() {
 		assert.strictEqual(actualResult, expectedHtmlResult)
 	})
 })
+
+describe('end to end test for configuration', function () {
+	this.timeout(50000)
+
+	it('produce a json report without option "only"', async () => {
+		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${packagePath}`)
+		const result = JSON.parse(stdout)
+		const expectedLengthOfResult = 10
+		const expectedWarning = stderr.includes(`package-lock.json' is required to get installed versions of packages`)
+
+		assert.strictEqual(result.length, expectedLengthOfResult, `expected the list to contain ${expectedLengthOfResult} elements`)
+		assert.strictEqual(expectedWarning, true, 'expected a warning about a missing package-lock file')
+	});
+
+	it('produce a json report with option "only=prod"', async () => {
+		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${packagePath} --only=prod`)
+		const result = JSON.parse(stdout)
+		const expectedLengthOfResult = 4
+		const expectedWarning = stderr.includes(`package-lock.json' is required to get installed versions of packages`)
+
+		assert.strictEqual(result.length, expectedLengthOfResult, `expected the list to contain ${expectedLengthOfResult} elements`)
+		assert.strictEqual(expectedWarning, true, 'expected a warning about a missing package-lock file')
+	});
+
+	it('produce a json report with option "only=prod,opt,peer"', async () => {
+		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${packagePath} --only=prod,opt,peer`)
+		const result = JSON.parse(stdout)
+		const expectedLengthOfResult = 9
+		const expectedWarning = stderr.includes(`package-lock.json' is required to get installed versions of packages`)
+
+		assert.strictEqual(result.length, expectedLengthOfResult, `expected the list to contain ${expectedLengthOfResult} elements`)
+		assert.strictEqual(expectedWarning, true, 'expected a warning about a missing package-lock file')
+	});
+});
 
 // raw data we use to generate the expected results
 const EXPECTED_RAW_DATA = [

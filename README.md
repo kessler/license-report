@@ -15,14 +15,25 @@ npm install -g license-report
 cd your/project/
 license-report
 ```
-by default, `license-report` outputs all licenses from `dependencies` and `devDependencies`.
-To specify one or the other, use `--only`
+by default, `license-report` outputs all licenses from `dependencies`, `devDependencies`, `optionalDependencies` and `peerDependencies`.  
+To specify one or the other, use `--only`; e.g.
 ```
 license-report --only=dev
 ```
 ```
 license-report --only=prod
 ```
+```
+license-report --only=prod,opt,peer
+```
+The 'only' option is a comma separated list of the dependencies to use.  
+Possible values are:
+|value|segment of package.json|
+|---|---|
+|prod|dependencies|
+|dev|devDependencies|
+|opt|optionalDependencies|
+|peer|peerDependencies|
 
 #### explicit package.json:
 ```
