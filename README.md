@@ -57,7 +57,7 @@ license-report --department.value=ninjaSquad
 license-report --registry=https://myregistry.com/
 ```
 
-#### private registry:
+#### registry with authorization:
 To use a npm registry that requires authorization, the option `npmTokenEnvVar` must contain the name of an environment variable that contains the required npm authorization token (the default name is 'NPM_TOKEN'). An example:
 ```
 # if the name of the environment variable containing the bearer token for npm authorization is 'NPM_TOKEN'
