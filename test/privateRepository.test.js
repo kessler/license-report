@@ -4,6 +4,7 @@ const config = require('../lib/config')
 const getPackageJson = require('../lib/getPackageJson')
 
 describe('private repository access test', function() {
+	this.timeout(20000)
 
 	let originalConfigRegistry
 	let originalConfigNpmTokenEnvVar
@@ -33,7 +34,9 @@ describe('private repository access test', function() {
 		assert.strictEqual(npmTokenFromConfig, testToken)
 	})
 
-	it('get data from remote repository without authorization', function(done) {
+	it('get data from remote repository without authorization', async () => {
+		const packageName = 'async'
+
 		// Mock the config for accessing a npm private repository
 		const npmRegistryHost = 'my.private.registry.com'
 		const npmRegistry = `https://${npmRegistryHost}/`
@@ -43,25 +46,20 @@ describe('private repository access test', function() {
 
 		// Mock the npm private repository response
 		const scope = nock(npmRegistry, {"encodedQueryParams":true})
-	  .get('/async')
+	  .get(`/${packageName}`)
 	  .reply(200, responses.async);
 
-		const packageName = 'async'
-		getPackageJson(packageName, function(err, json) {
-			if (err) {
-				done(err)
-				return
-			}
+		const packageReportData = await getPackageJson(packageName)
 
-			assert.strictEqual(json.name, packageName)
-			assert.ok(json.versions.hasOwnProperty('3.2.0'))
-			assert.ok(json.versions['3.2.0'].hasOwnProperty('license'))
-			assert.ok(scope.isDone())
-			done()
-		})
+		assert.strictEqual(packageReportData.name, packageName)
+		assert.strictEqual(packageReportData.license, 'MIT')
+		assert.ok(packageReportData.versions.hasOwnProperty('3.2.0'))
+		assert.ok(packageReportData.versions['3.2.0'].hasOwnProperty('license'))
 	})
 
-	it('get data from remote repository with authorization', function(done) {
+	it('get data from remote repository with authorization', async () => {
+		const packageName = 'async'
+
 		// Mock the config for accessing a npm private repository
 		const npmRegistryHost = 'my.private.registry.com'
 		const npmRegistry = `https://${npmRegistryHost}/`
@@ -74,22 +72,14 @@ describe('private repository access test', function() {
 		const scope = nock(npmRegistry, {"encodedQueryParams":true})
 	  .matchHeader("host", npmRegistryHost)
 	  .matchHeader("authorization", `Bearer ${npmToken}`)
-	  .get('/async')
+	  .get(`/${packageName}`)
 	  .reply(200, responses.async);
 
-		const packageName = 'async'
-		getPackageJson(packageName, function(err, json) {
-			if (err) {
-				done(err)
-				return
-			}
+		const packageReportData = await getPackageJson('async')
 
-			assert.strictEqual(json.name, packageName)
-			assert.ok(json.versions.hasOwnProperty('3.2.0'))
-			assert.ok(json.versions['3.2.0'].hasOwnProperty('license'))
-			assert.ok(scope.isDone())
-			done()
-		})
+		assert.strictEqual(packageReportData.name, packageName)
+		assert.ok(packageReportData.versions.hasOwnProperty('3.2.0'))
+		assert.ok(packageReportData.versions['3.2.0'].hasOwnProperty('license'))
 	})
 })
 
