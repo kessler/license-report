@@ -80,6 +80,35 @@ describe('private repository access test', function() {
 		assert.strictEqual(packageReportData.name, packageName)
 		assert.ok(packageReportData.versions.hasOwnProperty('3.2.0'))
 		assert.ok(packageReportData.versions['3.2.0'].hasOwnProperty('license'))
+		assert.ok(scope.isDone())
+	})
+
+	it('get error from remote repository with incorrect authorization', async () => {
+		const packageName = 'async'
+
+		// Mock the config for accessing a npm private repository
+		const npmRegistryHost = 'my.private.registry.com'
+		const npmRegistry = `https://${npmRegistryHost}/`
+		const npmToken = 'pp6j6gzcge'
+		config.registry = npmRegistry
+		process.env['NPM_TOKEN'] = npmToken
+		config.httpRetryOptions.maxAttempts = 1
+
+		// Mock the npm private repository response
+		const scope = nock(npmRegistry, {"encodedQueryParams":true})
+	  .matchHeader("host", npmRegistryHost)
+	  .matchHeader("authorization", `Bearer ${npmToken}`)
+	  .get(`/${packageName}`)
+	  .reply(401, {});
+
+		try {
+			const packageReportData = await getPackageJson('async')
+		} catch (error) {
+			assert.strictEqual(error.name, 'HTTPError')
+			assert.strictEqual(error.message, 'Response code 401 (Unauthorized)')
+		} finally {
+			assert.ok(scope.isDone())
+		}
 	})
 })
 
