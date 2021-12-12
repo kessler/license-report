@@ -115,7 +115,7 @@ const EXPECTED_RAW_DATA = [
 		licensePeriod: 'perpetual',
 		material: 'material',
 		licenseType: 'MIT',
-		link: 'git://github.com/visionmedia/debug.git',
+		link: 'git://github.com/debug-js/debug.git',
 		remoteVersion: '_VERSION_',
 		installedVersion: '_VERSION_',
 		definedVersion: '_VERSION_'
