@@ -64,7 +64,7 @@ describe('end to end test for configuration', function () {
 	it('produce a json report without option "only"', async () => {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${packagePath}`)
 		const result = JSON.parse(stdout)
-		const expectedLengthOfResult = 10
+		const expectedLengthOfResult = 11
 		const expectedWarning = stderr.includes(`package-lock.json' is required to get installed versions of packages`)
 
 		assert.strictEqual(result.length, expectedLengthOfResult, `expected the list to contain ${expectedLengthOfResult} elements`)
@@ -74,7 +74,7 @@ describe('end to end test for configuration', function () {
 	it('produce a json report with option "only=prod"', async () => {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${packagePath} --only=prod`)
 		const result = JSON.parse(stdout)
-		const expectedLengthOfResult = 4
+		const expectedLengthOfResult = 5
 		const expectedWarning = stderr.includes(`package-lock.json' is required to get installed versions of packages`)
 
 		assert.strictEqual(result.length, expectedLengthOfResult, `expected the list to contain ${expectedLengthOfResult} elements`)
@@ -84,7 +84,7 @@ describe('end to end test for configuration', function () {
 	it('produce a json report with option "only=prod,opt,peer"', async () => {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${packagePath} --only=prod,opt,peer`)
 		const result = JSON.parse(stdout)
-		const expectedLengthOfResult = 9
+		const expectedLengthOfResult = 10
 		const expectedWarning = stderr.includes(`package-lock.json' is required to get installed versions of packages`)
 
 		assert.strictEqual(result.length, expectedLengthOfResult, `expected the list to contain ${expectedLengthOfResult} elements`)

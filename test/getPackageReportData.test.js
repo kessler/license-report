@@ -9,14 +9,48 @@ const getPackageReportData = require('../lib/getPackageReportData.js')
 describe('getPackageReportData', function() {
 	this.timeout(20000)
 
-	it('gets the package report data', async () => {
+	it('gets the package report data for package with author name only', async () => {
 		const installedVersions = { async: '3.2.0' }
 		const packageEntry = { name: 'async', fullName: 'async', version: '>0.0.1' }
 		const packageReportData = await getPackageReportData(packageEntry, installedVersions)
 
 		assert.strictEqual(packageReportData.name, 'async')
 		assert.strictEqual(packageReportData.licenseType, 'MIT')
+		assert.strictEqual(packageReportData.author, 'Caolan McMahon')
 		assert.strictEqual(packageReportData.link, 'git+https://github.com/caolan/async.git')
+	})
+
+	it('gets the package report data for package with author email only', async () => {
+		const installedVersions = { 'react-hook-form': '7.27.0' }
+		const packageEntry = { name: 'react-hook-form', fullName: 'react-hook-form', version: '^7.27.0' }
+		const packageReportData = await getPackageReportData(packageEntry, installedVersions)
+
+		assert.strictEqual(packageReportData.name, 'react-hook-form')
+		assert.strictEqual(packageReportData.licenseType, 'MIT')
+		assert.strictEqual(packageReportData.author, 'bluebill1049@hotmail.com')
+		assert.strictEqual(packageReportData.link, 'git+https://github.com/react-hook-form/react-hook-form.git')
+	})
+
+	it('gets the package report data for package with author name, email and url', async () => {
+		const installedVersions = { 'text-table': '0.2.0' }
+		const packageEntry = { name: 'text-table', fullName: 'text-table', version: '0.2.0' }
+		const packageReportData = await getPackageReportData(packageEntry, installedVersions)
+
+		assert.strictEqual(packageReportData.name, 'text-table')
+		assert.strictEqual(packageReportData.licenseType, 'MIT')
+		assert.strictEqual(packageReportData.author, 'James Halliday mail@substack.net http://substack.net')
+		assert.strictEqual(packageReportData.link, 'git://github.com/substack/text-table.git')
+	})
+
+	it('gets the package report data for package without author field', async () => {
+		const installedVersions = { 'got': '11.8.2' }
+		const packageEntry = { name: 'got', fullName: 'got', version: '^11.8.1' }
+		const packageReportData = await getPackageReportData(packageEntry, installedVersions)
+
+		assert.strictEqual(packageReportData.name, 'got')
+		assert.strictEqual(packageReportData.licenseType, 'MIT')
+		assert.strictEqual(packageReportData.author, '')
+		assert.strictEqual(packageReportData.link, 'git+https://github.com/sindresorhus/got.git')
 	})
 
 	it('gets the scoped package report data', async () => {
