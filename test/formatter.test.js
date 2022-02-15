@@ -114,8 +114,9 @@ const testData = [
     material: 'material',
     licenseType: 'MIT',
     link: 'git+https://github.com/caolan/async.git',
-    comment: '3.2.0',
     installedVersion: '3.2.0',
+    remoteVersion: '3.2.0',
+    definedVersion: '^3.2.0',
     author: 'Caolan McMahon'
   },
   {
@@ -126,8 +127,9 @@ const testData = [
     material: 'material',
     licenseType: 'MIT',
     link: 'git://github.com/visionmedia/debug.git',
-    comment: '4.3.0',
     installedVersion: '4.1.1',
+    remoteVersion: '4.1.1',
+    definedVersion: '^4.1.1',
     author: 'TJ Holowaychuk'
   }
 ]
@@ -141,8 +143,9 @@ const testDataWithCsvDelimiter = [
     material: 'material',
     licenseType: 'MIT',
     link: 'git+https://github.com/kessler/node-tableify.git',
-    comment: '1.0.2',
     installedVersion: '1.0.2',
+    remoteVersion: '1.0.2',
+    definedVersion: '^1.0.2',
     author: 'Dan VerWeire, Yaniv Kessler'
   },
   {
@@ -153,8 +156,9 @@ const testDataWithCsvDelimiter = [
     material: 'material',
     licenseType: 'MIT',
     link: 'git+https://github.com/caolan/async.git',
-    comment: '3.2.0',
     installedVersion: '3.2.0',
+    remoteVersion: '3.2.0',
+    definedVersion: '^3.2.0',
     author: 'Caolan McMahon'
   },
   {
@@ -165,27 +169,28 @@ const testDataWithCsvDelimiter = [
     material: 'material',
     licenseType: 'MIT',
     link: 'git://github.com/visionmedia/debug.git',
-    comment: '4.3.0',
     installedVersion: '4.1.1',
+    remoteVersion: '4.1.1',
+    definedVersion: '^4.1.1',
     author: 'TJ Holowaychuk'
   }
 ]
 
-const EXPECTED_JSON_RESULT = '[{"department":"kessler","relatedTo":"stuff","name":"async","licensePeriod":"perpetual","material":"material","licenseType":"MIT","link":"git+https://github.com/caolan/async.git","comment":"3.2.0","installedVersion":"3.2.0","author":"Caolan McMahon"},{"department":"kessler","relatedTo":"stuff","name":"debug","licensePeriod":"perpetual","material":"material","licenseType":"MIT","link":"git://github.com/visionmedia/debug.git","comment":"4.3.0","installedVersion":"4.1.1","author":"TJ Holowaychuk"}]'
+const EXPECTED_JSON_RESULT = '[{"department":"kessler","relatedTo":"stuff","name":"async","licensePeriod":"perpetual","material":"material","licenseType":"MIT","link":"git+https://github.com/caolan/async.git","installedVersion":"3.2.0","remoteVersion":"3.2.0","definedVersion":"^3.2.0","author":"Caolan McMahon"},{"department":"kessler","relatedTo":"stuff","name":"debug","licensePeriod":"perpetual","material":"material","licenseType":"MIT","link":"git://github.com/visionmedia/debug.git","installedVersion":"4.1.1","remoteVersion":"4.1.1","definedVersion":"^4.1.1","author":"TJ Holowaychuk"}]'
 
-const EXPECTED_TABLE_RESULT_EMPTY_DATA = `department  related to  name  license period  material / not material  license type  link  remote version  installed version  author
-----------  ----------  ----  --------------  -----------------------  ------------  ----  --------------  -----------------  ------`
+const EXPECTED_TABLE_RESULT_EMPTY_DATA = `department  related to  name  license period  material / not material  license type  link  remote version  installed version  defined version  author
+----------  ----------  ----  --------------  -----------------------  ------------  ----  --------------  -----------------  ---------------  ------`
 
-const EXPECTED_TABLE_RESULT = `department  related to  name   license period  material / not material  license type  link                                     remote version  installed version  author
-----------  ----------  ----   --------------  -----------------------  ------------  ----                                     --------------  -----------------  ------
-kessler     stuff       async  perpetual       material                 MIT           git+https://github.com/caolan/async.git  3.2.0           3.2.0              Caolan McMahon
-kessler     stuff       debug  perpetual       material                 MIT           git://github.com/visionmedia/debug.git   4.3.0           4.1.1              TJ Holowaychuk`
+const EXPECTED_TABLE_RESULT = `department  related to  name   license period  material / not material  license type  link                                     remote version  installed version  defined version  author
+----------  ----------  ----   --------------  -----------------------  ------------  ----                                     --------------  -----------------  ---------------  ------
+kessler     stuff       async  perpetual       material                 MIT           git+https://github.com/caolan/async.git  3.2.0           3.2.0              ^3.2.0           Caolan McMahon
+kessler     stuff       debug  perpetual       material                 MIT           git://github.com/visionmedia/debug.git   4.1.1           4.1.1              ^4.1.1           TJ Holowaychuk`
 
-const EXPECTED_CSV_HEADER = 'department,related to,name,license period,material / not material,license type,link,remote version,installed version,author'
+const EXPECTED_CSV_HEADER = 'department,related to,name,license period,material / not material,license type,link,remote version,installed version,defined version,author'
 
-const EXPECTED_CSV_RESULT = `kessler,stuff,async,perpetual,material,MIT,git+https://github.com/caolan/async.git,3.2.0,3.2.0,Caolan McMahon
-kessler,stuff,debug,perpetual,material,MIT,git://github.com/visionmedia/debug.git,4.3.0,4.1.1,TJ Holowaychuk`
+const EXPECTED_CSV_RESULT = `kessler,stuff,async,perpetual,material,MIT,git+https://github.com/caolan/async.git,3.2.0,3.2.0,^3.2.0,Caolan McMahon
+kessler,stuff,debug,perpetual,material,MIT,git://github.com/visionmedia/debug.git,4.1.1,4.1.1,^4.1.1,TJ Holowaychuk`
 
-const EXPECTED_CSV_RESULT_WITH_DELIMITER = `kessler,stuff,@kessler/tableify,perpetual,material,MIT,git+https://github.com/kessler/node-tableify.git,1.0.2,1.0.2,Dan VerWeire, Yaniv Kessler
-kessler,stuff,async,perpetual,material,MIT,git+https://github.com/caolan/async.git,3.2.0,3.2.0,Caolan McMahon
-kessler,stuff,debug,perpetual,material,MIT,git://github.com/visionmedia/debug.git,4.3.0,4.1.1,TJ Holowaychuk`
+const EXPECTED_CSV_RESULT_WITH_DELIMITER = `kessler,stuff,@kessler/tableify,perpetual,material,MIT,git+https://github.com/kessler/node-tableify.git,1.0.2,1.0.2,^1.0.2,Dan VerWeire, Yaniv Kessler
+kessler,stuff,async,perpetual,material,MIT,git+https://github.com/caolan/async.git,3.2.0,3.2.0,^3.2.0,Caolan McMahon
+kessler,stuff,debug,perpetual,material,MIT,git://github.com/visionmedia/debug.git,4.1.1,4.1.1,^4.1.1,TJ Holowaychuk`

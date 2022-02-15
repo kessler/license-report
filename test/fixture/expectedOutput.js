@@ -1,8 +1,8 @@
-const _ = require('lodash')
-const async = require('async')
-const request = require('request')
+const got = require('got')
 const semver = require('semver')
+const debug = require('debug')('license-report:addRemoteVersion')
 const packageJson = require('../../package.json')
+const packageLockJson = require('../../package-lock.json')
 const config = require('../../lib/config.js')
 
 /*
@@ -12,49 +12,53 @@ const config = require('../../lib/config.js')
 	latest version satisfying the defined range (the range character will be
 	removed later)
 */
-function addRemoteVersion(dependency, callback) {
+async function addRemoteVersion(dependency) {
 	dependency.remoteVersion = 'n/a'
 	let uri = config.registry + dependency.name
-	request(uri, function(err, response, body) {
-		if (!err && !((response.statusCode > 399) && (response.statusCode < 599))) {
-			try {
-				const json = JSON.parse(body)
-				// find the right version for this package
-				const versions = _.keys(json.versions)
-				const version = semver.maxSatisfying(versions, dependency.installedVersion)
-				if (version) {
-					dependency.remoteVersion = version.toString()
-				}
-			} catch (e) {
-				console.log(e)
-			}
-		}
 
-		return callback()
-	})
+	debug('addRemoteVersion - REQUEST %s', uri)
+
+	const options = {
+		retry: config.httpRetryOptions.maxAttempts,
+		hooks: {
+			beforeRetry: [
+				(options, error, retryCount) => {
+					debug(`http request to npm for package "${dependency.name}" failed, retrying again soon...`)
+				}
+			],
+			beforeError: [
+				error => {
+					debug(error)
+					return error
+				}
+			]
+		}
+	}
+	const packagesJson = await got(uri, options).json()
+
+	// find the right version for this package
+	const versions = Object.keys(packagesJson.versions)
+	const version = semver.maxSatisfying(versions, dependency.definedVersion)
+	if (version) {
+		dependency.remoteVersion = version.toString()
+	}
 }
 
 /*
-	add current values for installedVersion and remoteVersion to list of expectedData
+	add current values for definedVersion, installedVersion and remoteVersion to list of expectedData
 */
-module.exports.addVersionToExpectedData = (expectedData, done)  => {
+module.exports.addVersionToExpectedData = async (expectedData)  => {
 	// add version from package.json (dev-) dependencies as installedVersion
 	const packagesList = Object.assign(Object.assign({}, packageJson.dependencies), packageJson.devDependencies)
 	const packagesData = expectedData.map(packageData => {
-		packageData.installedVersion = packagesList[packageData.name]
+		packageData.definedVersion = packagesList[packageData.name]
+		packageData.installedVersion = packageLockJson.dependencies[[packageData.name]].version
 		return packageData
 	})
 
-	async.each(packagesData, addRemoteVersion, function() {
-		// remove range character from installedVersion
-		packagesData.forEach(packageData => {
-			if (packageData.installedVersion.match(/^[\^~].*/)) {
-				packageData.installedVersion = packageData.installedVersion.substring(1);
-			}
-		});
-
-		done()
-	});
+	await Promise.all(packagesData.map(async (packageData) => {
+		await addRemoteVersion(packageData)
+	}))
 }
 
 /*
@@ -68,7 +72,7 @@ module.exports.rawDataToJson = (rawData) => {
 	create expected value for csv output
 */
 module.exports.rawDataToCsv = (expectedData, csvTemplate) => {
-	const fieldNames = ['author', 'department', 'relatedTo', 'licensePeriod', 'material', 'licenseType', 'link', 'remoteVersion', 'installedVersion']
+	const fieldNames = ['author', 'department', 'relatedTo', 'licensePeriod', 'material', 'licenseType', 'link', 'remoteVersion', 'installedVersion', 'definedVersion']
 	const packageNamePattern = /\[\[(.+)]]/
 	const templateLines = csvTemplate.split('\n')
 	const resultLines = templateLines.map( line => {
@@ -106,7 +110,8 @@ module.exports.rawDataToTable = (expectedData, tableTemplate) => {
 		licenseType: {title: 'license type', maxColumnWidth: 0},
 		link: {title: 'link', maxColumnWidth: 0},
 		remoteVersion: {title: 'remote version', maxColumnWidth: 0},
-		installedVersion: {title: 'installed version', maxColumnWidth: 0}
+		installedVersion: {title: 'installed version', maxColumnWidth: 0},
+		definedVersion: {title: 'defined version', maxColumnWidth: 0}
 	}
 	// get width of header columns
 	for (const key in columnDefinitions) {
@@ -161,7 +166,7 @@ module.exports.rawDataToTable = (expectedData, tableTemplate) => {
 	create expected value for html output
 */
 module.exports.rawDataToHtml = (expectedData, htmlTemplate) => {
-	const fieldNames = ['author', 'department', 'relatedTo', 'licensePeriod', 'material', 'licenseType', 'link', 'remoteVersion', 'installedVersion']
+	const fieldNames = ['author', 'department', 'relatedTo', 'licensePeriod', 'material', 'licenseType', 'link', 'remoteVersion', 'installedVersion', 'definedVersion']
 	const packageNamePattern = /\[\[(.+)]]/
 
 	let startOfRow = htmlTemplate.indexOf('</thead><tbody>') + '</thead><tbody>'.length

@@ -1,70 +1,122 @@
-var assert = require('assert')
-var getPackageReportData = require('../lib/getPackageReportData.js')
+const assert = require('assert')
+const getPackageReportData = require('../lib/getPackageReportData.js')
 
+/**
+ * No asserts on (valid) remote versions (and field comment) in the tests,
+ * as the value changes over time and we would have to update the tests,
+ * when new versions of a package get available
+ */
 describe('getPackageReportData', function() {
 	this.timeout(20000)
 
-	it('gets the package report data', function(done) {
+	it('gets the package report data', async () => {
+		const installedVersions = { async: '3.2.0' }
+		const packageEntry = { name: 'async', fullName: 'async', version: '>0.0.1' }
+		const packageReportData = await getPackageReportData(packageEntry, installedVersions)
 
-		getPackageReportData({ name: 'async', fullName: 'async', version: '>0.0.1' }, function(err, data) {
-			if (err) return done(err)
-
-			assert.strictEqual(data.name, 'async')
-			assert.strictEqual(data.licenseType, 'MIT')
-			assert.strictEqual(data.link, 'git+https://github.com/caolan/async.git')
-
-			done()
-		})
+		assert.strictEqual(packageReportData.name, 'async')
+		assert.strictEqual(packageReportData.licenseType, 'MIT')
+		assert.strictEqual(packageReportData.link, 'git+https://github.com/caolan/async.git')
 	})
 
-	it('returns an error entry when semver is invalid', function(done) {
-		getPackageReportData({ name: 'async', fullName: 'async', version: 'a.b.c' }, function(err, data) {
-			if (err) return done(err)
+	it('gets the scoped package report data', async () => {
+		const installedVersions = { '@kessler/tableify': '1.0.2' }
+		const packageEntry = { fullName: '@kessler/tableify', name: 'tableify', version: '^1.0.1', scope: 'kessler', alias: '@kessler/tableify_1.0.1' }
+		const packageReportData = await getPackageReportData(packageEntry, installedVersions)
 
-			assert.strictEqual(data.name, 'async')
-			assert.strictEqual(data.remoteVersion, 'skipping async@a.b.c (invalid semversion)')
-			done()
-		})
+		assert.strictEqual(packageReportData.name, '@kessler/tableify')
+		assert.strictEqual(packageReportData.author, 'Dan VerWeire, Yaniv Kessler')
+		assert.strictEqual(packageReportData.licenseType, 'MIT')
+		assert.strictEqual(packageReportData.link, 'git+https://github.com/kessler/node-tableify.git')
+		assert.strictEqual(packageReportData.definedVersion, '^1.0.1', 'definedVersion')
+		assert.strictEqual(packageReportData.installedVersion, '1.0.2', 'installedVersion')
 	})
 
-	it('returns an error when no versions satisfy the condition', function(done) {
-		getPackageReportData({ name: 'async', fullName: 'async', version: '0.0.1' }, function(err, data) {
-			assert(err.message.indexOf('cannot find a version that satisfies range') === 0)
-			done()
-		})
+	it('returns version as message when semver is invalid', async () => {
+		const installedVersions = { async: '3.2.0' }
+		const packageEntry = { name: 'async', fullName: 'async', version: 'a.b.c' }
+		const packageReportData = await getPackageReportData(packageEntry, installedVersions)
+
+		assert.strictEqual(packageReportData.name, 'async')
+		assert.strictEqual(packageReportData.remoteVersion, "no matching version found in registry for package 'async@a.b.c'")
 	})
 
-	it('return only author name', function(done) {
-		getPackageReportData({ name: 'google-auth-library', fullName: 'google-auth-library', version: '7.0.2' }, function(err, data) {
-			if (err) return done(err)
-			assert.strictEqual(data.author, 'Google Inc.')
-			done()
-		})
-	})
-	it('return only author email', function(done) {
-		getPackageReportData({ name: 'react-hook-form', fullName: 'react-hook-form', version: '6.15.1' }, function(err, data) {
-			if (err) return done(err)
+	it('returns version as message when no version satisfies condition', async () => {
+		const installedVersions = { async: '3.2.0' }
+		const packageEntry = { name: 'async', fullName: 'async', version: '0.0.1' }
+		const packageReportData = await getPackageReportData(packageEntry, installedVersions)
 
-			assert.strictEqual(data.author, 'bluebill1049@hotmail.com')
-			done()
-		})
-	})
+		assert.strictEqual(packageReportData.remoteVersion, "no matching version found in registry for package 'async@0.0.1'")
+})
 
-	it('return author name with url', function(done) {
-		getPackageReportData({ name: 'knex', fullName: 'knex', version: '0.21.17' }, function(err, data) {
-			if (err) return done(err)
+	it('returns only author name', async () => {
+		const installedVersions = { 'google-auth-library': '7.0.2' }
+		const packageEntry = { name: 'google-auth-library', fullName: 'google-auth-library', version: '7.0.2' }
+		const packageReportData = await getPackageReportData(packageEntry, installedVersions)
 
-			assert.strictEqual(data.author, 'Tim Griesser https://github.com/tgriesser')
-			done()
-		})
+		assert.strictEqual(packageReportData.author, 'Google Inc.')
 	})
 
-	it('return author name with email', function(done) {
-		getPackageReportData({ name: 'typeorm', fullName: 'typeorm', version: '0.2.31' }, function(err, data) {
-			if (err) return done(err)
+	it('returns only author email', async () => {
+		const installedVersions = { 'react-hook-form': '6.15.1' }
+		const packageEntry = { name: 'react-hook-form', fullName: 'react-hook-form', version: '6.15.1' }
+		const packageReportData = await getPackageReportData(packageEntry, installedVersions)
 
-			assert.strictEqual(data.author, 'Umed Khudoiberdiev pleerock.me@gmail.com')
-			done()
-		})
+		assert.strictEqual(packageReportData.author, 'bluebill1049@hotmail.com')
 	})
+
+	it('returns author name with url', async () => {
+		const installedVersions = { knex: '0.21.17' }
+		const packageEntry = { name: 'knex', fullName: 'knex', version: '0.21.17' }
+		const packageReportData = await getPackageReportData(packageEntry, installedVersions)
+
+		assert.strictEqual(packageReportData.author, 'Tim Griesser https://github.com/tgriesser')
+	})
+
+	it('returns author name with email',async () => {
+		const installedVersions = { typeorm: '0.2.31' }
+		const packageEntry = { name: 'typeorm', fullName: 'typeorm', version: '0.2.31' }
+		const packageReportData = await getPackageReportData(packageEntry, installedVersions)
+
+		assert.strictEqual(packageReportData.author, 'Umed Khudoiberdiev pleerock.me@gmail.com')
+	})
+
+	it('gets report data for package with prebuild version', async () => {
+		const installedVersions = { ol: '6.5.1-dev.1622493276948' }
+		const packageEntry = { name: 'ol', fullName: 'ol', version: 'dev' }
+		const packageReportData = await getPackageReportData(packageEntry, installedVersions)
+
+		assert.strictEqual(packageReportData.name, 'ol')
+		assert.strictEqual(packageReportData.author, '')
+		assert.strictEqual(packageReportData.licenseType, 'BSD-2-Clause')
+		assert.strictEqual(packageReportData.link, 'git://github.com/openlayers/openlayers.git')
+		assert.strictEqual(packageReportData.definedVersion, 'dev', 'definedVersion')
+		assert.strictEqual(packageReportData.installedVersion, '6.5.1-dev.1622493276948', 'installedVersion')
+	})
+
+	it('gets report data for package with nightly version', async () => {
+		const installedVersions = { '@parcel/optimizer-cssnano': '2.0.0-nightly.662' }
+		const packageEntry = { name: 'optimizer-cssnano', fullName: '@parcel/optimizer-cssnano', scope: 'parcel', version: 'nightly' }
+		const packageReportData = await getPackageReportData(packageEntry, installedVersions)
+
+		assert.strictEqual(packageReportData.name, '@parcel/optimizer-cssnano')
+		assert.strictEqual(packageReportData.author, '')
+		assert.strictEqual(packageReportData.licenseType, 'MIT')
+		assert.strictEqual(packageReportData.link, 'git+https://github.com/parcel-bundler/parcel.git')
+		assert.strictEqual(packageReportData.definedVersion, 'nightly', 'definedVersion')
+		assert.strictEqual(packageReportData.installedVersion, '2.0.0-nightly.662', 'installedVersion')
+	})
+
+	it('gets report data for package with alias name', async () => {
+		const installedVersions = { 'mocha_8.3.1': 'npm:mocha@8.4.0' }
+		const packageEntry = { name: 'mocha', fullName: 'mocha', version: '^8.3.1', alias: 'mocha_8.3.1' }
+		const packageReportData = await getPackageReportData(packageEntry, installedVersions)
+
+		assert.strictEqual(packageReportData.name, 'mocha')
+		assert.strictEqual(packageReportData.author, 'TJ Holowaychuk tj@vision-media.ca')
+		assert.strictEqual(packageReportData.licenseType, 'MIT')
+		assert.strictEqual(packageReportData.link, 'git+https://github.com/mochajs/mocha.git')
+		assert.strictEqual(packageReportData.definedVersion, '^8.3.1', 'definedVersion')
+		assert.strictEqual(packageReportData.installedVersion, '8.3.1', 'installedVersion')
+	});
 })

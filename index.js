@@ -1,59 +1,94 @@
 #!/usr/bin/env node
 
+const fs = require('fs')
 const path = require('path')
-const async = require('async')
 const debug = require('debug')('license-report')
 const config = require('./lib/config.js')
 const getFormatter = require('./lib/getFormatter')
+const getInstalledVersions = require('./lib/getInstalledVersions')
 const addPackagesToIndex = require('./lib/addPackagesToIndex')
 const getPackageReportData = require('./lib/getPackageReportData.js')
 const packageDataToReportData = require('./lib/packageDataToReportData')
-const utils = require('./lib/util')
+const util = require('./lib/util');
 
-if (config.help) {
-	console.log(utils.helpText)
-	return
-}
+(async () => {
+  if (config.help) {
+    console.log(util.helpText)
+    return
+  }
 
-if (!config.package) {
-	config.package = './package.json'
-}
+  if (!config.package) {
+    config.package = './package.json'
+  }
 
-if (path.extname(config.package) !== '.json') {
-	throw new Error('invalid package.json ' + config.package)
-}
+  if (path.extname(config.package) !== '.json') {
+    throw new Error('invalid package.json ' + config.package)
+  }
 
-const outputFormatter = getFormatter(config.output)
+  const outputFormatter = getFormatter(config.output)
 
-const resolvedPackageJson = path.resolve(process.cwd(), config.package)
-debug('requiring %s', resolvedPackageJson)
-const packageJson = require(resolvedPackageJson)
+  try {
+    const resolvedPackageJson = path.resolve(process.cwd(), config.package)
 
-const deps = packageJson.dependencies
-const devDeps = packageJson.devDependencies
+    debug('loading %s', resolvedPackageJson)
+    let packageJson
+    if (fs.existsSync(resolvedPackageJson)) {
+      packageJson = await util.readJson(resolvedPackageJson)
+    } else {
+      throw new Error(`Warning: the file '${resolvedPackageJson}' is required to get installed versions of packages`)
+    }
 
-const exclusions = Array.isArray(config.exclude) ? config.exclude : [config.exclude]
-/*
-	an index of all the dependencies
-*/
-let depsIndex = []
+    const deps = packageJson.dependencies
+    const peerDeps = packageJson.peerDependencies
+    const optDeps = packageJson.optionalDependencies
+    const devDeps = packageJson.devDependencies
 
-if (!config.only || config.only.indexOf('prod') > -1) {
-	addPackagesToIndex(deps, depsIndex, exclusions)
-}
+    const exclusions = Array.isArray(config.exclude) ? config.exclude : [config.exclude]
 
-if (!config.only || config.only.indexOf('dev') > -1) {
-	addPackagesToIndex(devDeps, depsIndex, exclusions)
-}
+    // an index of all the dependencies
+    let depsIndex = []
 
-async.map(depsIndex, getPackageReportData, function(err, results) {
-	if (err) return console.error(err)
+    if (!config.only || config.only.indexOf('prod') > -1) {
+      addPackagesToIndex(deps, depsIndex, exclusions)
+    }
 
-	try {
-		packagesData = results.map(element => packageDataToReportData(element, config))
-		console.log(outputFormatter(packagesData, config))
-	} catch (e) {
-		console.error(e.stack)
-		process.exit(1)
-	}
-})
+    if (!config.only || config.only.indexOf('dev') > -1) {
+			addPackagesToIndex(devDeps, depsIndex, exclusions)
+    }
+
+    if (!config.only || config.only.indexOf('peer') > -1) {
+      if (peerDeps) {
+        addPackagesToIndex(peerDeps, depsIndex, exclusions)
+      }
+    }
+
+    if (!config.only || config.only.indexOf('opt') > -1) {
+      if (optDeps) {
+        addPackagesToIndex(optDeps, depsIndex, exclusions)
+      }
+    }
+
+    // package-lock.json is used to get the installed versions from
+    let installedVersions = {}
+    const resolvedPackageLockJson = path.resolve(path.dirname(resolvedPackageJson), 'package-lock.json')
+    debug('loading %s', resolvedPackageLockJson)
+    if (fs.existsSync(resolvedPackageLockJson)) {
+      const packageLockContent = await util.readJson(resolvedPackageLockJson)
+      installedVersions = getInstalledVersions(packageLockContent, depsIndex)
+    } else {
+      console.warn(`Warning: the file '${resolvedPackageLockJson}' is required to get installed versions of packages`)
+    }
+
+    const results = await Promise.all(
+      depsIndex.map(async (packageEntry) => {
+        return await getPackageReportData(packageEntry, installedVersions)
+      })
+    )
+
+    packagesData = results.map(element => packageDataToReportData(element, config))
+    console.log(outputFormatter(packagesData, config))
+  } catch (e) {
+    console.error(e.stack)
+    process.exit(1)
+  }
+})();
