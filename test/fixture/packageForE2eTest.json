@@ -5,7 +5,8 @@
     "@kessler/tableify": "^1.0.2",
     "debug": "^4.3.2",
     "eol": "^0.9.1",
-    "got": "^11.8.2"
+    "got": "^11.8.2",
+    "react-hook-form": "^7.27.0"
   },
   "devDependencies": {
     "mocha": "^9.1.1"
