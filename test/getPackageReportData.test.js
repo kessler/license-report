@@ -9,18 +9,18 @@ const getPackageReportData = require('../lib/getPackageReportData.js')
 describe('getPackageReportData', function() {
 	this.timeout(20000)
 
-	it('gets the package report data for package with author name only', async () => {
-		const installedVersions = { async: '3.2.0' }
-		const packageEntry = { name: 'async', fullName: 'async', version: '>0.0.1' }
+	it('gets the package report data for package with author string (name)', async () => {
+		const installedVersions = { '@babel/cli': '7.17.3' }
+		const packageEntry = { name: '@babel/cli', fullName: '@babel/cli', version: '^7.17.0' }
 		const packageReportData = await getPackageReportData(packageEntry, installedVersions)
 
-		assert.strictEqual(packageReportData.name, 'async')
+		assert.strictEqual(packageReportData.name, '@babel/cli')
 		assert.strictEqual(packageReportData.licenseType, 'MIT')
-		assert.strictEqual(packageReportData.author, 'Caolan McMahon')
-		assert.strictEqual(packageReportData.link, 'git+https://github.com/caolan/async.git')
+		assert.strictEqual(packageReportData.author, 'The Babel Team (https://babel.dev/team)')
+		assert.strictEqual(packageReportData.link, 'https://github.com/babel/babel.git')
 	})
 
-	it('gets the package report data for package with author email only', async () => {
+	it('gets the package report data for package with author string (email)', async () => {
 		const installedVersions = { 'react-hook-form': '7.27.0' }
 		const packageEntry = { name: 'react-hook-form', fullName: 'react-hook-form', version: '^7.27.0' }
 		const packageReportData = await getPackageReportData(packageEntry, installedVersions)
@@ -31,7 +31,18 @@ describe('getPackageReportData', function() {
 		assert.strictEqual(packageReportData.link, 'git+https://github.com/react-hook-form/react-hook-form.git')
 	})
 
-	it('gets the package report data for package with author name, email and url', async () => {
+	it('gets the package report data for package with author object (name)', async () => {
+		const installedVersions = { async: '3.2.0' }
+		const packageEntry = { name: 'async', fullName: 'async', version: '>0.0.1' }
+		const packageReportData = await getPackageReportData(packageEntry, installedVersions)
+
+		assert.strictEqual(packageReportData.name, 'async')
+		assert.strictEqual(packageReportData.licenseType, 'MIT')
+		assert.strictEqual(packageReportData.author, 'Caolan McMahon')
+		assert.strictEqual(packageReportData.link, 'git+https://github.com/caolan/async.git')
+	})
+
+	it('gets the package report data for package with author object (name, email, url)', async () => {
 		const installedVersions = { 'text-table': '0.2.0' }
 		const packageEntry = { name: 'text-table', fullName: 'text-table', version: '0.2.0' }
 		const packageReportData = await getPackageReportData(packageEntry, installedVersions)
