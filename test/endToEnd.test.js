@@ -199,6 +199,45 @@ const EXPECTED_RAW_DATA = [
 		definedVersion: '_VERSION_'
 	},
 	{
+		author: 'Mario Nebl hello@herebecode.com',
+		department: 'kessler',
+		relatedTo: 'stuff',
+		name: '@commitlint/cli',
+		licensePeriod: 'perpetual',
+		material: 'material',
+		licenseType: 'MIT',
+		link: 'git+https://github.com/conventional-changelog/commitlint.git',
+		remoteVersion: '_VERSION_',
+		installedVersion: '_VERSION_',
+		definedVersion: '_VERSION_'
+	},
+	{
+		author: 'Mario Nebl hello@herebecode.com',
+		department: 'kessler',
+		relatedTo: 'stuff',
+		name: '@commitlint/config-conventional',
+		licensePeriod: 'perpetual',
+		material: 'material',
+		licenseType: 'MIT',
+		link: 'git+https://github.com/conventional-changelog/commitlint.git',
+		remoteVersion: '_VERSION_',
+		installedVersion: '_VERSION_',
+		definedVersion: '_VERSION_'
+	},
+	{
+		author: 'Typicode typicode@gmail.com',
+		department: 'kessler',
+		relatedTo: 'stuff',
+		name: 'husky',
+		licensePeriod: 'perpetual',
+		material: 'material',
+		licenseType: 'MIT',
+		link: 'git+https://github.com/typicode/husky.git',
+		remoteVersion: '_VERSION_',
+		installedVersion: '_VERSION_',
+		definedVersion: '_VERSION_'
+	},
+	{
 		author: 'TJ Holowaychuk tj@vision-media.ca',
 		department: 'kessler',
 		relatedTo: 'stuff',
@@ -223,6 +262,19 @@ const EXPECTED_RAW_DATA = [
 		remoteVersion: '_VERSION_',
 		installedVersion: '_VERSION_',
 		definedVersion: '_VERSION_'
+	},
+	{
+		author: 'Ben Coe ben@npmjs.com',
+		department: 'kessler',
+		relatedTo: 'stuff',
+		name: 'standard-version',
+		licensePeriod: 'perpetual',
+		material: 'material',
+		licenseType: 'ISC',
+		link: 'git+https://github.com/conventional-changelog/standard-version.git',
+		remoteVersion: '_VERSION_',
+		installedVersion: '_VERSION_',
+		definedVersion: '_VERSION_'
 	}
 ]
 
@@ -240,8 +292,12 @@ const EXPECTED_CSV_TEMPLATE = `department,related to,name,license period,materia
 {{department}},{{relatedTo}},[[semver]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{definedVersion}},{{author}}
 {{department}},{{relatedTo}},[[text-table]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{definedVersion}},{{author}}
 {{department}},{{relatedTo}},[[visit-values]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{definedVersion}},{{author}}
+{{department}},{{relatedTo}},[[@commitlint/cli]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{definedVersion}},{{author}}
+{{department}},{{relatedTo}},[[@commitlint/config-conventional]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{definedVersion}},{{author}}
+{{department}},{{relatedTo}},[[husky]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{definedVersion}},{{author}}
 {{department}},{{relatedTo}},[[mocha]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{definedVersion}},{{author}}
 {{department}},{{relatedTo}},[[nock]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{definedVersion}},{{author}}
+{{department}},{{relatedTo}},[[standard-version]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{definedVersion}},{{author}}
 `
 
 /*
@@ -259,6 +315,10 @@ const EXPECTED_TABLE_TEMPLATE = `{{department}}  {{relatedTo}}  {{name}}  {{lice
 {{department}}  {{relatedTo}}  [[semver]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
 {{department}}  {{relatedTo}}  [[text-table]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
 {{department}}  {{relatedTo}}  [[visit-values]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
+{{department}}  {{relatedTo}}  [[@commitlint/cli]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
+{{department}}  {{relatedTo}}  [[@commitlint/config-conventional]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
+{{department}}  {{relatedTo}}  [[husky]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
 {{department}}  {{relatedTo}}  [[mocha]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
 {{department}}  {{relatedTo}}  [[nock]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
+{{department}}  {{relatedTo}}  [[standard-version]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
 `

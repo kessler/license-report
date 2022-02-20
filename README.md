@@ -1,5 +1,8 @@
 # license report tool
-generate a license report of the projects dependencies
+![Version](https://img.shields.io/badge/version-5.0.0-blue.svg?cacheSeconds=2592000)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/kefranabg/readme-md-generator/blob/master/LICENSE)
+
+> Generate a license report of the projects dependencies.
 
 ## Installation
 ```
@@ -150,5 +153,33 @@ By setting the debug environment variable as follows, detailed log information i
 ```
 export DEBUG=license-report*
 ```
+
+## Changelog
+For list of changes and bugfixes, see [CHANGELOG.md](CHANGELOG.md).
+
+## Contributing
+The [CHANGELOG.md](CHANGELOG.md) is generated with `standard-changelog` (using the command `npm run release`).
+
+To make this possible the commit messages must follow the [conventinal commits specification](https://www.conventionalcommits.org/en/v1.0.0-beta.2/#specification).
+
+```
+<type>: <description>
+
+<optional body>
+```
+
+The following is the list of supported types:
+* build: changes that affect build components like build tool, ci pipeline, dependencies, project version, etc...
+* chore: changes that aren't user-facing (e.g. merging branches).
+* docs: changes that affect the documentation.
+* feat: changes that introduce a new feature.
+* fix: changes that patch a bug.
+* perf: changes which improve performance.
+* refactor: changes which neither fix a bug nor add a feature.
+* revert: changes that revert a previous commit.
+* style: changes that don't affect code logic, such as white-spaces, formatting, missing semi-colons.
+* test: changes that add missing tests or correct existing tests.
+
+To ensure the syntax of commit messages `commitlint` is used, triggered by `husky`. This feature must be activated with `npm run activate-commitlint` once for every local clone of `license-report`.
 
 ![ironSource logo](ironsource.png)
