@@ -108,7 +108,7 @@ const EXPECTED_RAW_DATA = [
 		definedVersion: '_VERSION_'
 	},
 	{
-		author: 'TJ Holowaychuk tj@vision-media.ca',
+		author: 'Josh Junon josh.junon@protonmail.com',
 		department: 'kessler',
 		relatedTo: 'stuff',
 		name: 'debug',
