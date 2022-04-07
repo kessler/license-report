@@ -85,7 +85,7 @@ const util = require('./lib/util');
       })
     )
 
-    packagesData = results.map(element => packageDataToReportData(element, config))
+    const packagesData = results.map(element => packageDataToReportData(element, config))
     console.log(outputFormatter(packagesData, config))
   } catch (e) {
     console.error(e.stack)
