@@ -10,8 +10,26 @@ const scriptPath = path
 	.resolve(__dirname, '..', 'index.js')
 	.replace(/(\s+)/g, '\\$1')
 
-const packagePath = path
-	.resolve(__dirname, 'fixture', 'packageForE2eTest.json')
+const defaultFieldsPackageJsonPath = path
+	.resolve(__dirname, 'fixture', 'default-fields', 'package.json')
+	.replace(/(\s+)/g, '\\$1')
+const defaultFieldsPackageLockJsonPath = path
+	.resolve(__dirname, 'fixture', 'default-fields', 'package-lock.json')
+	.replace(/(\s+)/g, '\\$1')	
+const defaultFieldsPackageJson = require(defaultFieldsPackageJsonPath)
+const defaultFieldsPackageLockJson = require(defaultFieldsPackageLockJsonPath)
+	
+const allFieldsPackageJsonPath = path
+	.resolve(__dirname, 'fixture', 'all-supported-fields', 'package.json')
+	.replace(/(\s+)/g, '\\$1')	
+const allFieldsPackageLockJsonPath = path
+	.resolve(__dirname, 'fixture', 'all-supported-fields', 'package-lock.json')
+	.replace(/(\s+)/g, '\\$1')	
+const allFieldsPackageJson = require(allFieldsPackageJsonPath)
+const allFieldsPackageLockJson = require(allFieldsPackageLockJsonPath)
+
+const allFieldsConfigPath = path
+	.resolve(__dirname, 'fixture', 'all-supported-fields', 'license-report-config.json')
 	.replace(/(\s+)/g, '\\$1')
 
 const execAsPromise = util.promisify(cp.exec);
@@ -22,12 +40,12 @@ describe('end to end test', function() {
 	this.timeout(50000)
 
 	beforeEach(async  () => {
-		expectedData = EXPECTED_RAW_DATA.slice(0)
-		await expectedOutput.addVersionToExpectedData(expectedData)
+		expectedData = EXPECTED_DEFAULT_FIELDS_RAW_DATA.slice(0)
+		await expectedOutput.addInstalledAndRemoteVersionsToExpectedData(expectedData, defaultFieldsPackageJson, defaultFieldsPackageLockJson)
   })
 
 	it('produce a json report', async () => {
-		const { stdout, stderr } = await execAsPromise(`node ${scriptPath}`)
+		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsPackageJsonPath}`)
 		const result = JSON.parse(stdout)
 		const expectedJsonResult = expectedOutput.rawDataToJson(expectedData)
 
@@ -35,21 +53,21 @@ describe('end to end test', function() {
 	})
 
 	it('produce a table report', async () => {
-		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --output=table`)
+		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsPackageJsonPath} --output=table`)
 		const expectedTableResult = expectedOutput.rawDataToTable(expectedData, EXPECTED_TABLE_TEMPLATE)
 
 		assert.strictEqual(stdout, expectedTableResult)
 	})
 
 	it('produce a csv report', async () => {
-		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --output=csv --csvHeaders`)
+		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsPackageJsonPath} --output=csv --csvHeaders`)
 		const expectedCsvResult = expectedOutput.rawDataToCsv(expectedData, EXPECTED_CSV_TEMPLATE)
 
 		assert.strictEqual(stdout, expectedCsvResult)
 	})
 
 	it('produce an html report', async () => {
-		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --output=html`)
+		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsPackageJsonPath} --output=html`)
 		const actualResult = eol.auto(stdout)
 		const expectedHtmlTemplate = eol.auto(fs.readFileSync(path.join(__dirname, 'fixture', 'expectedOutput.e2e.html'), 'utf8'))
 		const expectedHtmlResult = expectedOutput.rawDataToHtml(expectedData, expectedHtmlTemplate)
@@ -61,39 +79,58 @@ describe('end to end test', function() {
 describe('end to end test for configuration', function () {
 	this.timeout(50000)
 
-	it('produce a json report without option "only"', async () => {
-		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${packagePath}`)
+	it('produce a json report with the fields specified in config', async () => {
+		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${allFieldsPackageJsonPath} --config=${allFieldsConfigPath}`)
 		const result = JSON.parse(stdout)
-		const expectedLengthOfResult = 11
-		const expectedWarning = stderr.includes(`package-lock.json' is required to get installed versions of packages`)
+		const expectedResult = [{
+			department: "kessler",
+			relatedTo: "stuff",
+			name: "semver",
+			licensePeriod: "perpetual",
+			material: "material",
+			licenseType: "ISC",
+			link: "git+https://github.com/npm/node-semver.git",
+			remoteVersion: "5.7.1",
+			installedVersion: "6.3.0",
+			definedVersion: "^5.0.0",
+			author:"GitHub Inc."
+		}];
+		await expectedOutput.addInstalledAndRemoteVersionsToExpectedData(expectedResult, allFieldsPackageJson, allFieldsPackageLockJson)
+
+		assert.deepStrictEqual(result, expectedResult, `expected the output to contain all the configured fields`)
+		assert.strictEqual(stderr, '', 'expected no warnings')
+	});
+
+	it('produce a json report without option "only"', async () => {
+		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsPackageJsonPath}`)
+		const result = JSON.parse(stdout)
+		const expectedLengthOfResult = 4
 
 		assert.strictEqual(result.length, expectedLengthOfResult, `expected the list to contain ${expectedLengthOfResult} elements`)
-		assert.strictEqual(expectedWarning, true, 'expected a warning about a missing package-lock file')
+		assert.strictEqual(stderr, '', 'expected no warnings')
 	});
 
 	it('produce a json report with option "only=prod"', async () => {
-		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${packagePath} --only=prod`)
+		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsPackageJsonPath} --only=prod`)
 		const result = JSON.parse(stdout)
-		const expectedLengthOfResult = 5
-		const expectedWarning = stderr.includes(`package-lock.json' is required to get installed versions of packages`)
+		const expectedLengthOfResult = 1
 
 		assert.strictEqual(result.length, expectedLengthOfResult, `expected the list to contain ${expectedLengthOfResult} elements`)
-		assert.strictEqual(expectedWarning, true, 'expected a warning about a missing package-lock file')
+		assert.strictEqual(stderr, '', 'expected no warnings')
 	});
 
 	it('produce a json report with option "only=prod,opt,peer"', async () => {
-		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${packagePath} --only=prod,opt,peer`)
+		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsPackageJsonPath} --only=prod,opt,peer`)
 		const result = JSON.parse(stdout)
-		const expectedLengthOfResult = 10
-		const expectedWarning = stderr.includes(`package-lock.json' is required to get installed versions of packages`)
+		const expectedLengthOfResult = 3
 
 		assert.strictEqual(result.length, expectedLengthOfResult, `expected the list to contain ${expectedLengthOfResult} elements`)
-		assert.strictEqual(expectedWarning, true, 'expected a warning about a missing package-lock file')
+		assert.strictEqual(stderr, '', 'expected no warnings')
 	});
 });
 
 // raw data we use to generate the expected results
-const EXPECTED_RAW_DATA = [
+const EXPECTED_DEFAULT_FIELDS_RAW_DATA = [
 	{
 		author: 'Dan VerWeire, Yaniv Kessler',
 		department: 'kessler',
@@ -105,137 +142,7 @@ const EXPECTED_RAW_DATA = [
 		link: 'git+https://github.com/kessler/node-tableify.git',
 		remoteVersion: '_VERSION_',
 		installedVersion: '_VERSION_',
-		definedVersion: '_VERSION_'
-	},
-	{
-		author: 'Josh Junon josh.junon@protonmail.com',
-		department: 'kessler',
-		relatedTo: 'stuff',
-		name: 'debug',
-		licensePeriod: 'perpetual',
-		material: 'material',
-		licenseType: 'MIT',
-		link: 'git://github.com/debug-js/debug.git',
-		remoteVersion: '_VERSION_',
-		installedVersion: '_VERSION_',
-		definedVersion: '_VERSION_'
-	},
-  {
-    author: 'Ryan Van Etten',
-    department: 'kessler',
-    relatedTo: 'stuff',
-    name: 'eol',
-    licensePeriod: 'perpetual',
-    material: 'material',
-    licenseType: 'MIT',
-    link: 'git+https://github.com/ryanve/eol.git',
-    remoteVersion: '_VERSION_',
-    installedVersion: '_VERSION_',
-		definedVersion: '_VERSION_'
-  },
-	{
-		author: '',
-		department: 'kessler',
-		relatedTo: 'stuff',
-		name: 'got',
-		licensePeriod: 'perpetual',
-		material: 'material',
-		licenseType: 'MIT',
-		link: 'git+https://github.com/sindresorhus/got.git',
-		remoteVersion: '_VERSION_',
-		installedVersion: '_VERSION_',
-		definedVersion: '_VERSION_'
-	},
-	{
-		author: 'Dominic Tarr dominic.tarr@gmail.com dominictarr.com',
-		department: 'kessler',
-		relatedTo: 'stuff',
-		name: 'rc',
-		licensePeriod: 'perpetual',
-		material: 'material',
-		licenseType: '(BSD-2-Clause OR MIT OR Apache-2.0)',
-		link: 'git+https://github.com/dominictarr/rc.git',
-		remoteVersion: '_VERSION_',
-		installedVersion: '_VERSION_',
-		definedVersion: '_VERSION_'
-	},
-	{
-		author: '',
-		department: 'kessler',
-		relatedTo: 'stuff',
-		name: 'semver',
-		licensePeriod: 'perpetual',
-		material: 'material',
-		licenseType: 'ISC',
-		link: 'git+https://github.com/npm/node-semver.git',
-		remoteVersion: '_VERSION_',
-		installedVersion: '_VERSION_',
-		definedVersion: '_VERSION_'
-	},
-	{
-		author: 'James Halliday mail@substack.net http://substack.net',
-		department: 'kessler',
-		relatedTo: 'stuff',
-		name: 'text-table',
-		licensePeriod: 'perpetual',
-		material: 'material',
-		licenseType: 'MIT',
-		link: 'git://github.com/substack/text-table.git',
-		remoteVersion: '_VERSION_',
-		installedVersion: '_VERSION_',
-		definedVersion: '_VERSION_'
-	},
-	{
-		author: 'Yaniv Kessler',
-		department: 'kessler',
-		relatedTo: 'stuff',
-		name: 'visit-values',
-		licensePeriod: 'perpetual',
-		material: 'material',
-		licenseType: 'MIT',
-		link: 'https://github.com/kessler/node-visit-values',
-		remoteVersion: '_VERSION_',
-		installedVersion: '_VERSION_',
-		definedVersion: '_VERSION_'
-	},
-	{
-		author: 'Mario Nebl hello@herebecode.com',
-		department: 'kessler',
-		relatedTo: 'stuff',
-		name: '@commitlint/cli',
-		licensePeriod: 'perpetual',
-		material: 'material',
-		licenseType: 'MIT',
-		link: 'git+https://github.com/conventional-changelog/commitlint.git',
-		remoteVersion: '_VERSION_',
-		installedVersion: '_VERSION_',
-		definedVersion: '_VERSION_'
-	},
-	{
-		author: 'Mario Nebl hello@herebecode.com',
-		department: 'kessler',
-		relatedTo: 'stuff',
-		name: '@commitlint/config-conventional',
-		licensePeriod: 'perpetual',
-		material: 'material',
-		licenseType: 'MIT',
-		link: 'git+https://github.com/conventional-changelog/commitlint.git',
-		remoteVersion: '_VERSION_',
-		installedVersion: '_VERSION_',
-		definedVersion: '_VERSION_'
-	},
-	{
-		author: 'Typicode typicode@gmail.com',
-		department: 'kessler',
-		relatedTo: 'stuff',
-		name: 'husky',
-		licensePeriod: 'perpetual',
-		material: 'material',
-		licenseType: 'MIT',
-		link: 'git+https://github.com/typicode/husky.git',
-		remoteVersion: '_VERSION_',
-		installedVersion: '_VERSION_',
-		definedVersion: '_VERSION_'
+		definedVersion: '^1.0.2'
 	},
 	{
 		author: 'TJ Holowaychuk tj@vision-media.ca',
@@ -248,34 +155,34 @@ const EXPECTED_RAW_DATA = [
 		link: 'git+https://github.com/mochajs/mocha.git',
 		remoteVersion: '_VERSION_',
 		installedVersion: '_VERSION_',
-		definedVersion: '_VERSION_'
-	},
+		definedVersion: '^9.1.1'
+	},		
 	{
-		author: 'Pedro Teixeira pedro.teixeira@gmail.com',
+		author: "John-David Dalton john.david.dalton@gmail.com",
 		department: 'kessler',
 		relatedTo: 'stuff',
-		name: 'nock',
+		name: 'lodash',
 		licensePeriod: 'perpetual',
 		material: 'material',
 		licenseType: 'MIT',
-		link: 'git+https://github.com/nock/nock.git',
+		link: 'git+https://github.com/lodash/lodash.git',
 		remoteVersion: '_VERSION_',
 		installedVersion: '_VERSION_',
-		definedVersion: '_VERSION_'
-	},
+		definedVersion: '^4.17.20'
+	},	
 	{
-		author: 'Ben Coe ben@npmjs.com',
+		author: 'GitHub Inc.',
 		department: 'kessler',
 		relatedTo: 'stuff',
-		name: 'standard-version',
+		name: 'semver',
 		licensePeriod: 'perpetual',
 		material: 'material',
 		licenseType: 'ISC',
-		link: 'git+https://github.com/conventional-changelog/standard-version.git',
+		link: 'git+https://github.com/npm/node-semver.git',
 		remoteVersion: '_VERSION_',
 		installedVersion: '_VERSION_',
-		definedVersion: '_VERSION_'
-	}
+		definedVersion: '^7.3.5'
+	},	
 ]
 
 /*
@@ -285,19 +192,9 @@ const EXPECTED_RAW_DATA = [
 */
 const EXPECTED_CSV_TEMPLATE = `department,related to,name,license period,material / not material,license type,link,remote version,installed version,defined version,author
 {{department}},{{relatedTo}},[[@kessler/tableify]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{definedVersion}},{{author}}
-{{department}},{{relatedTo}},[[debug]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{definedVersion}},{{author}}
-{{department}},{{relatedTo}},[[eol]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{definedVersion}},{{author}}
-{{department}},{{relatedTo}},[[got]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{definedVersion}},{{author}}
-{{department}},{{relatedTo}},[[rc]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{definedVersion}},{{author}}
-{{department}},{{relatedTo}},[[semver]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{definedVersion}},{{author}}
-{{department}},{{relatedTo}},[[text-table]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{definedVersion}},{{author}}
-{{department}},{{relatedTo}},[[visit-values]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{definedVersion}},{{author}}
-{{department}},{{relatedTo}},[[@commitlint/cli]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{definedVersion}},{{author}}
-{{department}},{{relatedTo}},[[@commitlint/config-conventional]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{definedVersion}},{{author}}
-{{department}},{{relatedTo}},[[husky]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{definedVersion}},{{author}}
 {{department}},{{relatedTo}},[[mocha]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{definedVersion}},{{author}}
-{{department}},{{relatedTo}},[[nock]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{definedVersion}},{{author}}
-{{department}},{{relatedTo}},[[standard-version]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{definedVersion}},{{author}}
+{{department}},{{relatedTo}},[[lodash]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{definedVersion}},{{author}}
+{{department}},{{relatedTo}},[[semver]],{{licensePeriod}},{{material}},{{licenseType}},{{link}},{{remoteVersion}},{{installedVersion}},{{definedVersion}},{{author}}
 `
 
 /*
@@ -308,17 +205,7 @@ const EXPECTED_CSV_TEMPLATE = `department,related to,name,license period,materia
 const EXPECTED_TABLE_TEMPLATE = `{{department}}  {{relatedTo}}  {{name}}  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
 {{department}}  {{relatedTo}}  {{name}}  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
 {{department}}  {{relatedTo}}  [[@kessler/tableify]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
-{{department}}  {{relatedTo}}  [[debug]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
-{{department}}  {{relatedTo}}  [[eol]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
-{{department}}  {{relatedTo}}  [[got]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
-{{department}}  {{relatedTo}}  [[rc]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
-{{department}}  {{relatedTo}}  [[semver]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
-{{department}}  {{relatedTo}}  [[text-table]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
-{{department}}  {{relatedTo}}  [[visit-values]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
-{{department}}  {{relatedTo}}  [[@commitlint/cli]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
-{{department}}  {{relatedTo}}  [[@commitlint/config-conventional]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
-{{department}}  {{relatedTo}}  [[husky]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
 {{department}}  {{relatedTo}}  [[mocha]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
-{{department}}  {{relatedTo}}  [[nock]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
-{{department}}  {{relatedTo}}  [[standard-version]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
+{{department}}  {{relatedTo}}  [[lodash]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
+{{department}}  {{relatedTo}}  [[semver]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
 `
