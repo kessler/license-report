@@ -160,7 +160,7 @@ const EXPECTED_RAW_DATA = [
 		definedVersion: '_VERSION_'
 	},
 	{
-		author: '',
+		author: 'GitHub Inc.',
 		department: 'kessler',
 		relatedTo: 'stuff',
 		name: 'semver',
