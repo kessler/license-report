@@ -139,7 +139,7 @@ Fields with data of the installed packages:
 | name | name | name of the package |
 | licenseType | license type | type of the license of the package (e.g. MIT) |
 | link | link | link to the repository of the package |
-| installedFrom | installed from | the download source for the installed package |
+| installedFrom | installed from | the download source for the installed package (optional field) |
 | remoteVersion | remote version | latest available version of the package (can be different from the installed version) |
 | installedVersion | installed version | installed version of the package (can be different from the remote version) |
 | definedVersion | defined version | version of the package as defined in the (dev-) dependencies entry (can start with a semver range character) |
