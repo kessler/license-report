@@ -1,8 +1,6 @@
 const got = require('got')
 const semver = require('semver')
 const debug = require('debug')('license-report:addRemoteVersion')
-const packageJson = require('../../package.json')
-const packageLockJson = require('../../package-lock.json')
 const config = require('../../lib/config.js')
 
 /*
@@ -45,14 +43,13 @@ async function addRemoteVersion(dependency) {
 }
 
 /*
-	add current values for definedVersion, installedVersion and remoteVersion to list of expectedData
+	add current values for installedVersion and remoteVersion to list of expectedData
 */
-module.exports.addVersionToExpectedData = async (expectedData)  => {
+module.exports.addInstalledAndRemoteVersionsToExpectedData = async (expectedData, packageJson, packageLockJson)  => {
 	// add version from package.json (dev-) dependencies as installedVersion
-	const packagesList = Object.assign(Object.assign({}, packageJson.dependencies), packageJson.devDependencies)
 	const packagesData = expectedData.map(packageData => {
-		packageData.definedVersion = packagesList[packageData.name]
-		packageData.installedVersion = packageLockJson.dependencies[[packageData.name]].version
+		const package = packageLockJson.dependencies[[packageData.name]];
+		packageData.installedVersion = package && package.version ? package.version : 'no entry in package-lock.json'
 		return packageData
 	})
 
