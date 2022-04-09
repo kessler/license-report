@@ -89,8 +89,19 @@ license-report --output=html | hcat
 ```
 
 #### select fields for output:
+If only a few fields are required in the output, the easiest way of selecting the fields is via --fields command line arguments.
+
+There must be at least 2 --fields options, otherwise license-report
+will throw an error.
+
 ```
-# set options with command line options and config file
+# set options with command line arguments
+license-report --output=csv --fields=name --fields=installedVersion
+```
+
+If more fields are needed, the best way is to use a custom config file, that contains a fields array.
+```
+# set options with command line option for custom (partial) config file
 license-report --output=csv --config license-report-config.json
 ```
 ```
