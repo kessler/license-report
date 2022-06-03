@@ -11,6 +11,14 @@ describe('getInstalledPackagesData', () => {
     assert.strictEqual(installedPackagesData['mocha'].installedFrom, 'https://registry.npmjs.org/mocha/-/mocha-6.2.3.tgz')
   })
 
+  it('gets the package data for local package', () => {
+    const packageLockContent = { dependencies: { 'my-local-package': { version: 'file:local-libs/my-local-package' } } }
+    const depsIndex = [{ name: 'my-local-package', fullName: 'my-local-package', version: 'file:local-libs/my-local-package' }]
+		const installedPackagesData = getInstalledPackagesData(packageLockContent, depsIndex)
+
+		assert.strictEqual(installedPackagesData['my-local-package'].version, 'file:local-libs/my-local-package')
+  })
+
   it('gets versions with prebuild package', () => {
     const packageLockContent = { dependencies: { ol: { version: '6.5.1-dev.1622493276948' } } }
     const depsIndex = [{ name: 'ol', fullName: 'ol', version: 'dev' }]

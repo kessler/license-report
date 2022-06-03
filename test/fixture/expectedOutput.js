@@ -32,13 +32,21 @@ async function addRemoteVersion(dependency) {
 			]
 		}
 	}
-	const packagesJson = await got(uri, options).json()
+	let packagesJson = {}
+
+	try {
+		packagesJson = await got(uri, options).json()
+	} catch (error) {
+		packagesJson.error = `http request to npm for package "${dependency.name}" failed with error '${error}'`
+	}
 
 	// find the right version for this package
-	const versions = Object.keys(packagesJson.versions)
-	const version = semver.maxSatisfying(versions, dependency.definedVersion)
-	if (version) {
-		dependency.remoteVersion = version.toString()
+	if(packagesJson.versions) {
+		const versions = Object.keys(packagesJson.versions)
+		const version = semver.maxSatisfying(versions, dependency.definedVersion)
+		if (version) {
+			dependency.remoteVersion = version.toString()
+		}
 	}
 }
 
@@ -49,7 +57,9 @@ module.exports.addInstalledAndRemoteVersionsToExpectedData = async (expectedData
 	// add version from package.json (dev-) dependencies as installedVersion
 	const packagesData = expectedData.map(packageData => {
 		const package = packageLockJson.dependencies[[packageData.name]];
-		packageData.installedVersion = package && package.version ? package.version : 'no entry in package-lock.json'
+		if (packageData.installedVersion && (packageData.installedVersion === '_VERSION_')) {
+			packageData.installedVersion = package && package.version ? package.version : 'no entry in package-lock.json'
+		}
 		return packageData
 	})
 

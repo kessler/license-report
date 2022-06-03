@@ -20,6 +20,12 @@ describe('addPackagesToIndex', function() {
 		assert.deepStrictEqual(index, [{ fullName: '@bar/foo', name: 'foo', version: '*', scope: 'bar', alias: '' }])
 	})
 
+	it('adds a local package to the index', function() {
+		addPackagesToIndex({ "my-local-package": "file:local-libs/my-local-package" }, index)
+
+		assert.deepStrictEqual(index, [{ fullName: 'my-local-package', name: 'my-local-package', version: 'file:local-libs/my-local-package', scope: undefined, alias: '' }])
+	})
+
 	it('does not add duplicate packages, same package is a package that has the same name, version expression and scope', function() {
 		addPackagesToIndex({ "@bar/foo": "*" }, index)
 		addPackagesToIndex({ "@bar/foo": "*" }, index)
