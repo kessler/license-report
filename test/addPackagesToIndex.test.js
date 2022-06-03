@@ -51,11 +51,11 @@ describe('addPackagesToIndex', function() {
 		addPackagesToIndex({ "mocha_8.3.1": "npm:mocha@^8.3.1" }, index)
 
 		assert.deepStrictEqual(index, [{ fullName: 'mocha', name: 'mocha', version: '^8.3.1', scope: undefined, alias: 'mocha_8.3.1' }])
-	});
+	})
 
 	it('add scoped package with alias to the index', function() {
 		addPackagesToIndex({ "@kessler/tableify_1.0.1": "npm:@kessler/tableify@^1.0.1" }, index)
 
 		assert.deepStrictEqual(index, [{ fullName: '@kessler/tableify', name: 'tableify', version: '^1.0.1', scope: 'kessler', alias: '@kessler/tableify_1.0.1' }])
-	});
+	})
 })

@@ -1,5 +1,5 @@
 const cp = require('child_process')
-const util = require('util');
+const util = require('util')
 const path = require('path')
 const assert = require('assert')
 const fs = require('fs')
@@ -32,7 +32,7 @@ const allFieldsConfigPath = path
 	.resolve(__dirname, 'fixture', 'all-supported-fields', 'license-report-config.json')
 	.replace(/(\s+)/g, '\\$1')
 
-const execAsPromise = util.promisify(cp.exec);
+const execAsPromise = util.promisify(cp.exec)
 
 let expectedData
 
@@ -99,7 +99,7 @@ describe('end to end test for configuration', function () {
 
 		assert.deepStrictEqual(result, expectedResult, `expected the output to contain all the configured fields`)
 		assert.strictEqual(stderr, '', 'expected no warnings')
-	});
+	})
 
 	it('produce a json report without option "only"', async () => {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsPackageJsonPath}`)
@@ -108,7 +108,7 @@ describe('end to end test for configuration', function () {
 
 		assert.strictEqual(result.length, expectedLengthOfResult, `expected the list to contain ${expectedLengthOfResult} elements`)
 		assert.strictEqual(stderr, '', 'expected no warnings')
-	});
+	})
 
 	it('produce a json report with option "only=prod"', async () => {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsPackageJsonPath} --only=prod`)
@@ -117,7 +117,7 @@ describe('end to end test for configuration', function () {
 
 		assert.strictEqual(result.length, expectedLengthOfResult, `expected the list to contain ${expectedLengthOfResult} elements`)
 		assert.strictEqual(stderr, '', 'expected no warnings')
-	});
+	})
 
 	it('produce a json report with option "only=prod,opt,peer"', async () => {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsPackageJsonPath} --only=prod,opt,peer`)
@@ -126,8 +126,8 @@ describe('end to end test for configuration', function () {
 
 		assert.strictEqual(result.length, expectedLengthOfResult, `expected the list to contain ${expectedLengthOfResult} elements`)
 		assert.strictEqual(stderr, '', 'expected no warnings')
-	});
-});
+	})
+})
 
 // raw data we use to generate the expected results
 const EXPECTED_DEFAULT_FIELDS_RAW_DATA = [

@@ -9,7 +9,7 @@ describe('getInstalledPackagesData', () => {
 
 		assert.strictEqual(installedPackagesData['mocha'].version, '6.2.3')
     assert.strictEqual(installedPackagesData['mocha'].installedFrom, 'https://registry.npmjs.org/mocha/-/mocha-6.2.3.tgz')
-  });
+  })
 
   it('gets versions with prebuild package', () => {
     const packageLockContent = { dependencies: { ol: { version: '6.5.1-dev.1622493276948' } } }
@@ -17,7 +17,7 @@ describe('getInstalledPackagesData', () => {
 		const installedPackagesData = getInstalledPackagesData(packageLockContent, depsIndex)
 
 		assert.strictEqual(installedPackagesData['ol'].version, '6.5.1-dev.1622493276948')
-  });
+  })
 
   it('gets versions with alias package', () => {
     const packageLockContent = { dependencies: { 'mocha_8.3.1': { version: 'npm:mocha@8.4.0' } } }
@@ -25,5 +25,5 @@ describe('getInstalledPackagesData', () => {
 		const installedPackagesData = getInstalledPackagesData(packageLockContent, depsIndex)
 
 		assert.strictEqual(installedPackagesData['mocha_8.3.1'].version, 'npm:mocha@8.4.0')
-  });
-});
+  })
+})

@@ -163,7 +163,7 @@ describe('getPackageReportData', function() {
 		assert.strictEqual(packageReportData.link, 'git+https://github.com/mochajs/mocha.git')
 		assert.strictEqual(packageReportData.definedVersion, '^8.3.1', 'definedVersion')
 		assert.strictEqual(packageReportData.installedVersion, '8.3.1', 'installedVersion')
-	});
+	})
 
 	it('gets report data for package with installed from', async () => {
 		const installedPackagesData = { '@angular/core': { version: '13.3.0', installedFrom: 'https://registry.npmjs.org/@angular/core/-/core-13.3.0.tgz' } }
@@ -174,5 +174,5 @@ describe('getPackageReportData', function() {
 		assert.strictEqual(packageReportData.definedVersion, '^13.0.0', 'definedVersion')
 		assert.strictEqual(packageReportData.installedVersion, '13.3.0', 'installedVersion')
 		assert.strictEqual(packageReportData.installedFrom, 'https://registry.npmjs.org/@angular/core/-/core-13.3.0.tgz', 'installedFrom')
-	});	
+	})
 })
