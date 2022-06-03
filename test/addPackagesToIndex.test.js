@@ -6,18 +6,6 @@ describe('addPackagesToIndex', function() {
 
 	beforeEach(function() {
 		index = []
-		packages = {
-			"@kessler/exponential-backoff": "^2.0.0",
-			"async": "^0.9.0",
-			"debug": "^3.1.0",
-			"lodash": "^4.17.11",
-			"rc": "^1.2.8",
-			"request": "^2.88.0",
-			"semver": "^5.4.1",
-			"stubborn": "^1.2.5",
-			"text-table": "^0.2.0",
-			"visit-values": "^1.0.1"
-		}
 	})
 
 	it('adds a package to the index', function() {
