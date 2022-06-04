@@ -10,6 +10,7 @@ const scriptPath = path
 	.resolve(__dirname, '..', 'index.js')
 	.replace(/(\s+)/g, '\\$1')
 
+// test data for e2e test using the default fields
 const defaultFieldsPackageJsonPath = path
 	.resolve(__dirname, 'fixture', 'default-fields', 'package.json')
 	.replace(/(\s+)/g, '\\$1')
@@ -18,7 +19,8 @@ const defaultFieldsPackageLockJsonPath = path
 	.replace(/(\s+)/g, '\\$1')	
 const defaultFieldsPackageJson = require(defaultFieldsPackageJsonPath)
 const defaultFieldsPackageLockJson = require(defaultFieldsPackageLockJsonPath)
-	
+
+// test data for e2e test using all fields
 const allFieldsPackageJsonPath = path
 	.resolve(__dirname, 'fixture', 'all-supported-fields', 'package.json')
 	.replace(/(\s+)/g, '\\$1')	
@@ -27,9 +29,21 @@ const allFieldsPackageLockJsonPath = path
 	.replace(/(\s+)/g, '\\$1')	
 const allFieldsPackageJson = require(allFieldsPackageJsonPath)
 const allFieldsPackageLockJson = require(allFieldsPackageLockJsonPath)
-
 const allFieldsConfigPath = path
 	.resolve(__dirname, 'fixture', 'all-supported-fields', 'license-report-config.json')
+	.replace(/(\s+)/g, '\\$1')
+
+// test data for e2e test using the default fields and local packages
+const localPackagesPackageJsonPath = path
+	.resolve(__dirname, 'fixture', 'local-packages', 'package.json')
+	.replace(/(\s+)/g, '\\$1')
+const localPackagesPackageLockJsonPath = path
+	.resolve(__dirname, 'fixture', 'local-packages', 'package-lock.json')
+	.replace(/(\s+)/g, '\\$1')
+const localPackagesPackageJson = require(localPackagesPackageJsonPath)
+const localPackagesPackageLockJson = require(localPackagesPackageLockJsonPath)
+const localPackagesConfigPath = path
+	.resolve(__dirname, 'fixture', 'local-packages', 'license-report-config.json')
 	.replace(/(\s+)/g, '\\$1')
 
 const execAsPromise = util.promisify(cp.exec)
@@ -73,6 +87,23 @@ describe('end to end test', function() {
 		const expectedHtmlResult = expectedOutput.rawDataToHtml(expectedData, expectedHtmlTemplate)
 
 		assert.strictEqual(actualResult, expectedHtmlResult)
+	})
+})
+
+describe('end to end test for local packages', function() {
+	this.timeout(50000)
+
+	beforeEach(async  () => {
+		expectedData = EXPECTED_LOCAL_PACKAGES_RAW_DATA.slice(0)
+		await expectedOutput.addInstalledAndRemoteVersionsToExpectedData(expectedData, localPackagesPackageJson, localPackagesPackageLockJson)
+  })
+
+	it('produce a json report', async () => {
+		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${localPackagesPackageJsonPath} --config=${localPackagesConfigPath}`)
+		const result = JSON.parse(stdout)
+		const expectedJsonResult = expectedOutput.rawDataToJson(expectedData)
+
+		assert.deepStrictEqual(result, expectedJsonResult)
 	})
 })
 
@@ -129,7 +160,7 @@ describe('end to end test for configuration', function () {
 	})
 })
 
-// raw data we use to generate the expected results
+// raw data we use to generate the expected results for default fields test
 const EXPECTED_DEFAULT_FIELDS_RAW_DATA = [
 	{
 		author: 'Dan VerWeire, Yaniv Kessler',
@@ -182,6 +213,66 @@ const EXPECTED_DEFAULT_FIELDS_RAW_DATA = [
 		remoteVersion: '_VERSION_',
 		installedVersion: '_VERSION_',
 		definedVersion: '^7.3.5'
+	},	
+]
+
+// raw data we use to generate the expected results for default fields test
+const EXPECTED_LOCAL_PACKAGES_RAW_DATA = [
+	{
+		author: 'n/a',
+		department: 'kessler',
+		relatedTo: 'stuff',
+		name: 'async',
+		licensePeriod: 'perpetual',
+		material: 'material',
+		licenseType: 'n/a',
+		link: 'n/a',
+    installedFrom: "github:caolan/async",
+		remoteVersion: 'n/a',
+		installedVersion: 'n/a',
+		definedVersion: 'n/a'
+	},
+	{
+		author: 'GitHub Inc.',
+		department: 'kessler',
+		relatedTo: 'stuff',
+		name: 'semver',
+		licensePeriod: 'perpetual',
+		material: 'material',
+		licenseType: 'ISC',
+		link: 'git+https://github.com/npm/node-semver.git',
+    installedFrom: "https://registry.npmjs.org/semver/-/semver-7.3.7.tgz",
+		remoteVersion: '_VERSION_',
+		installedVersion: '_VERSION_',
+		definedVersion: '^7.3.7'
+	},
+	{
+		author: "n/a",
+		department: 'kessler',
+		relatedTo: 'stuff',
+		name: 'debug',
+		licensePeriod: 'perpetual',
+		material: 'material',
+		licenseType: 'n/a',
+		link: 'n/a',
+    installedFrom: "git://github.com/debug-js/debug.git",
+		remoteVersion: 'n/a',
+		installedVersion: 'n/a',
+		definedVersion: 'n/a'
+	},	
+	{
+		author: 'n/a',
+		department: 'kessler',
+		relatedTo: 'stuff',
+		name: 'my-local-package',
+		licensePeriod: 'perpetual',
+		material: 'material',
+		licenseType: 'n/a',
+		link: 'n/a',
+    installedFrom: "file:local-libs/my-local-package",
+		remoteVersion: 'n/a',
+		installedVersion: 'n/a',
+		definedVersion: 'n/a'
 	},	
 ]
 
