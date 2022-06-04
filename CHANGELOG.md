@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.1.0](https://github.com/ironSource/license-report/compare/v5.0.2...v5.1.0) (2022-06-04)
+
+
+### Features
+
+* add support for installedFrom field ([207f167](https://github.com/ironSource/license-report/commit/207f167b4492e45f34a8554f026cdb5c97e4888b))
+
+
+### Bug Fixes
+
+* add error handling for requests to the registry ([cb7123a](https://github.com/ironSource/license-report/commit/cb7123a055238827ed3a4d71cadff9de60e42156)), closes [#85](https://github.com/ironSource/license-report/issues/85)
+* broken e2e tests due to changed ownership for debug-js ([25d754e](https://github.com/ironSource/license-report/commit/25d754ed342b94af01b5bc96a5692495d8d687ce))
+* fix missing variable declaration ([f4a64eb](https://github.com/ironSource/license-report/commit/f4a64eb5db57e42908dacb4148f93c5be7757207))
+* remove typo in error message ([2cd5475](https://github.com/ironSource/license-report/commit/2cd547517af40b4f1b72b458c6f7d8be7218c6bf))
+
 ### [5.0.2](https://github.com/ironSource/license-report/compare/v5.0.1...v5.0.2) (2022-03-11)
 
 
