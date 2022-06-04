@@ -1,15 +1,15 @@
 {
     "fields": [
-        "department",
-		"relatedTo",
-		"name",
-		"licensePeriod",
-		"material",
-		"licenseType",
-		"link",
-		"remoteVersion",
-		"installedVersion",
-		"definedVersion",
-		"author"
+			"department",
+			"relatedTo",
+			"name",
+			"licensePeriod",
+			"material",
+			"licenseType",
+			"link",
+			"remoteVersion",
+			"installedVersion",
+			"definedVersion",
+			"author"
     ]
 }
