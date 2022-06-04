@@ -163,7 +163,7 @@ describe('getPackageReportData', function() {
 		assert.strictEqual(packageReportData.link, 'git+https://github.com/mochajs/mocha.git')
 		assert.strictEqual(packageReportData.definedVersion, '^8.3.1', 'definedVersion')
 		assert.strictEqual(packageReportData.installedVersion, '8.3.1', 'installedVersion')
-	});
+	})
 
 	it('gets report data for package with installed from', async () => {
 		const installedPackagesData = { '@angular/core': { version: '13.3.0', installedFrom: 'https://registry.npmjs.org/@angular/core/-/core-13.3.0.tgz' } }
@@ -174,5 +174,50 @@ describe('getPackageReportData', function() {
 		assert.strictEqual(packageReportData.definedVersion, '^13.0.0', 'definedVersion')
 		assert.strictEqual(packageReportData.installedVersion, '13.3.0', 'installedVersion')
 		assert.strictEqual(packageReportData.installedFrom, 'https://registry.npmjs.org/@angular/core/-/core-13.3.0.tgz', 'installedFrom')
-	});	
+	})
+
+	it('gets report data for local package using "file:"', async () => {
+		const installedPackagesData = { 'my-local-package': { version: 'file:local-libs/my-local-package' } }
+		const packageEntry = { fullName: 'my-local-package', name: 'my-local-package', version: 'file:local-libs/my-local-package', scope: undefined, alias: '' }
+		const packageReportData = await getPackageReportData(packageEntry, installedPackagesData)
+
+		assert.strictEqual(packageReportData.name, 'my-local-package')
+		assert.strictEqual(packageReportData.author, 'n/a')
+		assert.strictEqual(packageReportData.licenseType, 'n/a')
+		assert.strictEqual(packageReportData.link, 'n/a')
+		assert.strictEqual(packageReportData.installedFrom, 'file:local-libs/my-local-package')
+		assert.strictEqual(packageReportData.definedVersion, 'n/a')
+		assert.strictEqual(packageReportData.installedVersion, 'n/a')
+		assert.strictEqual(packageReportData.remoteVersion, 'n/a')
+	})
+
+	it('gets report data for local package using "git:"', async () => {
+		const installedPackagesData = { 'debug': { version: 'git://github.com/debug-js/debug.git' } }
+		const packageEntry = { fullName: 'debug', name: 'debug', version: 'git://github.com/debug-js/debug.git', scope: undefined, alias: '' }
+		const packageReportData = await getPackageReportData(packageEntry, installedPackagesData)
+
+		assert.strictEqual(packageReportData.name, 'debug')
+		assert.strictEqual(packageReportData.author, 'n/a')
+		assert.strictEqual(packageReportData.licenseType, 'n/a')
+		assert.strictEqual(packageReportData.link, 'n/a')
+		assert.strictEqual(packageReportData.installedFrom, 'git://github.com/debug-js/debug.git')
+		assert.strictEqual(packageReportData.definedVersion, 'n/a')
+		assert.strictEqual(packageReportData.installedVersion, 'n/a')
+		assert.strictEqual(packageReportData.remoteVersion, 'n/a')
+	})
+
+	it('gets report data for local package using "github:"', async () => {
+		const installedPackagesData = { 'async': { version: 'github:caolan/async' } }
+		const packageEntry = { fullName: 'async', name: 'async', version: 'github:caolan/async', scope: undefined, alias: '' }
+		const packageReportData = await getPackageReportData(packageEntry, installedPackagesData)
+
+		assert.strictEqual(packageReportData.name, 'async')
+		assert.strictEqual(packageReportData.author, 'n/a')
+		assert.strictEqual(packageReportData.licenseType, 'n/a')
+		assert.strictEqual(packageReportData.link, 'n/a')
+		assert.strictEqual(packageReportData.installedFrom, 'github:caolan/async')
+		assert.strictEqual(packageReportData.definedVersion, 'n/a')
+		assert.strictEqual(packageReportData.installedVersion, 'n/a')
+		assert.strictEqual(packageReportData.remoteVersion, 'n/a')
+	})
 })

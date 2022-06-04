@@ -1,5 +1,5 @@
 const assert = require('assert')
-const nock = require('nock');
+const nock = require('nock')
 const config = require('../lib/config')
 const getPackageJson = require('../lib/getPackageJson')
 
@@ -14,14 +14,14 @@ describe('private repository access test', function() {
 		originalConfigRegistry = config.registry
 		originalConfigNpmTokenEnvVar = config.npmTokenEnvVar
 		originalHttpRetry = config.httpRetryOptions.maxAttempts
-  });
+  })
 
   afterEach(function() {
 		config.registry = originalConfigRegistry
 		config.npmTokenEnvVar = originalConfigNpmTokenEnvVar
 		config.httpRetryOptions.maxAttempts = originalHttpRetry
 		nock.cleanAll()
-  });
+  })
 
 	it('get npm token indirect from config', function() {
 		const envVarName = 'TEST_NPM_TOKEN_LR'
@@ -47,7 +47,7 @@ describe('private repository access test', function() {
 		// Mock the npm private repository response
 		const scope = nock(npmRegistry, {"encodedQueryParams":true})
 	  .get(`/${packageName}`)
-	  .reply(200, responses.async);
+	  .reply(200, responses.async)
 
 		const packageReportData = await getPackageJson(packageName)
 
@@ -73,7 +73,7 @@ describe('private repository access test', function() {
 	  .matchHeader("host", npmRegistryHost)
 	  .matchHeader("authorization", `Bearer ${npmToken}`)
 	  .get(`/${packageName}`)
-	  .reply(200, responses.async);
+	  .reply(200, responses.async)
 
 		const packageReportData = await getPackageJson('async')
 
@@ -99,7 +99,7 @@ describe('private repository access test', function() {
 	  .matchHeader("host", npmRegistryHost)
 	  .matchHeader("authorization", `Bearer ${npmToken}`)
 	  .get(`/${packageName}`)
-	  .reply(401, {});
+	  .reply(401, {})
 
 		try {
 			const packageReportData = await getPackageJson('async')

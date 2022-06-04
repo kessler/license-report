@@ -1,0 +1,12 @@
+{
+  "name": "license-report",
+  "description": "package.json for e2e tests",
+  "dependencies": {
+    "async": "github:caolan/async",
+    "semver": "^7.3.7"
+  },
+  "devDependencies": {
+    "debug": "git://github.com/debug-js/debug.git",
+    "my-local-package": "file:local-libs/my-local-package"
+  }
+}
