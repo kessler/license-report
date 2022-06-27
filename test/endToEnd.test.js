@@ -121,6 +121,7 @@ describe('end to end test for configuration', function () {
 			material: "material",
 			licenseType: "ISC",
 			link: "git+https://github.com/npm/node-semver.git",
+			installedFrom: "https://registry.npmjs.org/semver/-/semver-6.3.0.tgz",
 			remoteVersion: "5.7.1",
 			installedVersion: "6.3.0",
 			definedVersion: "^5.0.0",
