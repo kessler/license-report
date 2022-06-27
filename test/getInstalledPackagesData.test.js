@@ -8,7 +8,6 @@ describe('getInstalledPackagesData', () => {
 		const installedPackagesData = getInstalledPackagesData(packageLockContent, depsIndex)
 
 		assert.strictEqual(installedPackagesData['mocha'].version, '6.2.3')
-    assert.strictEqual(installedPackagesData['mocha'].installedFrom, 'https://registry.npmjs.org/mocha/-/mocha-6.2.3.tgz')
   })
 
   it('gets the package data for local package', () => {
