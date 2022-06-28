@@ -58,7 +58,7 @@ module.exports.addInstalledAndRemoteVersionsToExpectedData = async (expectedData
 	const packagesData = expectedData.map(packageData => {
 		const package = packageLockJson.dependencies[[packageData.name]];
 		if (packageData.installedVersion && (packageData.installedVersion === '_VERSION_')) {
-			packageData.installedVersion = package && package.version ? package.version : 'no entry in package-lock.json'
+			packageData.installedVersion = package && package.version ? package.version : 'n/a'
 		}
 		return packageData
 	})
