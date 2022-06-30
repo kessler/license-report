@@ -7,14 +7,9 @@ describe('extractLink', function () {
 		assert.strictEqual(link, 'http://lala.com')
 	})
 
-	it('search for another http link if repo link isnt there', function () {
+	it('search for another http link if repo link is not there', function () {
 		const link = extractLink({ url: 'http://lala.com' })
 		assert.strictEqual(link, 'http://lala.com')
-	})
-
-	it('search for another http link if repo link isnt there', function () {
-		const link = extractLink({ repo: 'git://lala.com' })
-		assert.strictEqual(link, 'git://lala.com')
 	})
 
 	it('returns nothing otherwise', function () {
