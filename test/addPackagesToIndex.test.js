@@ -54,9 +54,9 @@ describe('addPackagesToIndex', function() {
 	})
 
 	it('add package with alias to the index', function() {
-		addPackagesToIndex({ "mocha_8.3.1": "npm:mocha@^8.3.1" }, index)
+		addPackagesToIndex({ "my-mocha": "npm:mocha@^8.3.1" }, index)
 
-		assert.deepStrictEqual(index, [{ fullName: 'mocha', name: 'mocha', version: '^8.3.1', scope: undefined, alias: 'mocha_8.3.1' }])
+		assert.deepStrictEqual(index, [{ fullName: 'mocha', name: 'mocha', version: '^8.3.1', scope: undefined, alias: 'my-mocha' }])
 	})
 
 	it('add scoped package with alias to the index', function() {

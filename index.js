@@ -68,26 +68,14 @@ const util = require('./lib/util');
       }
     }
 
-    // package-lock.json is used to get the installed package information from
-    const resolvedPackageLockJson = path.resolve(path.dirname(resolvedPackageJson), 'package-lock.json')
-    debug('loading %s', resolvedPackageLockJson)
-    if (fs.existsSync(resolvedPackageLockJson)) {
-      const packageLockContent = await util.readJson(resolvedPackageLockJson)
-      if(packageLockContent.dependencies !== undefined) {
-        const packageLockDependencies = packageLockContent.dependencies
-        for (const element of depsIndex) {
-          const packageLockDependency = packageLockDependencies[element.fullName]
-          addLocalPackageDataToIndexData(element, packageLockDependency)
-        }
-      } else {
-        console.warn('package-lock.json file does not contain a "dependencies" element')
-      }
-    } else {
-      console.warn(`Warning: the file '${resolvedPackageLockJson}' is required to get installed versions of packages`)
-    }
-
+    const projectRootPath = path.dirname(resolvedPackageJson)
+    const depsIndexWithLocalDataAdded = await Promise.all(
+      depsIndex.map(async (element) => {
+        return await addLocalPackageDataToIndexData(element, projectRootPath)
+      })
+    )
     const results = await Promise.all(
-      depsIndex.map(async (packageEntry) => {
+      depsIndexWithLocalDataAdded.map(async (packageEntry) => {
         return await getPackageReportData(packageEntry)
       })
     )

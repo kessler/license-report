@@ -161,7 +161,7 @@ describe('getPackageReportData', function() {
 	})
 
 	it('gets report data for local package using "file:"', async () => {
-		const packageEntry = { fullName: 'my-local-package', name: 'my-local-package', version: 'file:local-libs/my-local-package', scope: undefined, alias: '', installedVersion: 'file:local-libs/my-local-package' }
+		const packageEntry = { fullName: 'my-local-package', name: 'my-local-package', version: 'file:local-libs/my-local-package', scope: undefined, alias: '', installedVersion: '1.2.3' }
 		const packageReportData = await getPackageReportData(packageEntry)
 
 		assert.strictEqual(packageReportData.name, 'my-local-package')
@@ -170,12 +170,12 @@ describe('getPackageReportData', function() {
 		assert.strictEqual(packageReportData.link, 'n/a')
 		assert.strictEqual(packageReportData.installedFrom, 'file:local-libs/my-local-package')
 		assert.strictEqual(packageReportData.definedVersion, 'n/a')
-		assert.strictEqual(packageReportData.installedVersion, 'n/a')
+		assert.strictEqual(packageReportData.installedVersion, '1.2.3')
 		assert.strictEqual(packageReportData.remoteVersion, 'n/a')
 	})
 
 	it('gets report data for local package using "git:"', async () => {
-		const packageEntry = { fullName: 'debug', name: 'debug', version: 'git://github.com/debug-js/debug.git', scope: undefined, alias: '', installedVersion: 'git://github.com/debug-js/debug.git' }
+		const packageEntry = { fullName: 'debug', name: 'debug', version: 'git://github.com/debug-js/debug.git', scope: undefined, alias: '', installedVersion: '3.4.5' }
 		const packageReportData = await getPackageReportData(packageEntry)
 
 		assert.strictEqual(packageReportData.name, 'debug')
@@ -184,12 +184,12 @@ describe('getPackageReportData', function() {
 		assert.strictEqual(packageReportData.link, 'n/a')
 		assert.strictEqual(packageReportData.installedFrom, 'git://github.com/debug-js/debug.git')
 		assert.strictEqual(packageReportData.definedVersion, 'n/a')
-		assert.strictEqual(packageReportData.installedVersion, 'n/a')
+		assert.strictEqual(packageReportData.installedVersion, '3.4.5')
 		assert.strictEqual(packageReportData.remoteVersion, 'n/a')
 	})
 
 	it('gets report data for local package using "github:"', async () => {
-		const packageEntry = { fullName: 'async', name: 'async', version: 'github:caolan/async', scope: undefined, alias: '', installedVersion: 'github:caolan/async' }
+		const packageEntry = { fullName: 'async', name: 'async', version: 'github:caolan/async', scope: undefined, alias: '', installedVersion: '5.6.7' }
 		const packageReportData = await getPackageReportData(packageEntry)
 
 		assert.strictEqual(packageReportData.name, 'async')
@@ -198,7 +198,7 @@ describe('getPackageReportData', function() {
 		assert.strictEqual(packageReportData.link, 'n/a')
 		assert.strictEqual(packageReportData.installedFrom, 'github:caolan/async')
 		assert.strictEqual(packageReportData.definedVersion, 'n/a')
-		assert.strictEqual(packageReportData.installedVersion, 'n/a')
+		assert.strictEqual(packageReportData.installedVersion, '5.6.7')
 		assert.strictEqual(packageReportData.remoteVersion, 'n/a')
 	})
 })

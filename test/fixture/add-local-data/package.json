@@ -1,0 +1,11 @@
+{
+  "name": "license-report",
+  "description": "test project for license-report issue 85",
+  "dependencies": {
+    "@test/testpackage": "^1.2.0",
+    "mypackage": "~9.8.1",
+    "ol": "dev",
+    "my-local-package": "file:local-libs/my-local-package",
+    "my-mocha": "npm:mocha@^8.3.1"
+  }
+}

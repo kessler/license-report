@@ -14,34 +14,19 @@ const scriptPath = path
 const defaultFieldsPackageJsonPath = path
 	.resolve(__dirname, 'fixture', 'default-fields', 'package.json')
 	.replace(/(\s+)/g, '\\$1')
-const defaultFieldsPackageLockJsonPath = path
-	.resolve(__dirname, 'fixture', 'default-fields', 'package-lock.json')
-	.replace(/(\s+)/g, '\\$1')	
-const defaultFieldsPackageJson = require(defaultFieldsPackageJsonPath)
-const defaultFieldsPackageLockJson = require(defaultFieldsPackageLockJsonPath)
 
 // test data for e2e test using all fields
 const allFieldsPackageJsonPath = path
-	.resolve(__dirname, 'fixture', 'all-supported-fields', 'package.json')
-	.replace(/(\s+)/g, '\\$1')	
-const allFieldsPackageLockJsonPath = path
-	.resolve(__dirname, 'fixture', 'all-supported-fields', 'package-lock.json')
-	.replace(/(\s+)/g, '\\$1')	
-const allFieldsPackageJson = require(allFieldsPackageJsonPath)
-const allFieldsPackageLockJson = require(allFieldsPackageLockJsonPath)
+	.resolve(__dirname, 'fixture', 'all-fields', 'package.json')
+	.replace(/(\s+)/g, '\\$1')
 const allFieldsConfigPath = path
-	.resolve(__dirname, 'fixture', 'all-supported-fields', 'license-report-config.json')
+	.resolve(__dirname, 'fixture', 'all-fields', 'license-report-config.json')
 	.replace(/(\s+)/g, '\\$1')
 
 // test data for e2e test using the default fields and local packages
 const localPackagesPackageJsonPath = path
 	.resolve(__dirname, 'fixture', 'local-packages', 'package.json')
 	.replace(/(\s+)/g, '\\$1')
-const localPackagesPackageLockJsonPath = path
-	.resolve(__dirname, 'fixture', 'local-packages', 'package-lock.json')
-	.replace(/(\s+)/g, '\\$1')
-const localPackagesPackageJson = require(localPackagesPackageJsonPath)
-const localPackagesPackageLockJson = require(localPackagesPackageLockJsonPath)
 const localPackagesConfigPath = path
 	.resolve(__dirname, 'fixture', 'local-packages', 'license-report-config.json')
 	.replace(/(\s+)/g, '\\$1')
@@ -50,12 +35,12 @@ const execAsPromise = util.promisify(cp.exec)
 
 let expectedData
 
-describe('end to end test', function() {
+describe('end to end test for default fields', function() {
 	this.timeout(50000)
 
 	beforeEach(async  () => {
 		expectedData = EXPECTED_DEFAULT_FIELDS_RAW_DATA.slice(0)
-		await expectedOutput.addInstalledAndRemoteVersionsToExpectedData(expectedData, defaultFieldsPackageJson, defaultFieldsPackageLockJson)
+		await expectedOutput.addRemoteVersionsToExpectedData(expectedData)
   })
 
 	it('produce a json report', async () => {
@@ -64,6 +49,7 @@ describe('end to end test', function() {
 		const expectedJsonResult = expectedOutput.rawDataToJson(expectedData)
 
 		assert.deepStrictEqual(result, expectedJsonResult)
+		assert.strictEqual(stderr, '', 'expected no warnings')
 	})
 
 	it('produce a table report', async () => {
@@ -71,6 +57,7 @@ describe('end to end test', function() {
 		const expectedTableResult = expectedOutput.rawDataToTable(expectedData, EXPECTED_TABLE_TEMPLATE)
 
 		assert.strictEqual(stdout, expectedTableResult)
+		assert.strictEqual(stderr, '', 'expected no warnings')
 	})
 
 	it('produce a csv report', async () => {
@@ -78,6 +65,7 @@ describe('end to end test', function() {
 		const expectedCsvResult = expectedOutput.rawDataToCsv(expectedData, EXPECTED_CSV_TEMPLATE)
 
 		assert.strictEqual(stdout, expectedCsvResult)
+		assert.strictEqual(stderr, 'Warning: field contains delimiter; value: \"Dan VerWeire, Yaniv Kessler\"\n')
 	})
 
 	it('produce an html report', async () => {
@@ -87,6 +75,7 @@ describe('end to end test', function() {
 		const expectedHtmlResult = expectedOutput.rawDataToHtml(expectedData, expectedHtmlTemplate)
 
 		assert.strictEqual(actualResult, expectedHtmlResult)
+		assert.strictEqual(stderr, '', 'expected no warnings')
 	})
 })
 
@@ -95,7 +84,7 @@ describe('end to end test for local packages', function() {
 
 	beforeEach(async  () => {
 		expectedData = EXPECTED_LOCAL_PACKAGES_RAW_DATA.slice(0)
-		await expectedOutput.addInstalledAndRemoteVersionsToExpectedData(expectedData, localPackagesPackageJson, localPackagesPackageLockJson)
+		await expectedOutput.addRemoteVersionsToExpectedData(expectedData)
   })
 
 	it('produce a json report', async () => {
@@ -107,7 +96,7 @@ describe('end to end test for local packages', function() {
 	})
 })
 
-describe('end to end test for configuration', function () {
+describe('end to end test for all fields', function () {
 	this.timeout(50000)
 
 	it('produce a json report with the fields specified in config', async () => {
@@ -121,13 +110,13 @@ describe('end to end test for configuration', function () {
 			material: "material",
 			licenseType: "ISC",
 			link: "git+https://github.com/npm/node-semver.git",
-			installedFrom: "https://registry.npmjs.org/semver/-/semver-6.3.0.tgz",
+			installedFrom: "https://registry.npmjs.org/semver/-/semver-5.4.1.tgz",
 			remoteVersion: "5.7.1",
-			installedVersion: "6.3.0",
+			installedVersion: "5.4.1",
 			definedVersion: "^5.0.0",
 			author:"GitHub Inc."
 		}];
-		await expectedOutput.addInstalledAndRemoteVersionsToExpectedData(expectedResult, allFieldsPackageJson, allFieldsPackageLockJson)
+		await expectedOutput.addRemoteVersionsToExpectedData(expectedResult)
 
 		assert.deepStrictEqual(result, expectedResult, `expected the output to contain all the configured fields`)
 		assert.strictEqual(stderr, '', 'expected no warnings')
@@ -173,7 +162,7 @@ const EXPECTED_DEFAULT_FIELDS_RAW_DATA = [
 		licenseType: 'MIT',
 		link: 'git+https://github.com/kessler/node-tableify.git',
 		remoteVersion: '_VERSION_',
-		installedVersion: '_VERSION_',
+		installedVersion: '1.0.2',
 		definedVersion: '^1.0.2'
 	},
 	{
@@ -186,7 +175,7 @@ const EXPECTED_DEFAULT_FIELDS_RAW_DATA = [
 		licenseType: 'MIT',
 		link: 'git+https://github.com/mochajs/mocha.git',
 		remoteVersion: '_VERSION_',
-		installedVersion: '_VERSION_',
+		installedVersion: '9.1.2',
 		definedVersion: '^9.1.1'
 	},		
 	{
@@ -199,7 +188,7 @@ const EXPECTED_DEFAULT_FIELDS_RAW_DATA = [
 		licenseType: 'MIT',
 		link: 'git+https://github.com/lodash/lodash.git',
 		remoteVersion: '_VERSION_',
-		installedVersion: '_VERSION_',
+		installedVersion: '4.17.21',
 		definedVersion: '^4.17.20'
 	},	
 	{
@@ -212,7 +201,7 @@ const EXPECTED_DEFAULT_FIELDS_RAW_DATA = [
 		licenseType: 'ISC',
 		link: 'git+https://github.com/npm/node-semver.git',
 		remoteVersion: '_VERSION_',
-		installedVersion: '_VERSION_',
+		installedVersion: '7.3.7',
 		definedVersion: '^7.3.5'
 	},	
 ]
@@ -229,8 +218,8 @@ const EXPECTED_LOCAL_PACKAGES_RAW_DATA = [
 		licenseType: 'n/a',
 		link: 'n/a',
     installedFrom: "github:caolan/async",
-		remoteVersion: 'n/a',
-		installedVersion: 'n/a',
+		remoteVersion: '_VERSION_',
+		installedVersion: '3.2.4',
 		definedVersion: 'n/a'
 	},
 	{
@@ -242,10 +231,10 @@ const EXPECTED_LOCAL_PACKAGES_RAW_DATA = [
 		material: 'material',
 		licenseType: 'ISC',
 		link: 'git+https://github.com/npm/node-semver.git',
-    installedFrom: "https://registry.npmjs.org/semver/-/semver-7.3.7.tgz",
+    installedFrom: "https://registry.npmjs.org/semver/-/semver-7.3.6.tgz",
 		remoteVersion: '_VERSION_',
-		installedVersion: '_VERSION_',
-		definedVersion: '^7.3.7'
+		installedVersion: '7.3.6',
+		definedVersion: '^7.3.0'
 	},
 	{
 		author: "n/a",
@@ -257,8 +246,8 @@ const EXPECTED_LOCAL_PACKAGES_RAW_DATA = [
 		licenseType: 'n/a',
 		link: 'n/a',
     installedFrom: "git://github.com/debug-js/debug.git",
-		remoteVersion: 'n/a',
-		installedVersion: 'n/a',
+		remoteVersion: '_VERSION_',
+		installedVersion: '4.3.4',
 		definedVersion: 'n/a'
 	},	
 	{
@@ -271,8 +260,8 @@ const EXPECTED_LOCAL_PACKAGES_RAW_DATA = [
 		licenseType: 'n/a',
 		link: 'n/a',
     installedFrom: "file:local-libs/my-local-package",
-		remoteVersion: 'n/a',
-		installedVersion: 'n/a',
+		remoteVersion: '_VERSION_',
+		installedVersion: '1.1.4',
 		definedVersion: 'n/a'
 	},	
 ]
