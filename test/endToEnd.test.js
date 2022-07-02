@@ -96,7 +96,7 @@ describe('end to end test for local packages', function() {
 	})
 })
 
-describe('end to end test for all fields', function () {
+describe('end to end test for all fields', function() {
 	this.timeout(50000)
 
 	it('produce a json report with the fields specified in config', async () => {
