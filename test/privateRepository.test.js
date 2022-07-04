@@ -3,7 +3,11 @@ const nock = require('nock')
 const config = require('../lib/config')
 const getPackageJson = require('../lib/getPackageJson')
 
-describe('private repository access test', function() {
+/**
+ * Fetching data from the private repository gets mocked to get independent from
+ * having a real private repository.
+ */
+ describe('getPackageJson with private repository', function() {
 	this.timeout(20000)
 
 	let originalConfigRegistry
@@ -23,7 +27,7 @@ describe('private repository access test', function() {
 		nock.cleanAll()
   })
 
-	it('get npm token indirect from config', function() {
+	it('gets npm token via environment variable given in config file', function() {
 		const envVarName = 'TEST_NPM_TOKEN_LR'
 		const testToken = Math.random().toString(36).substring(2)
 		config.npmTokenEnvVar = envVarName
@@ -34,7 +38,7 @@ describe('private repository access test', function() {
 		assert.strictEqual(npmTokenFromConfig, testToken)
 	})
 
-	it('get data from remote repository without authorization', async () => {
+	it('gets data from repository without authorization', async () => {
 		const packageName = 'async'
 
 		// Mock the config for accessing a npm private repository
@@ -52,12 +56,15 @@ describe('private repository access test', function() {
 		const packageReportData = await getPackageJson(packageName)
 
 		assert.strictEqual(packageReportData.name, packageName)
-		assert.strictEqual(packageReportData.license, 'MIT')
 		assert.ok(packageReportData.versions.hasOwnProperty('3.2.0'))
-		assert.ok(packageReportData.versions['3.2.0'].hasOwnProperty('license'))
+		assert.ok(packageReportData.versions['3.2.0'].hasOwnProperty('dist'))
+		assert.ok(packageReportData.versions['3.2.0']['dist'].hasOwnProperty('tarball'))
+		assert.ok(packageReportData.versions['3.2.0'].hasOwnProperty('repository'))
+		assert.ok(packageReportData.versions['3.2.0']['repository'].hasOwnProperty('url'))
+		assert.ok(scope.isDone())
 	})
 
-	it('get data from remote repository with authorization', async () => {
+	it('gets data from repository with authorization', async () => {
 		const packageName = 'async'
 
 		// Mock the config for accessing a npm private repository
@@ -79,11 +86,14 @@ describe('private repository access test', function() {
 
 		assert.strictEqual(packageReportData.name, packageName)
 		assert.ok(packageReportData.versions.hasOwnProperty('3.2.0'))
-		assert.ok(packageReportData.versions['3.2.0'].hasOwnProperty('license'))
+		assert.ok(packageReportData.versions['3.2.0'].hasOwnProperty('dist'))
+		assert.ok(packageReportData.versions['3.2.0']['dist'].hasOwnProperty('tarball'))
+		assert.ok(packageReportData.versions['3.2.0'].hasOwnProperty('repository'))
+		assert.ok(packageReportData.versions['3.2.0']['repository'].hasOwnProperty('url'))
 		assert.ok(scope.isDone())
 	})
 
-	it('get error from remote repository with incorrect authorization', async () => {
+	it('throws error when using incorrect authorization', async () => {
 		const packageName = 'async'
 
 		// Mock the config for accessing a npm private repository
@@ -102,7 +112,7 @@ describe('private repository access test', function() {
 	  .reply(401, {})
 
 		try {
-			const packageReportData = await getPackageJson('async')
+			await getPackageJson('async')
 		} catch (error) {
 			assert.strictEqual(error.name, 'HTTPError')
 			assert.strictEqual(error.message, 'Response code 401 (Unauthorized)')
@@ -114,55 +124,33 @@ describe('private repository access test', function() {
 
 const responses = {
 	async: {
-		id: "async",
-		rev: "1661-d403a09616d6678ed32b5e0deffeacc9",
 		name: "async",
 		description: "Higher-order functions and common patterns for asynchronous code",
-		'dist-tags': { latest: "3.2.0", next: "3.1.0" },
 		versions: {
-			'3.1.1': {
-				name: 'async',
-				description: 'Higher-order functions and common patterns for asynchronous code',
-				version: '3.1.1',
-				main: 'dist/async.js',
-				homepage: 'https://caolan.github.io/async/',
-				license: 'MIT',
-				nyc: [Object],
-				module: 'dist/async.mjs',
-				_id: 'async@3.1.1',
-				_nodeVersion: '10.16.0',
-				_npmVersion: '6.9.0',
-				directories: {},
-				_hasShrinkwrap: false
-			},
-			'3.2.0': {
+			"3.2.0": {
 				name: "async",
 				description: "Higher-order functions and common patterns for asynchronous code",
 				version: "3.2.0",
-				main: "dist/async.js",
-				homepage: "https://caolan.github.io/async/",
-				license: "MIT",
-				module: "dist/async.mjs",
-				_id: "async@3.2.0",
-				_nodeVersion: "12.16.1",
-				_npmVersion: "6.13.4",
-				directories: {},
-				_hasShrinkwrap: false
-			}
+				repository: {
+					type: "git",
+					url: "git+https://github.com/caolan/async.git",
+				},
+				dist: {
+					tarball: "https://registry.npmjs.org/async/-/async-3.2.0.tgz",
+				},
+			},
+			"3.2.1": {
+				name: "async",
+				description: "Higher-order functions and common patterns for asynchronous code",
+				version: "3.2.1",
+				repository: {
+					type: "git",
+					url: "git+https://github.com/caolan/async.git",
+				},
+				dist: {
+					tarball: "https://registry.npmjs.org/async/-/async-3.2.1.tgz",
+				},
+			},
 		},
-		time: {
-			modified: "2020-03-05T17:23:38.004Z",
-			created: "2010-12-19T16:41:51.765Z",
-			'3.1.1': '2020-01-24T23:58:16.097Z',
-			'3.2.0': "2020-02-24T02:58:20.125Z"
-		},
-		users: {
-			thejh: true,
-			justjavac: true
-		},
-		readmeFilename: "README.md",
-		homepage: "https://caolan.github.io/async/",
-		keywords: [ "async", "callback", "module", "utility" ],
-		license: "MIT"
 	}
 }
