@@ -14,11 +14,11 @@ describe('extractLicense', function() {
 
 	it('if it is an empty array', function() {
 		const license = extractLicense({ licenses: [] })
-		assert.strictEqual(license, '')
+		assert.strictEqual(license, 'n/a')
 	})
 
 	it('cannot extract for some reason', function() {
 		const license = extractLicense('lkasdlkjsdlkj')
-		assert(!license)
+		assert.strictEqual(license, 'n/a')
 	})
 })
