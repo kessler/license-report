@@ -32,6 +32,7 @@ describe('getPackageReportData', function() {
 		}
 
 		// Mock the npm repository response
+		config.httpRetryOptions.maxAttempts = 1
 		const scope = nock(config.registry, {"encodedQueryParams":true})
 	  .get(`/${packageEntry.fullName}`)
 	  .reply(200, responses[packageEntry.fullName])
@@ -58,6 +59,7 @@ describe('getPackageReportData', function() {
 		}
 
 		// Mock the npm repository response
+		config.httpRetryOptions.maxAttempts = 1
 		const scope = nock(config.registry, {"encodedQueryParams":true})
 	  .get(`/${packageEntry.fullName}`)
 	  .reply(200, responses[packageEntry.fullName])
@@ -82,6 +84,7 @@ describe('getPackageReportData', function() {
 		}
 
 		// Mock the npm repository response
+		config.httpRetryOptions.maxAttempts = 1
 		const scope = nock(config.registry, {"encodedQueryParams":true})
 	  .get(`/${packageEntry.fullName}`)
 	  .reply(200, responses[packageEntry.fullName])
@@ -106,6 +109,7 @@ describe('getPackageReportData', function() {
 		}
 
 		// Mock the npm repository response
+		config.httpRetryOptions.maxAttempts = 1
 		const scope = nock(config.registry, {"encodedQueryParams":true})
 	  .get(`/${packageEntry.fullName}`)
 	  .reply(200, responses[packageEntry.fullName])
@@ -130,6 +134,7 @@ describe('getPackageReportData', function() {
 		}
 
 		// Mock the npm repository response
+		config.httpRetryOptions.maxAttempts = 1
 		const scope = nock(config.registry, {"encodedQueryParams":true})
 	  .get(`/${packageEntry.fullName}`)
 	  .reply(200, responses[packageEntry.fullName])
@@ -155,6 +160,7 @@ describe('getPackageReportData', function() {
 		}
 
 		// Mock the npm repository response
+		config.httpRetryOptions.maxAttempts = 1
 		const scope = nock(config.registry, {"encodedQueryParams":true})
 	  .get(`/${packageEntry.fullName}`)
 	  .reply(200, responses[packageEntry.fullName])
@@ -180,6 +186,7 @@ describe('getPackageReportData', function() {
 		}
 
 		// Mock the npm repository response
+		config.httpRetryOptions.maxAttempts = 1
 		const scope = nock(config.registry, {"encodedQueryParams":true})
 	  .get(`/${packageEntry.fullName}`)
 	  .reply(200, responses[packageEntry.fullName])
