@@ -166,7 +166,7 @@ const EXPECTED_DEFAULT_FIELDS_RAW_DATA = [
 		definedVersion: '^1.0.2'
 	},
 	{
-		author: 'TJ Holowaychuk tj@vision-media.ca',
+		author: 'TJ Holowaychuk <tj@vision-media.ca>',
 		department: 'kessler',
 		relatedTo: 'stuff',
 		name: 'mocha',
@@ -179,7 +179,7 @@ const EXPECTED_DEFAULT_FIELDS_RAW_DATA = [
 		definedVersion: '^9.1.1'
 	},		
 	{
-		author: "John-David Dalton john.david.dalton@gmail.com",
+		author: "John-David Dalton <john.david.dalton@gmail.com>",
 		department: 'kessler',
 		relatedTo: 'stuff',
 		name: 'lodash',
@@ -209,13 +209,13 @@ const EXPECTED_DEFAULT_FIELDS_RAW_DATA = [
 // raw data we use to generate the expected results for default fields test
 const EXPECTED_LOCAL_PACKAGES_RAW_DATA = [
 	{
-		author: 'n/a',
+		author: 'Caolan McMahon',
 		department: 'kessler',
 		relatedTo: 'stuff',
 		name: 'async',
 		licensePeriod: 'perpetual',
 		material: 'material',
-		licenseType: 'n/a',
+		licenseType: 'MIT',
 		link: 'n/a',
     installedFrom: "github:caolan/async",
 		remoteVersion: '_VERSION_',
@@ -237,13 +237,13 @@ const EXPECTED_LOCAL_PACKAGES_RAW_DATA = [
 		definedVersion: '^7.3.0'
 	},
 	{
-		author: "n/a",
+		author: 'Josh Junon <josh.junon@protonmail.com>',
 		department: 'kessler',
 		relatedTo: 'stuff',
 		name: 'debug',
 		licensePeriod: 'perpetual',
 		material: 'material',
-		licenseType: 'n/a',
+		licenseType: 'MIT',
 		link: 'n/a',
     installedFrom: "git://github.com/debug-js/debug.git",
 		remoteVersion: '_VERSION_',
@@ -251,13 +251,13 @@ const EXPECTED_LOCAL_PACKAGES_RAW_DATA = [
 		definedVersion: 'n/a'
 	},	
 	{
-		author: 'n/a',
+		author: 'John Doe',
 		department: 'kessler',
 		relatedTo: 'stuff',
 		name: 'my-local-package',
 		licensePeriod: 'perpetual',
 		material: 'material',
-		licenseType: 'n/a',
+		licenseType: 'MIT',
 		link: 'n/a',
     installedFrom: "file:local-libs/my-local-package",
 		remoteVersion: '_VERSION_',
