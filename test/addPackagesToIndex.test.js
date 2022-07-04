@@ -2,7 +2,7 @@ const assert = require('assert')
 const addPackagesToIndex = require('../lib/addPackagesToIndex.js')
 
 describe('addPackagesToIndex', function() {
-	let index, packages
+	let index
 
 	beforeEach(function() {
 		index = []
