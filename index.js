@@ -69,18 +69,14 @@ const util = require('./lib/util');
     }
 
     const projectRootPath = path.dirname(resolvedPackageJson)
-    const depsIndexWithLocalDataAdded = await Promise.all(
+    const packagesData = await Promise.all(
       depsIndex.map(async (element) => {
-        return await addLocalPackageDataToIndexData(element, projectRootPath)
-      })
-    )
-    const results = await Promise.all(
-      depsIndexWithLocalDataAdded.map(async (packageEntry) => {
-        return await getPackageReportData(packageEntry)
+        const localDataForPackages = await addLocalPackageDataToIndexData(element, projectRootPath)
+        const packagesData = await getPackageReportData(localDataForPackages)
+        return packageDataToReportData(packagesData, config)
       })
     )
 
-    const packagesData = results.map(element => packageDataToReportData(element, config))
     console.log(outputFormatter(packagesData, config))
   } catch (e) {
     console.error(e.stack)
