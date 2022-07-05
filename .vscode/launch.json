@@ -1,0 +1,47 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "pwa-node",
+      "request": "launch",
+      "name": "Launch Program",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}\\index.js"
+    },
+    {
+      "name": "Debug with local packages",
+      "type": "pwa-node",
+      "request": "launch",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}\\index.js",
+      "args": ["--package=${workspaceFolder}\\test\\fixture\\local-packages\\package.json", "--config=${workspaceFolder}\\test\\fixture\\local-packages\\license-report-config.json"]
+    },
+    {
+      "name": "Debug with default fields",
+      "type": "pwa-node",
+      "request": "launch",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}\\index.js",
+      "args": ["--package=${workspaceFolder}\\test\\fixture\\default-fields\\package.json", "--config=${workspaceFolder}\\test\\fixture\\local-packages\\license-report-config.json"]
+    },
+    {
+      "name": "Debug with all fields",
+      "type": "pwa-node",
+      "request": "launch",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}\\index.js",
+      "args": ["--package=${workspaceFolder}\\test\\fixture\\all-fields\\package.json", "--config=${workspaceFolder}\\test\\fixture\\local-packages\\license-report-config.json"]
+    }
+  ]
+}

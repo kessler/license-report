@@ -5,7 +5,7 @@ const config = require('../../lib/config.js')
 
 /*
 	get latest version from registry and add it to the entry in the expectedData;
-	the field 'installedVersion' in the packagesData entries must contain the
+	the field 'definedVersion' in the packagesData entries must contain the
 	package name with the range character from the package.json to find the
 	latest version satisfying the defined range (the range character will be
 	removed later)
@@ -50,20 +50,12 @@ async function addRemoteVersion(dependency) {
 	}
 }
 
-/*
-	add current values for installedVersion and remoteVersion to list of expectedData
-*/
-module.exports.addInstalledAndRemoteVersionsToExpectedData = async (expectedData, packageJson, packageLockJson)  => {
-	// add version from package.json (dev-) dependencies as installedVersion
-	const packagesData = expectedData.map(packageData => {
-		const package = packageLockJson.dependencies[[packageData.name]];
-		if (packageData.installedVersion && (packageData.installedVersion === '_VERSION_')) {
-			packageData.installedVersion = package && package.version ? package.version : 'no entry in package-lock.json'
-		}
-		return packageData
-	})
-
-	await Promise.all(packagesData.map(async (packageData) => {
+/**
+ * Add remoteVersion to objects in array of expectedData
+ * @param {[object]} expectedData - array with expected data containing placeholders for remote versions
+ */
+module.exports.addRemoteVersionsToExpectedData = async (expectedData)  => {
+	await Promise.all(expectedData.map(async (packageData) => {
 		await addRemoteVersion(packageData)
 	}))
 }

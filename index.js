@@ -5,9 +5,9 @@ const path = require('path')
 const debug = require('debug')('license-report')
 const config = require('./lib/config.js')
 const getFormatter = require('./lib/getFormatter')
-const getInstalledPackagesData = require('./lib/getInstalledPackagesData')
+const addLocalPackageData = require('./lib/addLocalPackageData')
 const addPackagesToIndex = require('./lib/addPackagesToIndex')
-const getPackageReportData = require('./lib/getPackageReportData.js')
+const addPackageDataFromRepository = require('./lib/addPackageDataFromRepository.js')
 const packageDataToReportData = require('./lib/packageDataToReportData')
 const util = require('./lib/util');
 
@@ -68,24 +68,15 @@ const util = require('./lib/util');
       }
     }
 
-    // package-lock.json is used to get the installed package information from
-    let installedPackagesData = {}
-    const resolvedPackageLockJson = path.resolve(path.dirname(resolvedPackageJson), 'package-lock.json')
-    debug('loading %s', resolvedPackageLockJson)
-    if (fs.existsSync(resolvedPackageLockJson)) {
-      const packageLockContent = await util.readJson(resolvedPackageLockJson)
-      installedPackagesData = getInstalledPackagesData(packageLockContent, depsIndex)
-    } else {
-      console.warn(`Warning: the file '${resolvedPackageLockJson}' is required to get installed versions of packages`)
-    }
-
-    const results = await Promise.all(
-      depsIndex.map(async (packageEntry) => {
-        return await getPackageReportData(packageEntry, installedPackagesData)
+    const projectRootPath = path.dirname(resolvedPackageJson)
+    const packagesData = await Promise.all(
+      depsIndex.map(async (element) => {
+        const localDataForPackages = await addLocalPackageData(element, projectRootPath)
+        const packagesData = await addPackageDataFromRepository(localDataForPackages)
+        return packageDataToReportData(packagesData, config)
       })
     )
 
-    const packagesData = results.map(element => packageDataToReportData(element, config))
     console.log(outputFormatter(packagesData, config))
   } catch (e) {
     console.error(e.stack)

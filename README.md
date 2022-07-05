@@ -9,7 +9,7 @@
 npm install -g license-report
 ```
 ## Functionality
-`license-report` reads data from a `package.json` file and adds detailed version information about the installed versions from the corresponding `package-lock.json` file and about the latest available version from the (npm) registry.
+`license-report` reads data from a `package.json` file and adds detailed version information about the installed versions from the corresponding `package.json` file in the `node_modules` directory and about the latest available version from the (npm) registry.
 
 ## Usage
 
