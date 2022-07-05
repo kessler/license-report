@@ -1,8 +1,8 @@
 const assert = require('assert')
 const path = require('path')
-const addLocalPackageDataToIndexData = require('../lib/addLocalPackageDataToIndexData.js')
+const addLocalPackageData = require('../lib/addLocalPackageData.js')
 
-describe('addLocalPackageDataToIndexData', function() {
+describe('addLocalPackageData', function() {
   let projectRootPath
 
   beforeEach(() => {
@@ -18,7 +18,7 @@ describe('addLocalPackageDataToIndexData', function() {
 			name: 'mypackage',
 			version: '~9.8.1'
     }
-    await addLocalPackageDataToIndexData(depsIndexElement, projectRootPath)
+    await addLocalPackageData(depsIndexElement, projectRootPath)
 
     assert.ok(depsIndexElement.installedVersion)
     assert.strictEqual(depsIndexElement.installedVersion, '9.8.7')
@@ -32,7 +32,7 @@ describe('addLocalPackageDataToIndexData', function() {
 			version: '^1.2.0',
 			scope: '@test'
     }
-    await addLocalPackageDataToIndexData(depsIndexElement, projectRootPath)
+    await addLocalPackageData(depsIndexElement, projectRootPath)
 
     assert.ok(depsIndexElement.installedVersion)
     assert.strictEqual(depsIndexElement.installedVersion, '1.2.3')
@@ -45,7 +45,7 @@ describe('addLocalPackageDataToIndexData', function() {
       name: 'my-local-package',
       version: 'file:local-libs/my-local-package'
     }
-		await addLocalPackageDataToIndexData(depsIndexElement, projectRootPath)
+		await addLocalPackageData(depsIndexElement, projectRootPath)
 
     assert.ok(depsIndexElement.installedVersion)
     assert.strictEqual(depsIndexElement.installedVersion, '3.4.5')
@@ -58,7 +58,7 @@ describe('addLocalPackageDataToIndexData', function() {
       name: 'ol',
       version: 'dev'
     }
-		await addLocalPackageDataToIndexData(depsIndexElement, projectRootPath)
+		await addLocalPackageData(depsIndexElement, projectRootPath)
 
     assert.ok(depsIndexElement.installedVersion)
 		assert.strictEqual(depsIndexElement.installedVersion, '6.5.1-dev.1622493276948')
@@ -71,7 +71,7 @@ describe('addLocalPackageDataToIndexData', function() {
       name: 'mocha',
       version: '^8.3.1'
     }
-		await addLocalPackageDataToIndexData(depsIndexElement, projectRootPath)
+		await addLocalPackageData(depsIndexElement, projectRootPath)
 
     assert.ok(depsIndexElement.installedVersion)
 		assert.strictEqual(depsIndexElement.installedVersion, '8.3.1')
@@ -84,7 +84,7 @@ describe('addLocalPackageDataToIndexData', function() {
 			name: 'not-installed-package',
 			version: '~1.0.2'
     }
-    await addLocalPackageDataToIndexData(depsIndexElement, projectRootPath)
+    await addLocalPackageData(depsIndexElement, projectRootPath)
 
     assert.ok(depsIndexElement.installedVersion)
     assert.strictEqual(depsIndexElement.installedVersion, 'n/a')

@@ -1,13 +1,13 @@
 const assert = require('assert')
 const nock = require('nock')
 const config = require('../lib/config')
-const getPackageReportData = require('../lib/getPackageReportData.js')
+const addPackageDataFromRepository = require('../lib/addPackageDataFromRepository.js')
 
 /**
  * Fetching data from the repository gets mocked to get independent from
  * the latest data on the repository.
  */
-describe('getPackageReportData', function() {
+describe('addPackageDataFromRepository', function() {
 	this.timeout(20000)
 
 	let originalHttpRetry
@@ -37,7 +37,7 @@ describe('getPackageReportData', function() {
 	  .get(`/${packageEntry.fullName}`)
 	  .reply(200, responses[packageEntry.fullName])
 
-		const packageReportData = await getPackageReportData(packageEntry)
+		const packageReportData = await addPackageDataFromRepository(packageEntry)
 
 		assert.strictEqual(packageReportData.name, 'async')
 		assert.strictEqual(packageReportData.remoteVersion, '3.2.2')
@@ -64,7 +64,7 @@ describe('getPackageReportData', function() {
 	  .get(`/${packageEntry.fullName}`)
 	  .reply(200, responses[packageEntry.fullName])
 
-		const packageReportData = await getPackageReportData(packageEntry)
+		const packageReportData = await addPackageDataFromRepository(packageEntry)
 
 		assert.strictEqual(packageReportData.name, '@kessler/tableify')
 		assert.strictEqual(packageReportData.remoteVersion, '1.0.2')
@@ -89,7 +89,7 @@ describe('getPackageReportData', function() {
 	  .get(`/${packageEntry.fullName}`)
 	  .reply(200, responses[packageEntry.fullName])
 
-		const packageReportData = await getPackageReportData(packageEntry)
+		const packageReportData = await addPackageDataFromRepository(packageEntry)
 
 		assert.strictEqual(packageReportData.name, 'async')
 		assert.strictEqual(packageReportData.remoteVersion, "no matching version found in registry for package 'async@a.b.c'")
@@ -114,7 +114,7 @@ describe('getPackageReportData', function() {
 	  .get(`/${packageEntry.fullName}`)
 	  .reply(200, responses[packageEntry.fullName])
 
-		const packageReportData = await getPackageReportData(packageEntry)
+		const packageReportData = await addPackageDataFromRepository(packageEntry)
 
 		assert.strictEqual(packageReportData.name, 'async')
 		assert.strictEqual(packageReportData.remoteVersion, "no matching version found in registry for package 'async@0.0.1'")
@@ -139,7 +139,7 @@ describe('getPackageReportData', function() {
 	  .get(`/${packageEntry.fullName}`)
 	  .reply(200, responses[packageEntry.fullName])
 
-		const packageReportData = await getPackageReportData(packageEntry)
+		const packageReportData = await addPackageDataFromRepository(packageEntry)
 
 		assert.strictEqual(packageReportData.name, 'ol')
 		assert.strictEqual(packageReportData.remoteVersion, '6.14.2-dev.1656800207214')
@@ -165,7 +165,7 @@ describe('getPackageReportData', function() {
 	  .get(`/${packageEntry.fullName}`)
 	  .reply(200, responses[packageEntry.fullName])
 
-		const packageReportData = await getPackageReportData(packageEntry)
+		const packageReportData = await addPackageDataFromRepository(packageEntry)
 
 		assert.strictEqual(packageReportData.name, '@parcel/optimizer-cssnano')
 		assert.strictEqual(packageReportData.remoteVersion, '2.0.0-nightly.1135')
@@ -191,7 +191,7 @@ describe('getPackageReportData', function() {
 	  .get(`/${packageEntry.fullName}`)
 	  .reply(200, responses[packageEntry.fullName])
 
-		const packageReportData = await getPackageReportData(packageEntry)
+		const packageReportData = await addPackageDataFromRepository(packageEntry)
 
 		assert.strictEqual(packageReportData.name, 'mocha')
 		assert.strictEqual(packageReportData.remoteVersion, '8.4.0')
@@ -210,7 +210,7 @@ describe('getPackageReportData', function() {
 			licenseType: 'n/a',
 			author: 'n/a'
 		}
-		const packageReportData = await getPackageReportData(packageEntry)
+		const packageReportData = await addPackageDataFromRepository(packageEntry)
 
 		assert.strictEqual(packageReportData.name, 'my-local-package')
 		assert.strictEqual(packageReportData.remoteVersion, 'n/a')
@@ -228,7 +228,7 @@ describe('getPackageReportData', function() {
 			licenseType: 'n/a',
 			author: 'n/a'
 		}
-		const packageReportData = await getPackageReportData(packageEntry)
+		const packageReportData = await addPackageDataFromRepository(packageEntry)
 
 		assert.strictEqual(packageReportData.name, 'debug')
 		assert.strictEqual(packageReportData.remoteVersion, 'n/a')
@@ -246,7 +246,7 @@ describe('getPackageReportData', function() {
 			licenseType: 'n/a',
 			author: 'n/a'
 		}
-		const packageReportData = await getPackageReportData(packageEntry)
+		const packageReportData = await addPackageDataFromRepository(packageEntry)
 
 		assert.strictEqual(packageReportData.name, 'async')
 		assert.strictEqual(packageReportData.remoteVersion, 'n/a')

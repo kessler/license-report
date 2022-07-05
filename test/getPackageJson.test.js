@@ -1,14 +1,14 @@
 const assert = require('assert')
 const nock = require('nock')
 const config = require('../lib/config')
-const getPackageJson = require('../lib/getPackageJson.js')
+const getPackageDataFromRepository = require('../lib/getPackageDataFromRepository.js')
 
 /**
  * Fetching data from the (private) repository gets mocked to get independent from
  * varying data on the server and from having a real private repository.
  */
 
-describe('getPackageJson', function() {
+describe('getPackageDataFromRepository', function() {
 	this.timeout(20000)
 
 	let originalHttpRetry
@@ -31,7 +31,7 @@ describe('getPackageJson', function() {
 	  .get(`/${packageName}`)
 	  .reply(200, responses.semver)
 
-    const packageJson = await getPackageJson('semver')
+    const packageJson = await getPackageDataFromRepository('semver')
 
 		assert.strictEqual(packageJson.name, packageName)
 		assert.ok(packageJson.versions.hasOwnProperty('7.3.7'))
@@ -43,12 +43,12 @@ describe('getPackageJson', function() {
   })
 
   it('gets empty object for non existing package', async () => {
-    const packageJson = await getPackageJson('packagedoesnotexist')
+    const packageJson = await getPackageDataFromRepository('packagedoesnotexist')
     assert.deepEqual(packageJson, {})
   })
 })
 
-describe('getPackageJson with private repository', function() {
+describe('getPackageDataFromRepository with private repository', function() {
 	this.timeout(20000)
 
 	let originalConfigRegistry
@@ -94,7 +94,7 @@ describe('getPackageJson with private repository', function() {
 	  .get(`/${packageName}`)
 	  .reply(200, responses.async)
 
-		const packageReportData = await getPackageJson(packageName)
+		const packageReportData = await getPackageDataFromRepository(packageName)
 
 		assert.strictEqual(packageReportData.name, packageName)
 		assert.ok(packageReportData.versions.hasOwnProperty('3.2.0'))
@@ -123,7 +123,7 @@ describe('getPackageJson with private repository', function() {
 	  .get(`/${packageName}`)
 	  .reply(200, responses.async)
 
-		const packageReportData = await getPackageJson('async')
+		const packageReportData = await getPackageDataFromRepository('async')
 
 		assert.strictEqual(packageReportData.name, packageName)
 		assert.ok(packageReportData.versions.hasOwnProperty('3.2.0'))
@@ -153,7 +153,7 @@ describe('getPackageJson with private repository', function() {
 	  .reply(401, {})
 
 		try {
-			await getPackageJson('async')
+			await getPackageDataFromRepository('async')
 		} catch (error) {
 			assert.strictEqual(error.name, 'HTTPError')
 			assert.strictEqual(error.message, 'Response code 401 (Unauthorized)')

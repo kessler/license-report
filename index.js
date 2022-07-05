@@ -5,9 +5,9 @@ const path = require('path')
 const debug = require('debug')('license-report')
 const config = require('./lib/config.js')
 const getFormatter = require('./lib/getFormatter')
-const addLocalPackageDataToIndexData = require('./lib/addLocalPackageDataToIndexData')
+const addLocalPackageData = require('./lib/addLocalPackageData')
 const addPackagesToIndex = require('./lib/addPackagesToIndex')
-const getPackageReportData = require('./lib/getPackageReportData.js')
+const addPackageDataFromRepository = require('./lib/addPackageDataFromRepository.js')
 const packageDataToReportData = require('./lib/packageDataToReportData')
 const util = require('./lib/util');
 
@@ -71,8 +71,8 @@ const util = require('./lib/util');
     const projectRootPath = path.dirname(resolvedPackageJson)
     const packagesData = await Promise.all(
       depsIndex.map(async (element) => {
-        const localDataForPackages = await addLocalPackageDataToIndexData(element, projectRootPath)
-        const packagesData = await getPackageReportData(localDataForPackages)
+        const localDataForPackages = await addLocalPackageData(element, projectRootPath)
+        const packagesData = await addPackageDataFromRepository(localDataForPackages)
         return packageDataToReportData(packagesData, config)
       })
     )
