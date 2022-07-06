@@ -9,7 +9,8 @@
 npm install -g license-report
 ```
 ## Functionality
-`license-report` reads data from a `package.json` file and adds detailed version information about the installed versions from the corresponding `package.json` file in the `node_modules` directory and about the latest available version from the (npm) registry.
+`license-report` gets the dependencies of a program or package from its  `package.json` file and for each dependency adds the installed version, the license type and the author from the corresponding `package.json` file in the `node_modules` directory and the latest available version and other data from the (npm) registry where this package was installed from.  
+As a prerequisite, the dependencies must be installed so that the node_modules directory exists in the path of the `package.json` file.
 
 ## Usage
 
