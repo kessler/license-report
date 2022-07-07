@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.0.0](https://github.com/ironSource/license-report/compare/v5.1.0...v6.0.0) (2022-07-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* update 'got' to v12; this requires switching to esm
+modules and dropping support for node versions prior to Node v14 (which
+are all out of maintenance status by now).
+* get the installed version, the author and the
+license type from the node_modules directory instead of from
+the package-lock.json file.
+
+
+### Bug Fixes
+
+* add default request timeout ([fce9e05](https://github.com/ironSource/license-report/commit/fce9e051170711f680aba53e3f23003a1300af39))
+* add missing fieldnames in command line help text ([d29c8a1](https://github.com/ironSource/license-report/commit/d29c8a1ebf0da0c058fb0d70c47ce2f6ab290f0a))
+* return 'n/a' when no license property is found in repository data ([1ffe505](https://github.com/ironSource/license-report/commit/1ffe5055086e67646f6f1d0d9f5b9667d3564bd3))
+
 ## [5.1.0](https://github.com/ironSource/license-report/compare/v5.0.2...v5.1.0) (2022-06-04)
 
 
@@ -13,7 +32,7 @@ All notable changes to this project will be documented in this file. See [standa
 ### Bug Fixes
 
 * add error handling for requests to the registry ([cb7123a](https://github.com/ironSource/license-report/commit/cb7123a055238827ed3a4d71cadff9de60e42156)), closes [#85](https://github.com/ironSource/license-report/issues/85)
-* broken e2e tests due to changed ownership for debug-js ([25d754e](https://github.com/ironSource/license-report/commit/25d754ed342b94af01b5bc96a5692495d8d687ce))
+* fix broken e2e tests due to changed ownership for debug-js ([25d754e](https://github.com/ironSource/license-report/commit/25d754ed342b94af01b5bc96a5692495d8d687ce))
 * fix missing variable declaration ([f4a64eb](https://github.com/ironSource/license-report/commit/f4a64eb5db57e42908dacb4148f93c5be7757207))
 * remove typo in error message ([2cd5475](https://github.com/ironSource/license-report/commit/2cd547517af40b4f1b72b458c6f7d8be7218c6bf))
 
