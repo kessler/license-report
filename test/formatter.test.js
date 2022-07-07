@@ -1,9 +1,12 @@
-const assert = require('assert')
-const path = require('path')
-const fs = require('fs')
-const eol = require('eol')
-const config = require('../lib/config.js')
-const getFormatter = require('../lib/getFormatter.js')
+import assert from 'node:assert';
+import fs from 'node:fs';
+import path from 'node:path';
+import url from 'node:url';
+import eol from 'eol';
+import config from '../lib/config.js';
+import getFormatter from '../lib/getFormatter.js';
+
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
 describe('formatter for json', () => {
   it('produces a report', () => {

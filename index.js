@@ -1,19 +1,21 @@
 #!/usr/bin/env node
 
-const fs = require('fs')
-const path = require('path')
-const debug = require('debug')('license-report')
-const config = require('./lib/config.js')
-const getFormatter = require('./lib/getFormatter')
-const addLocalPackageData = require('./lib/addLocalPackageData')
-const addPackagesToIndex = require('./lib/addPackagesToIndex')
-const addPackageDataFromRepository = require('./lib/addPackageDataFromRepository.js')
-const packageDataToReportData = require('./lib/packageDataToReportData')
-const util = require('./lib/util');
+import fs from 'node:fs';
+import path from 'node:path';
+import createDebugMessages from 'debug';
+import config from './lib/config.js';
+import getFormatter from './lib/getFormatter.js';
+import addLocalPackageData from './lib/addLocalPackageData.js';
+import addPackagesToIndex from './lib/addPackagesToIndex.js';
+import addPackageDataFromRepository from './lib/addPackageDataFromRepository.js';
+import packageDataToReportData from './lib/packageDataToReportData.js';
+import { helpText, readJson } from './lib/util.js';
+
+const debug = createDebugMessages('license-report');
 
 (async () => {
   if (config.help) {
-    console.log(util.helpText)
+    console.log(helpText)
     return
   }
 
@@ -33,7 +35,7 @@ const util = require('./lib/util');
     debug('loading %s', resolvedPackageJson)
     let packageJson
     if (fs.existsSync(resolvedPackageJson)) {
-      packageJson = await util.readJson(resolvedPackageJson)
+      packageJson = await readJson(resolvedPackageJson)
     } else {
       throw new Error(`Warning: the file '${resolvedPackageJson}' is required to get installed versions of packages`)
     }

@@ -1,6 +1,9 @@
-const assert = require('assert')
-const path = require('path')
-const addLocalPackageData = require('../lib/addLocalPackageData.js')
+import assert from 'node:assert';
+import path from 'node:path';
+import url from 'node:url';
+import addLocalPackageData from '../lib/addLocalPackageData.js';
+
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
 describe('addLocalPackageData', function() {
   let projectRootPath
