@@ -9,13 +9,13 @@ import addLocalPackageData from './lib/addLocalPackageData.js';
 import addPackagesToIndex from './lib/addPackagesToIndex.js';
 import addPackageDataFromRepository from './lib/addPackageDataFromRepository.js';
 import packageDataToReportData from './lib/packageDataToReportData.js';
-import { helpText, readJson } from './lib/util.js';
+import util from './lib/util.js';
 
 const debug = createDebugMessages('license-report');
 
 (async () => {
   if (config.help) {
-    console.log(helpText)
+    console.log(util.helpText)
     return
   }
 
@@ -35,7 +35,7 @@ const debug = createDebugMessages('license-report');
     debug('loading %s', resolvedPackageJson)
     let packageJson
     if (fs.existsSync(resolvedPackageJson)) {
-      packageJson = await readJson(resolvedPackageJson)
+      packageJson = await util.readJson(resolvedPackageJson)
     } else {
       throw new Error(`Warning: the file '${resolvedPackageJson}' is required to get installed versions of packages`)
     }
