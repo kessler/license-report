@@ -1,5 +1,5 @@
-const assert = require('assert')
-const extractAuthor = require('../lib/extractAuthor.js')
+import assert from 'node:assert';
+import extractAuthor from '../lib/extractAuthor.js';
 
 describe('extractAuthor', function() {
 	it('if its a string', function() {

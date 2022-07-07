@@ -1,7 +1,9 @@
-const got = require('got')
-const semver = require('semver')
-const debug = require('debug')('license-report:addRemoteVersion')
-const config = require('../../lib/config.js')
+import got from 'got';
+import semver from 'semver';
+import createDebugMessages from 'debug';
+import config from '../../lib/config.js';
+
+const debug = createDebugMessages('license-report:expectedOutput');
 
 /*
 	get latest version from registry and add it to the entry in the expectedData;
@@ -17,7 +19,8 @@ async function addRemoteVersion(dependency) {
 	debug('addRemoteVersion - REQUEST %s', uri)
 
 	const options = {
-		retry: config.httpRetryOptions.maxAttempts,
+		retry: config.httpRetryOptions,
+		timeout: config.httpTimeoutOptions,
 		hooks: {
 			beforeRetry: [
 				(options, error, retryCount) => {
@@ -54,7 +57,7 @@ async function addRemoteVersion(dependency) {
  * Add remoteVersion to objects in array of expectedData
  * @param {[object]} expectedData - array with expected data containing placeholders for remote versions
  */
-module.exports.addRemoteVersionsToExpectedData = async (expectedData)  => {
+async function addRemoteVersionsToExpectedData(expectedData) {
 	await Promise.all(expectedData.map(async (packageData) => {
 		await addRemoteVersion(packageData)
 	}))
@@ -63,14 +66,14 @@ module.exports.addRemoteVersionsToExpectedData = async (expectedData)  => {
 /*
 	create expected value for json output
 */
-module.exports.rawDataToJson = (rawData) => {
+function rawDataToJson(rawData) {
 	return rawData
 }
 
 /*
 	create expected value for csv output
 */
-module.exports.rawDataToCsv = (expectedData, csvTemplate) => {
+function rawDataToCsv(expectedData, csvTemplate) {
 	const fieldNames = ['author', 'department', 'relatedTo', 'licensePeriod', 'material', 'licenseType', 'link', 'remoteVersion', 'installedVersion', 'definedVersion']
 	const packageNamePattern = /\[\[(.+)]]/
 	const templateLines = csvTemplate.split('\n')
@@ -98,7 +101,7 @@ module.exports.rawDataToCsv = (expectedData, csvTemplate) => {
 /*
 	create expected value for table output
 */
-module.exports.rawDataToTable = (expectedData, tableTemplate) => {
+function rawDataToTable(expectedData, tableTemplate) {
 	const columnDefinitions = {
 		author: {title: 'author', maxColumnWidth: 0},
 		department: {title: 'department', maxColumnWidth: 0},
@@ -164,7 +167,7 @@ module.exports.rawDataToTable = (expectedData, tableTemplate) => {
 /*
 	create expected value for html output
 */
-module.exports.rawDataToHtml = (expectedData, htmlTemplate) => {
+function rawDataToHtml(expectedData, htmlTemplate) {
 	const fieldNames = ['author', 'department', 'relatedTo', 'licensePeriod', 'material', 'licenseType', 'link', 'remoteVersion', 'installedVersion', 'definedVersion']
 	const packageNamePattern = /\[\[(.+)]]/
 
@@ -193,4 +196,12 @@ module.exports.rawDataToHtml = (expectedData, htmlTemplate) => {
 
 	updatedTemplate += htmlTemplate.slice(startOfRow)
 	return updatedTemplate
+}
+
+export default {
+	addRemoteVersionsToExpectedData,
+	rawDataToJson,
+	rawDataToCsv,
+	rawDataToTable,
+	rawDataToHtml
 }

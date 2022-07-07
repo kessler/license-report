@@ -1,7 +1,7 @@
-const assert = require('assert')
-const nock = require('nock')
-const config = require('../lib/config')
-const addPackageDataFromRepository = require('../lib/addPackageDataFromRepository.js')
+import assert from 'node:assert';
+import nock from 'nock';
+import config from '../lib/config.js';
+import addPackageDataFromRepository from '../lib/addPackageDataFromRepository.js';
 
 /**
  * Fetching data from the repository gets mocked to get independent from
@@ -10,14 +10,14 @@ const addPackageDataFromRepository = require('../lib/addPackageDataFromRepositor
 describe('addPackageDataFromRepository', function() {
 	this.timeout(20000)
 
-	let originalHttpRetry
+	let originalHttpRetryLimit
 
 	beforeEach(function() {
-		originalHttpRetry = config.httpRetryOptions.maxAttempts
+		originalHttpRetryLimit = config.httpRetryOptions.limit
   })
 
   afterEach(function() {
-		config.httpRetryOptions.maxAttempts = originalHttpRetry
+		config.httpRetryOptions.limit = originalHttpRetryLimit
 		nock.cleanAll()
   })
 
@@ -32,7 +32,7 @@ describe('addPackageDataFromRepository', function() {
 		}
 
 		// Mock the npm repository response
-		config.httpRetryOptions.maxAttempts = 1
+		config.httpRetryOptions.limit = 1
 		const scope = nock(config.registry, {"encodedQueryParams":true})
 	  .get(`/${packageEntry.fullName}`)
 	  .reply(200, responses[packageEntry.fullName])
@@ -59,7 +59,7 @@ describe('addPackageDataFromRepository', function() {
 		}
 
 		// Mock the npm repository response
-		config.httpRetryOptions.maxAttempts = 1
+		config.httpRetryOptions.limit = 1
 		const scope = nock(config.registry, {"encodedQueryParams":true})
 	  .get(`/${packageEntry.fullName}`)
 	  .reply(200, responses[packageEntry.fullName])
@@ -84,7 +84,7 @@ describe('addPackageDataFromRepository', function() {
 		}
 
 		// Mock the npm repository response
-		config.httpRetryOptions.maxAttempts = 1
+		config.httpRetryOptions.limit = 1
 		const scope = nock(config.registry, {"encodedQueryParams":true})
 	  .get(`/${packageEntry.fullName}`)
 	  .reply(200, responses[packageEntry.fullName])
@@ -109,7 +109,7 @@ describe('addPackageDataFromRepository', function() {
 		}
 
 		// Mock the npm repository response
-		config.httpRetryOptions.maxAttempts = 1
+		config.httpRetryOptions.limit = 1
 		const scope = nock(config.registry, {"encodedQueryParams":true})
 	  .get(`/${packageEntry.fullName}`)
 	  .reply(200, responses[packageEntry.fullName])
@@ -134,7 +134,7 @@ describe('addPackageDataFromRepository', function() {
 		}
 
 		// Mock the npm repository response
-		config.httpRetryOptions.maxAttempts = 1
+		config.httpRetryOptions.limit = 1
 		const scope = nock(config.registry, {"encodedQueryParams":true})
 	  .get(`/${packageEntry.fullName}`)
 	  .reply(200, responses[packageEntry.fullName])
@@ -160,7 +160,7 @@ describe('addPackageDataFromRepository', function() {
 		}
 
 		// Mock the npm repository response
-		config.httpRetryOptions.maxAttempts = 1
+		config.httpRetryOptions.limit = 1
 		const scope = nock(config.registry, {"encodedQueryParams":true})
 	  .get(`/${packageEntry.fullName}`)
 	  .reply(200, responses[packageEntry.fullName])
@@ -186,7 +186,7 @@ describe('addPackageDataFromRepository', function() {
 		}
 
 		// Mock the npm repository response
-		config.httpRetryOptions.maxAttempts = 1
+		config.httpRetryOptions.limit = 1
 		const scope = nock(config.registry, {"encodedQueryParams":true})
 	  .get(`/${packageEntry.fullName}`)
 	  .reply(200, responses[packageEntry.fullName])

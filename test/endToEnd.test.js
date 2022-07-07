@@ -1,10 +1,13 @@
-const cp = require('child_process')
-const util = require('util')
-const path = require('path')
-const assert = require('assert')
-const fs = require('fs')
-const eol = require('eol')
-const expectedOutput = require('./fixture/expectedOutput.js')
+import assert from 'node:assert';
+import cp from 'node:child_process';
+import fs from 'node:fs';
+import path from 'node:path';
+import url from 'node:url';
+import util from 'node:util';
+import eol from 'eol';
+import expectedOutput from './fixture/expectedOutput.js';
+
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
 const scriptPath = path
 	.resolve(__dirname, '..', 'index.js')

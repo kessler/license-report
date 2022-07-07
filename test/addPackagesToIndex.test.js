@@ -1,5 +1,5 @@
-const assert = require('assert')
-const addPackagesToIndex = require('../lib/addPackagesToIndex.js')
+import assert from 'node:assert';
+import addPackagesToIndex from '../lib/addPackagesToIndex.js';
 
 describe('addPackagesToIndex', function() {
 	let index

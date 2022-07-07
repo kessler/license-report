@@ -1,7 +1,7 @@
-const assert = require('assert')
-const nock = require('nock')
-const config = require('../lib/config')
-const getPackageDataFromRepository = require('../lib/getPackageDataFromRepository.js')
+import assert from 'node:assert';
+import nock from 'nock';
+import config from '../lib/config.js';
+import getPackageDataFromRepository from '../lib/getPackageDataFromRepository.js';
 
 /**
  * Fetching data from the (private) repository gets mocked to get independent from
@@ -11,14 +11,14 @@ const getPackageDataFromRepository = require('../lib/getPackageDataFromRepositor
 describe('getPackageDataFromRepository', function() {
 	this.timeout(20000)
 
-	let originalHttpRetry
+	let originalHttpRetryLimit
 
 	beforeEach(function() {
-		originalHttpRetry = config.httpRetryOptions.maxAttempts
+		originalHttpRetryLimit = config.httpRetryOptions.limit
   })
 
   afterEach(function() {
-		config.httpRetryOptions.maxAttempts = originalHttpRetry
+		config.httpRetryOptions.limit = originalHttpRetryLimit
 		nock.cleanAll()
   })
 
@@ -26,7 +26,7 @@ describe('getPackageDataFromRepository', function() {
 		const packageName = 'semver'
 
 		// Mock the npm private repository response
-		config.httpRetryOptions.maxAttempts = 1
+		config.httpRetryOptions.limit = 1
 		const scope = nock(config.registry, {"encodedQueryParams":true})
 	  .get(`/${packageName}`)
 	  .reply(200, responses.semver)
@@ -53,18 +53,18 @@ describe('getPackageDataFromRepository with private repository', function() {
 
 	let originalConfigRegistry
 	let originalConfigNpmTokenEnvVar
-	let originalHttpRetry
+	let originalHttpRetryLimit
 
 	beforeEach(function() {
 		originalConfigRegistry = config.registry
 		originalConfigNpmTokenEnvVar = config.npmTokenEnvVar
-		originalHttpRetry = config.httpRetryOptions.maxAttempts
+		originalHttpRetryLimit = config.httpRetryOptions.limit
   })
 
   afterEach(function() {
 		config.registry = originalConfigRegistry
 		config.npmTokenEnvVar = originalConfigNpmTokenEnvVar
-		config.httpRetryOptions.maxAttempts = originalHttpRetry
+		config.httpRetryOptions.limit = originalHttpRetryLimit
 		nock.cleanAll()
   })
 
@@ -87,7 +87,7 @@ describe('getPackageDataFromRepository with private repository', function() {
 		const npmRegistry = `https://${npmRegistryHost}/`
 		config.registry = npmRegistry
 		process.env['NPM_TOKEN'] = ''
-		config.httpRetryOptions.maxAttempts = 1
+		config.httpRetryOptions.limit = 1
 
 		// Mock the npm private repository response
 		const scope = nock(npmRegistry, {"encodedQueryParams":true})
@@ -114,7 +114,7 @@ describe('getPackageDataFromRepository with private repository', function() {
 		const npmToken = 'pp6j6gzcge'
 		config.registry = npmRegistry
 		process.env['NPM_TOKEN'] = npmToken
-		config.httpRetryOptions.maxAttempts = 1
+		config.httpRetryOptions.limit = 1
 
 		// Mock the npm private repository response
 		const scope = nock(npmRegistry, {"encodedQueryParams":true})
@@ -143,7 +143,7 @@ describe('getPackageDataFromRepository with private repository', function() {
 		const npmToken = 'pp6j6gzcge'
 		config.registry = npmRegistry
 		process.env['NPM_TOKEN'] = npmToken
-		config.httpRetryOptions.maxAttempts = 1
+		config.httpRetryOptions.limit = 1
 
 		// Mock the npm private repository response
 		const scope = nock(npmRegistry, {"encodedQueryParams":true})

@@ -1,5 +1,5 @@
-const assert = require('assert')
-const extractLicense = require('../lib/extractLicense.js')
+import assert from 'node:assert';
+import extractLicense from '../lib/extractLicense.js';
 
 describe('extractLicense', function() {
 	it('if it is a string', function() {
