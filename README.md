@@ -160,7 +160,28 @@ Fields with data set in the configuration of license-report:
 ## More configuration options
 See lib/config.js for more details e.g. on customizing the generated html data.
 
-Use [rc](https://github.com/dominictarr/rc) for further customization.
+license-report uses the 'rc' package for handling configuration. So it is possible to add options to the command line, use a custom (partial) configuration file or even a default configuration file in a project.
+
+A default project configuration file must be placed in the project root path and be named `.license-reportrc`. The file format is 'json'. An example looks like this:
+```
+{
+  "output": "table",
+  "fields": [
+    "name",
+    "licenseType",
+    "installedVersion",
+    "definedVersion",
+    "remoteVersion",
+    "latestRemoteVersion",
+    "latestRemoteModified",
+    "author"
+  ]
+}
+```
+
+To find out what configuration options are available see the `/lib/config.js` file in the project source.
+
+For more 'rc' configuration details see the [rc](https://github.com/dominictarr/rc) documentation.
 
 ## Debug report generation
 
