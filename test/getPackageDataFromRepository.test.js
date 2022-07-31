@@ -1,5 +1,7 @@
 import assert from 'node:assert';
+
 import nock from 'nock';
+
 import config from '../lib/config.js';
 import getPackageDataFromRepository from '../lib/getPackageDataFromRepository.js';
 

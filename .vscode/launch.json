@@ -5,7 +5,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "pwa-node",
+      "type": "node",
       "request": "launch",
       "name": "Launch Program",
       "skipFiles": [
@@ -15,7 +15,7 @@
     },
     {
       "name": "Debug with local packages",
-      "type": "pwa-node",
+      "type": "node",
       "request": "launch",
       "skipFiles": [
         "<node_internals>/**"
@@ -25,7 +25,7 @@
     },
     {
       "name": "Debug with default fields",
-      "type": "pwa-node",
+      "type": "node",
       "request": "launch",
       "skipFiles": [
         "<node_internals>/**"
@@ -35,7 +35,7 @@
     },
     {
       "name": "Debug with all fields",
-      "type": "pwa-node",
+      "type": "node",
       "request": "launch",
       "skipFiles": [
         "<node_internals>/**"

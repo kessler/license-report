@@ -2,12 +2,14 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+
 import createDebugMessages from 'debug';
+
 import config from './lib/config.js';
 import getFormatter from './lib/getFormatter.js';
 import addLocalPackageData from './lib/addLocalPackageData.js';
-import addPackagesToIndex from './lib/addPackagesToIndex.js';
 import addPackageDataFromRepository from './lib/addPackageDataFromRepository.js';
+import getDependencies from './lib/getDependencies.js';
 import packageDataToReportData from './lib/packageDataToReportData.js';
 import util from './lib/util.js';
 
@@ -39,36 +41,11 @@ const debug = createDebugMessages('license-report');
     } else {
       throw new Error(`Warning: the file '${resolvedPackageJson}' is required to get installed versions of packages`)
     }
-
-    const deps = packageJson.dependencies
-    const peerDeps = packageJson.peerDependencies
-    const optDeps = packageJson.optionalDependencies
-    const devDeps = packageJson.devDependencies
-
-    const exclusions = Array.isArray(config.exclude) ? config.exclude : [config.exclude]
-
+    
     // an index of all the dependencies
-    let depsIndex = []
-
-    if (!config.only || config.only.indexOf('prod') > -1) {
-      addPackagesToIndex(deps, depsIndex, exclusions)
-    }
-
-    if (!config.only || config.only.indexOf('dev') > -1) {
-			addPackagesToIndex(devDeps, depsIndex, exclusions)
-    }
-
-    if (!config.only || config.only.indexOf('peer') > -1) {
-      if (peerDeps) {
-        addPackagesToIndex(peerDeps, depsIndex, exclusions)
-      }
-    }
-
-    if (!config.only || config.only.indexOf('opt') > -1) {
-      if (optDeps) {
-        addPackagesToIndex(optDeps, depsIndex, exclusions)
-      }
-    }
+    const inclusions = util.isNullOrUndefined(config.only) ? null : config.only.split(',')
+    const exclusions = Array.isArray(config.exclude) ? config.exclude : [config.exclude]
+    let depsIndex = getDependencies(packageJson, exclusions, inclusions)
 
     const projectRootPath = path.dirname(resolvedPackageJson)
     const packagesData = await Promise.all(
