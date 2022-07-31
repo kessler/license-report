@@ -10,6 +10,36 @@ import getPackageDataFromRepository from '../lib/getPackageDataFromRepository.js
  * varying data on the server and from having a real private repository.
  */
 
+describe('getPackageDataFromRepository without trailing slash in uri', function() {
+	this.timeout(20000)
+
+	let originalHttpRetryLimit
+	let originalRegistryUri
+
+	beforeEach(function() {
+		originalHttpRetryLimit = config.httpRetryOptions.limit
+		originalRegistryUri = config.registry
+  })
+
+  afterEach(function() {
+		config.httpRetryOptions.limit = originalHttpRetryLimit
+		config.registry = originalRegistryUri
+  })
+
+  it('gets the information about the package "semver" from server', async () => {
+		const packageName = 'semver'
+
+    const packageJson = await getPackageDataFromRepository('semver')
+
+		assert.strictEqual(packageJson.name, packageName)
+		assert.ok(packageJson.versions.hasOwnProperty('7.3.7'))
+		assert.ok(packageJson.versions['7.3.7'].hasOwnProperty('dist'))
+		assert.ok(packageJson.versions['7.3.7']['dist'].hasOwnProperty('tarball'))
+		assert.ok(packageJson.versions['7.3.7'].hasOwnProperty('repository'))
+		assert.ok(packageJson.versions['7.3.7']['repository'].hasOwnProperty('url'))
+  })
+})
+
 describe('getPackageDataFromRepository', function() {
 	this.timeout(20000)
 
