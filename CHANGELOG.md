@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.1.0](https://github.com/ironSource/license-report/compare/v6.0.0...v6.1.0) (2022-07-31)
+
+
+### Features
+
+* add new optional fields with data from registry ([ead1a55](https://github.com/ironSource/license-report/commit/ead1a550d212a030e657fef71f245d2299c76d08))
+
+
+### Bug Fixes
+
+* issue [#101](https://github.com/ironSource/license-report/issues/101) (config.registry without trailing slash throws an error) ([76525ed](https://github.com/ironSource/license-report/commit/76525ed1a411fc007e4ea655c17fcef042c789f8))
+
 ## [6.0.0](https://github.com/ironSource/license-report/compare/v5.1.0...v6.0.0) (2022-07-07)
 
 

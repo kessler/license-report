@@ -1,6 +1,6 @@
 {
   "name": "license-report",
-  "version": "6.0.0",
+  "version": "6.1.0",
   "description": "creates a short report about project's dependencies (license, url etc)",
   "main": "index.js",
   "scripts": {
