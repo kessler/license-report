@@ -1,6 +1,9 @@
+import path from 'node:path';
+
 import got from 'got';
 import semver from 'semver';
 import createDebugMessages from 'debug';
+
 import config from '../../lib/config.js';
 
 const debug = createDebugMessages('license-report:expectedOutput');
@@ -14,7 +17,7 @@ const debug = createDebugMessages('license-report:expectedOutput');
 */
 async function addRemoteVersion(dependency) {
 	dependency.remoteVersion = 'n/a'
-	let uri = config.registry + dependency.name
+	let uri = path.join(config.registry, dependency.name)
 
 	debug('addRemoteVersion - REQUEST %s', uri)
 
