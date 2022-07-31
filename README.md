@@ -141,9 +141,11 @@ Fields with data of the installed packages:
 | licenseType | license type | type of the license of the package (e.g. MIT) |
 | link | link | link to the repository of the package |
 | installedFrom | installed from | the download source for the installed package (optional field) |
-| remoteVersion | remote version | latest available version of the package (can be different from the installed version) |
+| remoteVersion | remote version | latest available version of the package in the registry following defined semver range (can be different from the installed version) |
 | installedVersion | installed version | installed version of the package (can be different from the remote version) |
 | definedVersion | defined version | version of the package as defined in the (dev-) dependencies entry (can start with a semver range character) |
+| latestRemoteVersion | latest remote version | latest version of the package available in the registry (optional field) |
+| latestRemoteModified | latest remote modified | last modification date of the package in the registry (optional field) |
 | comment | comment | deprecated (replaced by field 'remoteVersion'); will be removed in a future version |
 | author | author | author of the package |
 
