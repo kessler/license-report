@@ -115,6 +115,8 @@ describe('end to end test for all fields', function() {
 			link: "git+https://github.com/npm/node-semver.git",
 			installedFrom: "https://registry.npmjs.org/semver/-/semver-5.4.1.tgz",
 			remoteVersion: "5.7.1",
+			latestRemoteVersion: '7.3.7',
+			latestRemoteModified: '2022-07-25T16:10:58.611Z',
 			installedVersion: "5.4.1",
 			definedVersion: "^5.0.0",
 			author:"GitHub Inc."

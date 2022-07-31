@@ -11,6 +11,8 @@
 			"remoteVersion",
 			"installedVersion",
 			"definedVersion",
+			"latestRemoteVersion",
+			"latestRemoteModified",
 			"author"
     ]
 }
