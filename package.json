@@ -27,7 +27,7 @@
     "@kessler/tableify": "^1.0.2",
     "debug": "^4.3.4",
     "eol": "^0.9.1",
-    "got": "^12.1.0",
+    "got": "^12.3.0",
     "rc": "^1.2.8",
     "semver": "^7.3.7",
     "text-table": "^0.2.0",
@@ -38,7 +38,7 @@
     "@commitlint/config-conventional": "^17.0.3",
     "husky": "^8.0.1",
     "mocha": "^10.0.0",
-    "nock": "^13.2.8",
+    "nock": "^13.2.9",
     "standard-version": "^9.5.0"
   },
   "engines": {
