@@ -1,0 +1,10 @@
+{
+  "name": "license-report",
+  "description": "package.json for e2e tests",
+  "dependencies": {
+    "lodash": "^4.17.20"
+  },
+  "devDependencies": {
+    "semver": "^7.3.5"
+  }
+}

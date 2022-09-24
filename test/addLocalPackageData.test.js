@@ -27,6 +27,19 @@ describe('addLocalPackageData', function() {
     assert.strictEqual(depsIndexElement.installedVersion, '9.8.7')
   })
 
+  it('adds package data for package with fixed version', async () => {
+    const depsIndexElement = {
+			fullName: 'myfixedpackage',
+			alias: '',
+			name: 'myfixedpackage',
+			version: '5.6.7'
+    }
+    await addLocalPackageData(depsIndexElement, projectRootPath)
+
+    assert.ok(depsIndexElement.installedVersion)
+    assert.strictEqual(depsIndexElement.installedVersion, '5.6.7')
+  })
+
   it('adds package data for scoped package', async () => {
     const depsIndexElement = {
 			fullName: '@test/testpackage',
@@ -91,5 +104,42 @@ describe('addLocalPackageData', function() {
 
     assert.ok(depsIndexElement.installedVersion)
     assert.strictEqual(depsIndexElement.installedVersion, 'n/a')
+  })
+})
+
+
+describe('addLocalPackageData with monorepo', function() {
+  it('adds package data for package in root level', async () => {
+    const projectRootPath = path
+    .resolve(__dirname, 'fixture', 'monorepo', 'sub-project', 'sub-sub-project')
+    .replace(/(\s+)/g, '\\$1')
+
+    const depsIndexElement = {
+			fullName: 'lodash',
+			alias: '',
+			name: 'lodash',
+			version: '^4.17.20'
+    }
+    await addLocalPackageData(depsIndexElement, projectRootPath)
+
+    assert.ok(depsIndexElement.installedVersion)
+    assert.strictEqual(depsIndexElement.installedVersion, '4.17.21')
+  })
+
+  it('adds package data for package with multiple versions', async () => {
+    const projectRootPath = path
+    .resolve(__dirname, 'fixture', 'monorepo', 'sub-project', 'sub-sub-project')
+    .replace(/(\s+)/g, '\\$1')
+
+    const depsIndexElement = {
+			fullName: 'semver',
+			alias: '',
+			name: 'semver',
+			version: '^7.3.5'
+    }
+    await addLocalPackageData(depsIndexElement, projectRootPath)
+
+    assert.ok(depsIndexElement.installedVersion)
+    assert.strictEqual(depsIndexElement.installedVersion, '7.3.7')
   })
 })
