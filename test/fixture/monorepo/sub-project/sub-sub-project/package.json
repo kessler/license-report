@@ -1,0 +1,16 @@
+{
+  "name": "license-report",
+  "description": "package.json for e2e tests",
+  "dependencies": {
+    "@kessler/tableify": "^1.0.2"
+  },
+  "devDependencies": {
+    "mocha": "^9.1.1"
+  },
+  "optionalDependencies": {
+    "semver": "^7.3.5"
+  },
+  "peerDependencies": {
+    "lodash": "^4.17.20"
+  }
+}

@@ -18,6 +18,11 @@ const defaultFieldsPackageJsonPath = path
 	.resolve(__dirname, 'fixture', 'default-fields', 'package.json')
 	.replace(/(\s+)/g, '\\$1')
 
+// test data for e2e test using the default fields in monorepo
+const defaultFieldsMonorepoPackageJsonPath = path
+	.resolve(__dirname, 'fixture', 'monorepo', 'sub-project', 'sub-sub-project', 'package.json')
+	.replace(/(\s+)/g, '\\$1')
+
 // test data for e2e test using all fields
 const allFieldsPackageJsonPath = path
 	.resolve(__dirname, 'fixture', 'all-fields', 'package.json')
@@ -73,6 +78,50 @@ describe('end to end test for default fields', function() {
 
 	it('produce an html report', async () => {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsPackageJsonPath} --output=html`)
+		const actualResult = eol.auto(stdout)
+		const expectedHtmlTemplate = eol.auto(fs.readFileSync(path.join(__dirname, 'fixture', 'expectedOutput.e2e.html'), 'utf8'))
+		const expectedHtmlResult = expectedOutput.rawDataToHtml(expectedData, expectedHtmlTemplate)
+
+		assert.strictEqual(actualResult, expectedHtmlResult)
+		assert.strictEqual(stderr, '', 'expected no warnings')
+	})
+})
+
+describe('end to end test for default fields in monorepo', function() {
+	this.timeout(50000)
+
+	beforeEach(async  () => {
+		expectedData = EXPECTED_DEFAULT_FIELDS_RAW_DATA.slice(0)
+		await expectedOutput.addRemoteVersionsToExpectedData(expectedData)
+  })
+
+	it('produce a json report', async () => {
+		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsMonorepoPackageJsonPath}`)
+		const result = JSON.parse(stdout)
+		const expectedJsonResult = expectedOutput.rawDataToJson(expectedData)
+
+		assert.deepStrictEqual(result, expectedJsonResult)
+		assert.strictEqual(stderr, '', 'expected no warnings')
+	})
+
+	it('produce a table report', async () => {
+		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsMonorepoPackageJsonPath} --output=table`)
+		const expectedTableResult = expectedOutput.rawDataToTable(expectedData, EXPECTED_TABLE_TEMPLATE)
+
+		assert.strictEqual(stdout, expectedTableResult)
+		assert.strictEqual(stderr, '', 'expected no warnings')
+	})
+
+	it('produce a csv report', async () => {
+		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsMonorepoPackageJsonPath} --output=csv --csvHeaders`)
+		const expectedCsvResult = expectedOutput.rawDataToCsv(expectedData, EXPECTED_CSV_TEMPLATE)
+
+		assert.strictEqual(stdout, expectedCsvResult)
+		assert.strictEqual(stderr, 'Warning: field contains delimiter; value: \"Dan VerWeire, Yaniv Kessler\"\n')
+	})
+
+	it('produce an html report', async () => {
+		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsMonorepoPackageJsonPath} --output=html`)
 		const actualResult = eol.auto(stdout)
 		const expectedHtmlTemplate = eol.auto(fs.readFileSync(path.join(__dirname, 'fixture', 'expectedOutput.e2e.html'), 'utf8'))
 		const expectedHtmlResult = expectedOutput.rawDataToHtml(expectedData, expectedHtmlTemplate)
