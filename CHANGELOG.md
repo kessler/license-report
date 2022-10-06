@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.2.0](https://github.com/ironSource/license-report/compare/v6.1.0...v6.2.0) (2022-10-06)
+
+
+### Features
+
+* add support for monorepos ([bb1f364](https://github.com/ironSource/license-report/commit/bb1f364925502e9890bab3a143c2523935543114))
+
+
+### Bug Fixes
+
+* add new fields from v6.1.0 to output of cli help ([6dde8dd](https://github.com/ironSource/license-report/commit/6dde8dd5f362fcd32d43c9e2761a216eb1257c31))
+
 ## [6.1.0](https://github.com/ironSource/license-report/compare/v6.0.0...v6.1.0) (2022-07-31)
 
 
