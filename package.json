@@ -27,9 +27,9 @@
     "@kessler/tableify": "^1.0.2",
     "debug": "^4.3.4",
     "eol": "^0.9.1",
-    "got": "^12.5.0",
+    "got": "^12.5.1",
     "rc": "^1.2.8",
-    "semver": "^7.3.7",
+    "semver": "^7.3.8",
     "text-table": "^0.2.0",
     "visit-values": "^2.0.0"
   },
