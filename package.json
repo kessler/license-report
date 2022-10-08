@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npx mocha -R spec",
-    "release": "standard-version -i CHANGELOG.md --same-file",
+    "release": "standard-version --commit-all",
     "lint-commits": "commitlint --from 59f5e4b90d2d --to HEAD --verbose",
     "activate-commitlint": "npx husky install && npx husky add .husky/commit-msg \"npx --no -- commitlint --edit $1\""
   },
