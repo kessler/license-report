@@ -30,6 +30,7 @@
     "got": "^12.5.1",
     "rc": "^1.2.8",
     "semver": "^7.3.8",
+    "tablemark": "^3.0.0",
     "text-table": "^0.2.0",
     "visit-values": "^2.0.0"
   },

@@ -78,6 +78,7 @@ license-report --output=table
 license-report --output=json
 license-report --output=csv
 license-report --output=html
+license-report --output=markdown
 
 # replace default ',' separator with something else
 license-report --output=csv --delimiter="|" 
@@ -135,6 +136,7 @@ license-report --exclude=async --exclude=rc
 
 ![screenshot](screenshot.png)
 ![screenshot1](html.png)
+![screenshot1](markdown.jpg)
 
 ## Available fields
 Fields with data of the installed packages:
