@@ -88,7 +88,7 @@ describe('end to end test for default fields', function() {
 
 	it('produce a markdown table report', async () => {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsPackageJsonPath} --output=markdown`)
-		const expectedMarkdownTableResult = expectedOutput.rawDataToTable(expectedData, EXPECTED_MARKDOWN_TABLE_TEMPLATE)
+		const expectedMarkdownTableResult = expectedOutput.rawDataToMarkdown(expectedData, EXPECTED_MARKDOWN_TABLE_TEMPLATE)
 
 		assert.strictEqual(stdout, expectedMarkdownTableResult)
 		assert.strictEqual(stderr, '', 'expected no warnings')
@@ -140,7 +140,7 @@ describe('end to end test for default fields in monorepo', function() {
 
 	it('produce a markdown table report', async () => {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsMonorepoPackageJsonPath} --output=markdown`)
-		const expectedMarkdownTableResult = expectedOutput.rawDataToTable(expectedData, EXPECTED_MARKDOWN_TABLE_TEMPLATE)
+		const expectedMarkdownTableResult = expectedOutput.rawDataToMarkdown(expectedData, EXPECTED_MARKDOWN_TABLE_TEMPLATE)
 
 		assert.strictEqual(stdout, expectedMarkdownTableResult)
 		assert.strictEqual(stderr, '', 'expected no warnings')
@@ -362,16 +362,16 @@ const EXPECTED_TABLE_TEMPLATE = `{{department}}  {{relatedTo}}  {{name}}  {{lice
 `
 
 /*
-	template for csv output; usage:
+	template for markdown table output; usage:
 	{{key}} - value to be replaced with value from package information
 	[[package-name]] - name of the package
 */
 const EXPECTED_MARKDOWN_TABLE_TEMPLATE = 
 `| Department | Related to | Name              | License period | Material not material | License type | Link                                             | Remote version | Installed version | Defined version | Author                                          |
 | :--------- | :--------- | :---------------- | :------------- | :-------------------- | :----------- | :----------------------------------------------- | :------------- | :---------------- | :-------------- | :---------------------------------------------- |
-| kessler    | stuff      | @kessler/tableify | perpetual      | material              | MIT          | git+https://github.com/kessler/node-tableify.git | 1.0.2          | 1.0.2             | ^1.0.2          | Dan VerWeire, Yaniv Kessler                     |
-| kessler    | stuff      | mocha             | perpetual      | material              | MIT          | git+https://github.com/mochajs/mocha.git         | 9.2.2          | 9.1.2             | ^9.1.1          | TJ Holowaychuk <tj@vision-media.ca>             |
-| kessler    | stuff      | lodash            | perpetual      | material              | MIT          | git+https://github.com/lodash/lodash.git         | 4.17.21        | 4.17.21           | ^4.17.20        | John-David Dalton <john.david.dalton@gmail.com> |
-| kessler    | stuff      | semver            | perpetual      | material              | ISC          | git+https://github.com/npm/node-semver.git       | 7.3.8          | 7.3.7             | ^7.3.5          | GitHub Inc.                                     |
+| {{department}}    | {{relatedTo}}      | [[@kessler/tableify]] | {{licensePeriod}}      | {{material}}              | {{licenseType}}          | {{link}} | {{remoteVersion}}          | {{installedVersion}}             | {{definedVersion}}          | {{author}}                     |
+| {{department}}    | {{relatedTo}}      | [[mocha]]             | {{licensePeriod}}      | {{material}}              | {{licenseType}}          | {{link}}         | {{remoteVersion}}          | {{installedVersion}}             | {{definedVersion}}          | {{author}}             |
+| {{department}}    | {{relatedTo}}      | [[lodash]]            | {{licensePeriod}}      | {{material}}              | {{licenseType}}          | {{link}}         | {{remoteVersion}}        | {{installedVersion}}           | {{definedVersion}}        | {{author}} |
+| {{department}}    | {{relatedTo}}      | [[semver]]            | {{licensePeriod}}      | {{material}}              | {{licenseType}}          | {{link}}       | {{remoteVersion}}          | {{installedVersion}}             | {{definedVersion}}          | {{author}}                                     |
 
 `

@@ -220,10 +220,39 @@ function rawDataToHtml(expectedData, htmlTemplate) {
 	return updatedTemplate
 }
 
+/*
+	create expected value for markdown output
+*/
+function rawDataToMarkdown(expectedData, csvTemplate) {
+	const fieldNames = ['author', 'department', 'relatedTo', 'licensePeriod', 'material', 'licenseType', 'link', 'remoteVersion', 'installedVersion', 'definedVersion']
+	const packageNamePattern = /\[\[(.+)]]/
+	const templateLines = csvTemplate.split('\n')
+	const resultLines = templateLines.map( line => {
+		// find package name in line
+		const found = line.match(packageNamePattern)
+		if ((found !== null) && Array.isArray(found) && (found.length === 2)) {
+			// get package data from expectedData
+			const packageName = found[1]
+			const expectedPackageData = expectedData.find(element => element.name === packageName)
+			if (expectedPackageData !== undefined) {
+				line = line.replace(found[0], expectedPackageData.name)
+				fieldNames.forEach(fieldName => {
+					line = line.replace(`{{${fieldName}}}`, expectedPackageData[fieldName])
+				})
+			}
+		}
+
+		return line
+	})
+
+	return resultLines.join('\n')
+}
+
 export default {
 	addRemoteVersionsToExpectedData,
 	rawDataToJson,
 	rawDataToCsv,
 	rawDataToTable,
-	rawDataToHtml
+	rawDataToHtml,
+	rawDataToMarkdown
 }
