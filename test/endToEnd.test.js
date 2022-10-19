@@ -349,7 +349,7 @@ const EXPECTED_CSV_TEMPLATE = `department,related to,name,license period,materia
 `
 
 /*
-	template for csv output; usage:
+	template for table output; usage:
 	{{key}} - value to be replaced with value from package information
 	[[package-name]] - name of the package
 */
