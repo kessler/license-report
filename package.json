@@ -27,7 +27,7 @@
     "@kessler/tableify": "^1.0.2",
     "debug": "^4.3.4",
     "eol": "^0.9.1",
-    "got": "^12.5.1",
+    "got": "^12.5.2",
     "rc": "^1.2.8",
     "semver": "^7.3.8",
     "tablemark": "^3.0.0",
@@ -38,7 +38,7 @@
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
     "husky": "^8.0.1",
-    "mocha": "^10.0.0",
+    "mocha": "^10.1.0",
     "nock": "^13.2.9",
     "standard-version": "^9.5.0"
   },
