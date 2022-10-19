@@ -45,6 +45,7 @@ let expectedData
 
 describe('end to end test for default fields', function() {
 	this.timeout(50000)
+	this.slow(4000)
 
 	beforeEach(async  () => {
 		expectedData = EXPECTED_DEFAULT_FIELDS_RAW_DATA.slice(0)
@@ -97,6 +98,7 @@ describe('end to end test for default fields', function() {
 
 describe('end to end test for default fields in monorepo', function() {
 	this.timeout(50000)
+	this.slow(4000)
 
 	beforeEach(async  () => {
 		expectedData = EXPECTED_DEFAULT_FIELDS_RAW_DATA.slice(0)
@@ -149,6 +151,7 @@ describe('end to end test for default fields in monorepo', function() {
 
 describe('end to end test for local packages', function() {
 	this.timeout(50000)
+	this.slow(4000)
 
 	beforeEach(async  () => {
 		expectedData = EXPECTED_LOCAL_PACKAGES_RAW_DATA.slice(0)
@@ -166,6 +169,7 @@ describe('end to end test for local packages', function() {
 
 describe('end to end test for all fields', function() {
 	this.timeout(50000)
+	this.slow(4000)
 
 	it('produce a json report with the fields specified in config', async () => {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${allFieldsPackageJsonPath} --config=${allFieldsConfigPath}`)

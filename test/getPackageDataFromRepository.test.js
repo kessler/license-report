@@ -12,6 +12,7 @@ import getPackageDataFromRepository from '../lib/getPackageDataFromRepository.js
 
 describe('getPackageDataFromRepository without trailing slash in uri', function() {
 	this.timeout(20000)
+	this.slow(250)
 
 	let originalHttpRetryLimit
 	let originalRegistryUri
@@ -42,6 +43,7 @@ describe('getPackageDataFromRepository without trailing slash in uri', function(
 
 describe('getPackageDataFromRepository', function() {
 	this.timeout(20000)
+	this.slow(2000)
 
 	let originalHttpRetryLimit
 
@@ -82,6 +84,7 @@ describe('getPackageDataFromRepository', function() {
 
 describe('getPackageDataFromRepository with private repository', function() {
 	this.timeout(20000)
+	this.slow(200)
 
 	let originalConfigRegistry
 	let originalConfigNpmTokenEnvVar
