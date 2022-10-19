@@ -85,6 +85,14 @@ describe('end to end test for default fields', function() {
 		assert.strictEqual(actualResult, expectedHtmlResult)
 		assert.strictEqual(stderr, '', 'expected no warnings')
 	})
+
+	it('produce a markdown table report', async () => {
+		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsPackageJsonPath} --output=markdown`)
+		const expectedMarkdownTableResult = expectedOutput.rawDataToMarkdown(expectedData, EXPECTED_MARKDOWN_TABLE_TEMPLATE)
+
+		assert.strictEqual(stdout, expectedMarkdownTableResult)
+		assert.strictEqual(stderr, '', 'expected no warnings')
+	})
 })
 
 describe('end to end test for default fields in monorepo', function() {
@@ -127,6 +135,14 @@ describe('end to end test for default fields in monorepo', function() {
 		const expectedHtmlResult = expectedOutput.rawDataToHtml(expectedData, expectedHtmlTemplate)
 
 		assert.strictEqual(actualResult, expectedHtmlResult)
+		assert.strictEqual(stderr, '', 'expected no warnings')
+	})
+
+	it('produce a markdown table report', async () => {
+		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsMonorepoPackageJsonPath} --output=markdown`)
+		const expectedMarkdownTableResult = expectedOutput.rawDataToMarkdown(expectedData, EXPECTED_MARKDOWN_TABLE_TEMPLATE)
+
+		assert.strictEqual(stdout, expectedMarkdownTableResult)
 		assert.strictEqual(stderr, '', 'expected no warnings')
 	})
 })
@@ -343,4 +359,19 @@ const EXPECTED_TABLE_TEMPLATE = `{{department}}  {{relatedTo}}  {{name}}  {{lice
 {{department}}  {{relatedTo}}  [[mocha]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
 {{department}}  {{relatedTo}}  [[lodash]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
 {{department}}  {{relatedTo}}  [[semver]]  {{licensePeriod}}  {{material}}  {{licenseType}}  {{link}}  {{remoteVersion}}  {{installedVersion}}  {{definedVersion}}  {{author}}
+`
+
+/*
+	template for markdown table output; usage:
+	{{key}} - value to be replaced with value from package information
+	[[package-name]] - name of the package
+*/
+const EXPECTED_MARKDOWN_TABLE_TEMPLATE = 
+`| Department | Related to | Name              | License period | Material not material | License type | Link                                             | Remote version | Installed version | Defined version | Author                                          |
+| :--------- | :--------- | :---------------- | :------------- | :-------------------- | :----------- | :----------------------------------------------- | :------------- | :---------------- | :-------------- | :---------------------------------------------- |
+| {{department}}    | {{relatedTo}}      | [[@kessler/tableify]] | {{licensePeriod}}      | {{material}}              | {{licenseType}}          | {{link}} | {{remoteVersion}}          | {{installedVersion}}             | {{definedVersion}}          | {{author}}                     |
+| {{department}}    | {{relatedTo}}      | [[mocha]]             | {{licensePeriod}}      | {{material}}              | {{licenseType}}          | {{link}}         | {{remoteVersion}}          | {{installedVersion}}             | {{definedVersion}}          | {{author}}             |
+| {{department}}    | {{relatedTo}}      | [[lodash]]            | {{licensePeriod}}      | {{material}}              | {{licenseType}}          | {{link}}         | {{remoteVersion}}        | {{installedVersion}}           | {{definedVersion}}        | {{author}} |
+| {{department}}    | {{relatedTo}}      | [[semver]]            | {{licensePeriod}}      | {{material}}              | {{licenseType}}          | {{link}}       | {{remoteVersion}}          | {{installedVersion}}             | {{definedVersion}}          | {{author}}                                     |
+
 `

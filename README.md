@@ -78,6 +78,7 @@ license-report --output=table
 license-report --output=json
 license-report --output=csv
 license-report --output=html
+license-report --output=markdown
 
 # replace default ',' separator with something else
 license-report --output=csv --delimiter="|" 
@@ -131,10 +132,46 @@ license-report --output=csv --config license-report-config.json
 license-report --exclude=async --exclude=rc
 ```
 
+### Markdown Options
+If you want to change the default markdown table look and feel, e.g. center-align the text, you have to use a custom config file (`--config=license-report-config.json`) and in the config file use the `tablemarkConfig` property. 
+
+Example config for markdown table with center-aligned content:
+```JSON
+"output": "markdown",
+"fields": [
+    "department",
+    "relatedTo",
+    "name",
+    "licensePeriod",
+    "material",
+    "licenseType",
+    "link",
+    "comment",
+    "installedVersion",
+    "author"
+  ],
+"tablemarkOptions": {
+  "columns": [
+    { "name" : "department", "align": "center" },
+    { "name" : "relatedTo", "align": "center" },
+    { "name" : "name", "align": "center" },
+    { "name" : "licensePeriod", "align": "center" },
+    { "name" : "material", "align": "center" },
+    { "name" : "licenseType", "align": "center" },
+    { "name" : "link", "align": "center" },
+    { "name" : "comment", "align": "center" },
+    { "name" : "installedVersion", "align": "center" },
+    { "name" : "author", "align": "center" }
+  ]
+}
+```
+For an explanation of all available options see https://github.com/haltcase/tablemark
+
 ## Screenshots
 
 ![screenshot](screenshot.png)
 ![screenshot1](html.png)
+![screenshot1](markdown.jpg)
 
 ## Available fields
 Fields with data of the installed packages:
@@ -161,7 +198,7 @@ Fields with data set in the configuration of license-report:
 | material | material / not material | --material.value=material |
 
 ## More configuration options
-See lib/config.js for more details e.g. on customizing the generated html data.
+See `lib/config.js` for more details e.g. on customizing the generated html data.
 
 license-report uses the 'rc' package for handling configuration. So it is possible to add options to the command line, use a custom (partial) configuration file or even a default configuration file in a project.
 
