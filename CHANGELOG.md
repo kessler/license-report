@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.3.0](https://github.com/ironSource/license-report/compare/v6.2.0...v6.3.0) (2022-10-19)
+
+
+### Features
+
+* add Markdown formatter (solves issue [#116](https://github.com/ironSource/license-report/issues/116)) ([72eb9d8](https://github.com/ironSource/license-report/commit/72eb9d8fd74d02c457814972932acfbc0339a69b))
+
 ## [6.2.0](https://github.com/ironSource/license-report/compare/v6.1.0...v6.2.0) (2022-10-06)
 
 
