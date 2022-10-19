@@ -9,6 +9,7 @@ import addPackageDataFromRepository from '../lib/addPackageDataFromRepository.js
  */
 describe('addPackageDataFromRepository', function() {
 	this.timeout(20000)
+	this.slow(200)
 
 	let originalHttpRetryLimit
 
