@@ -38,7 +38,7 @@
     "@commitlint/cli": "^17.3.0",
     "@commitlint/config-conventional": "^17.3.0",
     "husky": "^8.0.2",
-    "mocha": "^10.1.0",
+    "mocha": "^10.2.0",
     "nock": "^13.2.9",
     "standard-version": "^9.5.0"
   },
