@@ -42,7 +42,7 @@ const debug = createDebugMessages('license-report');
       throw new Error(`Warning: the file '${resolvedPackageJson}' is required to get installed versions of packages`)
     }
     
-    // an index of all the dependencies
+    // Get a list of all the dependencies we want information about.
     const inclusions = util.isNullOrUndefined(config.only) ? null : config.only.split(',')
     const exclusions = Array.isArray(config.exclude) ? config.exclude : [config.exclude]
     let depsIndex = getDependencies(packageJson, exclusions, inclusions)
