@@ -1,0 +1,30 @@
+{
+	"fields": [
+		"name",
+		"link",
+		"author",
+    "homepage",
+		"material"
+	],
+
+	"name": {
+		"value": "",
+		"label": "name"
+	},
+	"link": {
+		"value": "n/a",
+		"label": "link"
+	},
+	"author": {
+		"value": "n/a",
+		"label": "author"
+	},
+	"material": {
+		"value": "material",
+		"label": "material / not material"
+	},
+	"homepage": {
+		"value": "n/a",
+		"label": "homepage of package"
+	}
+}

@@ -50,9 +50,9 @@ const debug = createDebugMessages('license-report');
     const projectRootPath = path.dirname(resolvedPackageJson)
     const packagesData = await Promise.all(
       depsIndex.map(async (element) => {
-        const localDataForPackages = await addLocalPackageData(element, projectRootPath)
-        const packagesData = await addPackageDataFromRepository(localDataForPackages)
-        return packageDataToReportData(packagesData, config)
+        const localDataForPackage = await addLocalPackageData(element, projectRootPath, config.fields)
+        const completeDataForPackage = await addPackageDataFromRepository(localDataForPackage)
+        return packageDataToReportData(completeDataForPackage, config)
       })
     )
 
