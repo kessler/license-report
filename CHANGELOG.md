@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.4.0](https://github.com/ironSource/license-report/compare/v6.3.0...v6.4.0) (2023-03-14)
+
+
+### Features
+
+* add entries from package.json defined in config.fields to output ([a31ca47](https://github.com/ironSource/license-report/commit/a31ca47f1b8246eb21c7a73c9f67c35f226f6640))
+
+
+### Bug Fixes
+
+* issue [#126](https://github.com/ironSource/license-report/issues/126) - Error when no dependency is found with markdown output ([#127](https://github.com/ironSource/license-report/issues/127)) ([ca5590c](https://github.com/ironSource/license-report/commit/ca5590cda5a0d54d24677b8ce3dd3662388c5c7b))
+* solve security issue with sub-dependency ([9f0aa72](https://github.com/ironSource/license-report/commit/9f0aa720e07648ef96fc43336de16ce621ada8cd))
+
 ## [6.3.0](https://github.com/ironSource/license-report/compare/v6.2.0...v6.3.0) (2022-10-19)
 
 
