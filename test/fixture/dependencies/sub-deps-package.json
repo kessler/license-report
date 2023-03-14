@@ -1,0 +1,10 @@
+{
+  "name": "license-report",
+  "description": "package.json for e2e tests without dependencies in sub-package",
+  "dependencies": {
+    "@kessler/tableify": "^1.0.2"
+  },
+  "devDependencies": {
+    "mocha": "^9.1.1"
+  }
+}

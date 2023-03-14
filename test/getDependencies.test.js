@@ -14,6 +14,15 @@ const packageJsonPath = path
 	.resolve(__dirname, 'fixture', 'default-fields', 'package.json')
 	.replace(/(\s+)/g, '\\$1')
 
+	// test data for test using package.json with empty dependencies
+const emptyDepsPackageJsonPath = path
+	.resolve(__dirname, 'fixture', 'dependencies', 'empty-dependency-package.json')
+	.replace(/(\s+)/g, '\\$1')
+// test data for test using package.json with no dependencies
+const noDepsPackageJsonPath = path
+	.resolve(__dirname, 'fixture', 'dependencies', 'no-dependency-package.json')
+	.replace(/(\s+)/g, '\\$1')
+
 describe('getDependencies', () => {
 	let packageJson
 
@@ -66,5 +75,19 @@ describe('getDependencies', () => {
 
 		assert.strictEqual(depsIndex.length, 1)
 		assert.strictEqual(depsIndex[0].fullName, 'lodash')
+	})
+
+	it('adds dependencies to output for empty dependencies property', () => {
+		const exclusions = []
+    let depsIndex = getDependencies(emptyDepsPackageJsonPath, exclusions)
+
+		assert.strictEqual(depsIndex.length, 0)
+	})
+
+	it('adds all dependency to output for missing dependencies properties', () => {
+		const exclusions = []
+    let depsIndex = getDependencies(noDepsPackageJsonPath, exclusions)
+
+		assert.strictEqual(depsIndex.length, 0)
 	})
 });

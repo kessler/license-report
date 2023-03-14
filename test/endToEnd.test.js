@@ -39,6 +39,19 @@ const localPackagesConfigPath = path
 	.resolve(__dirname, 'fixture', 'local-packages', 'license-report-config.json')
 	.replace(/(\s+)/g, '\\$1')
 
+// test data for e2e test using package.json with empty dependencies
+const emptyDepsPackageJsonPath = path
+	.resolve(__dirname, 'fixture', 'dependencies', 'empty-dependency-package.json')
+	.replace(/(\s+)/g, '\\$1')
+// test data for e2e test using package.json with no dependencies
+const noDepsPackageJsonPath = path
+	.resolve(__dirname, 'fixture', 'dependencies', 'no-dependency-package.json')
+	.replace(/(\s+)/g, '\\$1')
+// test data for e2e test using package.json with no dependencies
+const subPackageJsonPath = path
+	.resolve(__dirname, 'fixture', 'dependencies', 'sub-deps-package.json')
+	.replace(/(\s+)/g, '\\$1')
+
 const execAsPromise = util.promisify(cp.exec)
 
 let expectedData
@@ -220,6 +233,85 @@ describe('end to end test for all fields', function() {
 		const expectedLengthOfResult = 3
 
 		assert.strictEqual(result.length, expectedLengthOfResult, `expected the list to contain ${expectedLengthOfResult} elements`)
+		assert.strictEqual(stderr, '', 'expected no warnings')
+	})
+})
+
+describe('end to end test package without dependencies', function() {
+	this.timeout(50000)
+	this.slow(4000)
+
+	it('produce a json report for a package with empty dependencies', async () => {
+		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${emptyDepsPackageJsonPath}`)
+		const result = JSON.parse(stdout)
+		const expectedResult = [];
+		await expectedOutput.addRemoteVersionsToExpectedData(expectedResult)
+
+		assert.deepStrictEqual(result, expectedResult, `expected the output to contain no entries`)
+		assert.strictEqual(stderr, '', 'expected no warnings')
+	})
+
+	it('produce a json report for a package without dependencies', async () => {
+		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${noDepsPackageJsonPath}`)
+		const result = JSON.parse(stdout)
+		const expectedResult = [];
+		await expectedOutput.addRemoteVersionsToExpectedData(expectedResult)
+
+		assert.deepStrictEqual(result, expectedResult, `expected the output to contain no entries`)
+		assert.strictEqual(stderr, '', 'expected no warnings')
+	})
+
+	it('produce a json report for a package with sub-package without dependencies', async () => {
+		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${subPackageJsonPath}`)
+		const result = JSON.parse(stdout)
+		const expectedResult = [   {
+			author: "Dan VerWeire, Yaniv Kessler",
+			definedVersion: "^1.0.2",
+			department: "kessler",
+			installedVersion: "1.0.2",
+			licensePeriod: "perpetual",
+			licenseType: "MIT",
+			link: "git+https://github.com/kessler/node-tableify.git",
+			material: "material",
+			name: "@kessler/tableify",
+			relatedTo: "stuff",
+			remoteVersion: "1.0.2"
+		},
+		{
+			author: "TJ Holowaychuk <tj@vision-media.ca>",
+			definedVersion: "^9.1.1",
+			department: "kessler",
+			installedVersion: "9.1.2",
+			licensePeriod: "perpetual",
+			licenseType: "MIT",
+			link: "git+https://github.com/mochajs/mocha.git",
+			material: "material",
+			name: "mocha",
+			relatedTo: "stuff",
+			remoteVersion: "9.2.2"
+		}
+	];
+		await expectedOutput.addRemoteVersionsToExpectedData(expectedResult)
+
+		assert.deepStrictEqual(result, expectedResult, `expected the output to contain no entries`)
+		assert.strictEqual(stderr, '', 'expected no warnings')
+	})
+
+	it('produce a markdown report for a package with empty dependencies', async () => {
+		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${emptyDepsPackageJsonPath} --output=markdown`)
+		const result = stdout
+		const expectedResult = '\n'
+
+		assert.deepStrictEqual(result, expectedResult, `expected the output to contain no entries`)
+		assert.strictEqual(stderr, '', 'expected no warnings')
+	})
+
+	it('produce a markdown report for a package with no dependencies', async () => {
+		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${noDepsPackageJsonPath} --output=markdown`)
+		const result = stdout
+		const expectedResult = '\n'
+
+		assert.deepStrictEqual(result, expectedResult, `expected the output to contain no entries`)
 		assert.strictEqual(stderr, '', 'expected no warnings')
 	})
 })
