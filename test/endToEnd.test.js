@@ -31,6 +31,11 @@ const allFieldsConfigPath = path
 	.resolve(__dirname, 'fixture', 'all-fields', 'license-report-config.json')
 	.replace(/(\s+)/g, '\\$1')
 
+	// test data for e2e test using custom fields
+	const customFieldsConfigPath = path
+	.resolve(__dirname, 'fixture', 'all-fields', 'license-report-config-custom-fields.json')
+	.replace(/(\s+)/g, '\\$1')
+
 // test data for e2e test using the default fields and local packages
 const localPackagesPackageJsonPath = path
 	.resolve(__dirname, 'fixture', 'local-packages', 'package.json')
@@ -57,8 +62,8 @@ const execAsPromise = util.promisify(cp.exec)
 let expectedData
 
 describe('end to end test for default fields', function() {
-	this.timeout(50000)
-	this.slow(4000)
+	this.timeout(60000)
+	this.slow(5000)
 
 	beforeEach(async  () => {
 		expectedData = EXPECTED_DEFAULT_FIELDS_RAW_DATA.slice(0)
@@ -110,8 +115,8 @@ describe('end to end test for default fields', function() {
 })
 
 describe('end to end test for default fields in monorepo', function() {
-	this.timeout(50000)
-	this.slow(4000)
+	this.timeout(60000)
+	this.slow(5000)
 
 	beforeEach(async  () => {
 		expectedData = EXPECTED_DEFAULT_FIELDS_RAW_DATA.slice(0)
@@ -312,6 +317,37 @@ describe('end to end test package without dependencies', function() {
 		const expectedResult = '\n'
 
 		assert.deepStrictEqual(result, expectedResult, `expected the output to contain no entries`)
+		assert.strictEqual(stderr, '', 'expected no warnings')
+	})
+})
+
+describe('end to end test for custom fields', function() {
+	this.timeout(50000)
+	this.slow(4000)
+
+	it('produce a json report with custom fields specified in config', async () => {
+		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${allFieldsPackageJsonPath} --config=${customFieldsConfigPath}`)
+		const result = JSON.parse(stdout)
+		const expectedResult = [{
+			department: "kessler",
+			relatedTo: "stuff",
+			name: "semver",
+			licensePeriod: "perpetual",
+			material: "material",
+			licenseType: "ISC",
+			link: "git+https://github.com/npm/node-semver.git",
+			installedFrom: "https://registry.npmjs.org/semver/-/semver-5.4.1.tgz",
+			remoteVersion: "5.7.1",
+			latestRemoteVersion: '7.3.7',
+			latestRemoteModified: '2022-07-25T16:10:58.611Z',
+			installedVersion: "5.4.1",
+			definedVersion: "^5.0.0",
+			author:"GitHub Inc.",
+			description: "The semantic version parser used by npm."
+		}];
+		await expectedOutput.addRemoteVersionsToExpectedData(expectedResult)
+
+		assert.deepStrictEqual(result, expectedResult, `expected the output to contain all the configured fields`)
 		assert.strictEqual(stderr, '', 'expected no warnings')
 	})
 })

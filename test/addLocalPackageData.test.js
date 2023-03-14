@@ -117,7 +117,6 @@ describe('addLocalPackageData', function() {
   })
 })
 
-
 describe('addLocalPackageData with monorepo', function() {
   const fields = [
     'relatedTo',
@@ -162,5 +161,45 @@ describe('addLocalPackageData with monorepo', function() {
 
     assert.ok(depsIndexElement.installedVersion)
     assert.strictEqual(depsIndexElement.installedVersion, '7.3.7')
+  })
+})
+
+describe('addLocalPackageData with custom fields', function() {
+  let projectRootPath
+  const fields = [
+    'name',
+    'material',
+    'licenseType',
+    'homepage',
+    'definedVersion',
+    'author',
+    'bugs'
+  ]
+
+  beforeEach(() => {
+    projectRootPath = path
+      .resolve(__dirname, 'fixture', 'add-local-data')
+      .replace(/(\s+)/g, '\\$1')
+  })
+
+  it('adds package data for package in root level', async () => {
+    const depsIndexElement = {
+			fullName: '@kessler/tableify',
+			alias: '',
+			name: 'tableify',
+			version: '^1.0.2',
+      scope: '@kessler'
+    }
+    await addLocalPackageData(depsIndexElement, projectRootPath, fields)
+
+    assert.ok(depsIndexElement.installedVersion)
+    assert.strictEqual(depsIndexElement.installedVersion, '1.0.2')
+    assert.ok(depsIndexElement.homepage)
+    assert.strictEqual(depsIndexElement.homepage, 'https://github.com/kessler/node-tableify')
+    assert.ok(depsIndexElement.bugs)
+    const expectedBugs = {
+      url: 'https://github.com/kessler/node-tableify/issues'
+    }
+    assert.deepStrictEqual(depsIndexElement.bugs, expectedBugs)
   })
 })

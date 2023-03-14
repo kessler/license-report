@@ -1,0 +1,19 @@
+{
+    "fields": [
+			"department",
+			"relatedTo",
+			"name",
+			"licensePeriod",
+			"material",
+			"licenseType",
+			"link",
+			"installedFrom",
+			"remoteVersion",
+			"installedVersion",
+			"definedVersion",
+			"latestRemoteVersion",
+			"latestRemoteModified",
+			"author",
+			"description"
+    ]
+}
