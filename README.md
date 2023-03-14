@@ -15,15 +15,18 @@ npm install -g license-report
 1. The dependencies of the project under inspection must be installed so that the node_modules directory exists in the path of the `package.json` file.
 2. The registry defined in the `registry` configuration setting must be accessible (default: 'https://registry.npmjs.org/').
 
-## Usage
+## Configuration
 
-#### simple:
+### Run license-report without options:
+By default, `license-report` outputs all licenses from `dependencies`, `devDependencies`, `optionalDependencies` and `peerDependencies`.
 ```
 cd your/project/
 license-report
 ```
-by default, `license-report` outputs all licenses from `dependencies`, `devDependencies`, `optionalDependencies` and `peerDependencies`.  
-To specify one or the other, use `--only`; e.g.
+
+### Select dependencies:
+
+To specify one or some dependency types, use configuration options, e.g.
 ```
 license-report --only=dev
 ```
@@ -42,29 +45,31 @@ Possible values are:
 |opt|optionalDependencies|
 |peer|peerDependencies|
 
-#### explicit package.json:
+### Explicit package.json:
+To define the package.json to inspect, use the 'package' option.
 ```
 license-report --package=/path/to/package.json
 ```
 
-#### customize a field's label:
-Used as column headers in table / csv / html output. For html output the labels of all fields in the output must be unique.
+### Customize a field's label:
+The configurable labels are used as column headers in table / csv / html output. For html output the labels of all fields in the output must be unique.
 ```
 license-report --department.label=division
 ```
 
-#### customize a fields default value:
-Only applicable for the fields in the list later in this document (look for "Fields with data set in the configuration of license-report")
+### Customize a fields default value:
+Only applicable for the fields in the list later in this document and for "custom" fields (look for "Fields with data set in the configuration of license-report")
 ```
 license-report --department.value=ninjaSquad
 ```
 
-#### use another registry:
+### Use another registry:
+To define the registry, the remote data for packages are fetched from, use the 'registry' option.
 ```
 license-report --registry=https://myregistry.com/
 ```
 
-#### registry with authorization:
+### Registry with authorization:
 To use a npm registry that requires authorization, the option `npmTokenEnvVar` must contain the name of an environment variable that contains the required npm authorization token (the default name is 'NPM_TOKEN'). An example:
 ```
 # if the name of the environment variable containing the bearer token for npm authorization is 'NPM_TOKEN'
@@ -72,7 +77,7 @@ license-report --registry=https://myregistry.com/ --npmTokenEnvVar=NPM_TOKEN
 ```
 The name of this environment variable (in the example: 'npm_token') should not be added as an option to the license-report config file, as this implies a severe security risk, when this file is checked in into a git repository. A warning is emitted if such an option is found in the config file.
 
-#### generate different outputs:
+### Generate different outputs:
 ```
 license-report --output=table
 license-report --output=json
@@ -89,14 +94,15 @@ license-report --output=csv --csvHeaders
 # use custom stylesheet for html output
 license-report --output=html --html.cssFile=/a/b/c.css
 
-# see the output immediately in your browser, use hcat (npm i -g hcat)
+# see the output immediately in your browser, use hcat
 license-report --output=html | hcat
 ```
+When using the 'hcat' package to open the result in a browser, this package must be globally installed with `npm i -g hcat`.
 
-#### select fields for output:
+### Select fields for output:
 If only a few fields are required in the output, the easiest way of selecting the fields is via --fields command line arguments.
 
-There must be at least 2 --fields options, otherwise license-report
+There must be at least 2 --fields options ('name' and 'installedVersion'), otherwise license-report
 will throw an error.
 
 ```
@@ -126,11 +132,28 @@ license-report --output=csv --config license-report-config.json
   ]
 }
 ```
+Besides the 'build-in' fields ("department", "name", "installedVersion", "author" "comment", "licensePeriod", "licenseType", "link", "material", "relatedTo"), any field allowed in a package.json can be used in the fields array (as "custom" field).
 
-#### exclude packages:
+When using "custom" field, an element named like the "custom" field with 2 properties must be addes: "value" - the default value for this field - and "label - the "heading" for generated columns. Here is an example for adding the 'homepage' field:
+```
+  "fields": [
+    "name",
+    "installedVersion",
+    "homepage"
+  ],
+  "homepage": {
+    "value": 'n/a',
+    "label": 'Homepage'
+  }
+```
+
+### Exclude packages:
+With the 'exclude' option, single packages can be excluded from the output.
 ```
 license-report --exclude=async --exclude=rc
 ```
+
+## Format output
 
 ### Markdown Options
 If you want to change the default markdown table look and feel, e.g. center-align the text, you have to use a custom config file (`--config=license-report-config.json`) and in the config file use the `tablemarkConfig` property. 
@@ -173,7 +196,7 @@ For an explanation of all available options see https://github.com/haltcase/tabl
 ![screenshot1](html.png)
 ![screenshot1](markdown.jpg)
 
-## Available fields
+## "Build-in" fields
 Fields with data of the installed packages:
 | fieldname | column title | data source |
 |---|---|---|

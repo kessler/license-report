@@ -42,7 +42,7 @@ const debug = createDebugMessages('license-report');
       throw new Error(`Warning: the file '${resolvedPackageJson}' is required to get installed versions of packages`)
     }
     
-    // an index of all the dependencies
+    // Get a list of all the dependencies we want information about.
     const inclusions = util.isNullOrUndefined(config.only) ? null : config.only.split(',')
     const exclusions = Array.isArray(config.exclude) ? config.exclude : [config.exclude]
     let depsIndex = getDependencies(packageJson, exclusions, inclusions)
@@ -50,9 +50,9 @@ const debug = createDebugMessages('license-report');
     const projectRootPath = path.dirname(resolvedPackageJson)
     const packagesData = await Promise.all(
       depsIndex.map(async (element) => {
-        const localDataForPackages = await addLocalPackageData(element, projectRootPath)
-        const packagesData = await addPackageDataFromRepository(localDataForPackages)
-        return packageDataToReportData(packagesData, config)
+        const localDataForPackage = await addLocalPackageData(element, projectRootPath, config.fields)
+        const completeDataForPackage = await addPackageDataFromRepository(localDataForPackage)
+        return packageDataToReportData(completeDataForPackage, config)
       })
     )
 
