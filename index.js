@@ -15,24 +15,14 @@ import util from './lib/util.js';
 
 const debug = createDebugMessages('license-report');
 
-(async () => {
-  if (config.help) {
-    console.log(util.helpText)
-    return
-  }
-
-  if (!config.package) {
-    config.package = './package.json'
-  }
-
-  if (path.extname(config.package) !== '.json') {
-    throw new Error('invalid package.json ' + config.package)
-  }
+const generateLicenseData = async (config, packagePath) => {
 
   const outputFormatter = getFormatter(config.output)
 
   try {
-    const resolvedPackageJson = path.resolve(process.cwd(), config.package)
+    const rootPackageJson = path.resolve(process.cwd(), config.package);
+
+    const resolvedPackageJson = path.resolve(process.cwd(), packagePath);
 
     debug('loading %s', resolvedPackageJson)
     let packageJson
@@ -47,7 +37,7 @@ const debug = createDebugMessages('license-report');
     const exclusions = Array.isArray(config.exclude) ? config.exclude : [config.exclude]
     let depsIndex = getDependencies(packageJson, exclusions, inclusions)
 
-    const projectRootPath = path.dirname(resolvedPackageJson)
+    const projectRootPath = path.dirname(rootPackageJson)
     const packagesData = await Promise.all(
       depsIndex.map(async (element) => {
         const localDataForPackage = await addLocalPackageData(element, projectRootPath, config.fields)
@@ -56,9 +46,49 @@ const debug = createDebugMessages('license-report');
       })
     )
 
-    console.log(outputFormatter(packagesData, config))
+    let currentDependencyLicense = [];
+    currentDependencyLicense = JSON.parse(outputFormatter(packagesData, config));
+
+    let subDependenciesLicense = [];
+    for (let i = 0; i< currentDependencyLicense.length; i++) {
+      if (currentDependencyLicense[i].packageJsonPath) {
+        let licData = [];
+        try {
+          licData = await generateLicenseData(config, currentDependencyLicense[i].packageJsonPath);
+        } catch(e) {
+          licData = [];
+        } finally {
+          subDependenciesLicense = [...subDependenciesLicense, ...licData];
+        }
+        
+      }
+    }
+
+
+    return [...currentDependencyLicense, ...subDependenciesLicense];
+
   } catch (e) {
     console.error(e.stack)
     process.exit(1)
   }
+}
+
+(async () => {
+  if (config.help) {
+    console.log(util.helpText)
+    return
+  }
+
+  if (!config.package) {
+    config.package = './package.json'
+  }
+
+  if (path.extname(config.package) !== '.json') {
+    throw new Error('invalid package.json ' + config.package)
+  }
+
+  const output = [];
+
+  console.log(JSON.stringify(await generateLicenseData(config, config.package)));
+
 })();
