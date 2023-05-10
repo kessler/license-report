@@ -13,6 +13,12 @@ describe('addPackagesToIndex', function() {
 
 		assert.deepStrictEqual(index, [{ fullName: 'foo', name: 'foo', version: '*', scope: undefined, alias: '' }])
 	})
+	
+    	it('adds a package to the index - object', function() {
+        	addPackagesToIndex({ "foo": {"version": "*"} }, index)
+
+		assert.deepStrictEqual(index, [{ fullName: 'foo', name: 'foo', version: '*', scope: undefined, alias: '' }])
+	})
 
 	it('adds a scoped package to the index', function() {
 		addPackagesToIndex({ "@bar/foo": "*" }, index)
