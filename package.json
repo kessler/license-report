@@ -43,6 +43,6 @@
     "standard-version": "^9.5.0"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=16"
   }
 }
