@@ -155,12 +155,12 @@ describe('addLocalPackageData with monorepo', function() {
 			fullName: 'semver',
 			alias: '',
 			name: 'semver',
-			version: '^7.3.5'
+			version: '^7.5.4'
     }
     await addLocalPackageData(depsIndexElement, projectRootPath, fields)
 
     assert.ok(depsIndexElement.installedVersion)
-    assert.strictEqual(depsIndexElement.installedVersion, '7.3.7')
+    assert.strictEqual(depsIndexElement.installedVersion, '7.5.4')
   })
 })
 

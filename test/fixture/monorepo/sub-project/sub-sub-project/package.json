@@ -8,7 +8,7 @@
     "mocha": "^9.1.1"
   },
   "optionalDependencies": {
-    "semver": "^7.3.5"
+    "semver": "^7.5.1"
   },
   "peerDependencies": {
     "lodash": "^4.17.20"

@@ -200,12 +200,12 @@ describe('end to end test for all fields', function() {
 			material: "material",
 			licenseType: "ISC",
 			link: "git+https://github.com/npm/node-semver.git",
-			installedFrom: "https://registry.npmjs.org/semver/-/semver-5.4.1.tgz",
-			remoteVersion: "5.7.1",
-			latestRemoteVersion: '7.3.7',
+			installedFrom: "https://registry.npmjs.org/semver/-/semver-7.5.3.tgz",
+			remoteVersion: "7.5.4",
+			latestRemoteVersion: '7.5.4',
 			latestRemoteModified: '2022-07-25T16:10:58.611Z',
-			installedVersion: "5.4.1",
-			definedVersion: "^5.0.0",
+			installedVersion: "7.5.3",
+			definedVersion: "^7.0.0",
 			author:"GitHub Inc."
 		}];
 		await expectedOutput.addRemoteVersionsToExpectedData(expectedResult)
@@ -336,12 +336,12 @@ describe('end to end test for custom fields', function() {
 			material: "material",
 			licenseType: "ISC",
 			link: "git+https://github.com/npm/node-semver.git",
-			installedFrom: "https://registry.npmjs.org/semver/-/semver-5.4.1.tgz",
+			installedFrom: "https://registry.npmjs.org/semver/-/semver-7.5.3.tgz",
 			remoteVersion: "5.7.1",
-			latestRemoteVersion: '7.3.7',
+			latestRemoteVersion: '7.5.4',
 			latestRemoteModified: '2022-07-25T16:10:58.611Z',
-			installedVersion: "5.4.1",
-			definedVersion: "^5.0.0",
+			installedVersion: "7.5.3",
+			definedVersion: "^7.0.0",
 			author:"GitHub Inc.",
 			description: "The semantic version parser used by npm."
 		}];
@@ -403,8 +403,8 @@ const EXPECTED_DEFAULT_FIELDS_RAW_DATA = [
 		licenseType: 'ISC',
 		link: 'git+https://github.com/npm/node-semver.git',
 		remoteVersion: '_VERSION_',
-		installedVersion: '7.3.7',
-		definedVersion: '^7.3.5'
+		installedVersion: '7.5.4',
+		definedVersion: '^7.5.1'
 	},	
 ]
 
@@ -433,10 +433,10 @@ const EXPECTED_LOCAL_PACKAGES_RAW_DATA = [
 		material: 'material',
 		licenseType: 'ISC',
 		link: 'git+https://github.com/npm/node-semver.git',
-    installedFrom: "https://registry.npmjs.org/semver/-/semver-7.3.6.tgz",
+    installedFrom: "https://registry.npmjs.org/semver/-/semver-7.5.4.tgz",
 		remoteVersion: '_VERSION_',
-		installedVersion: '7.3.6',
-		definedVersion: '^7.3.0'
+		installedVersion: '7.5.4',
+		definedVersion: '^7.5.3'
 	},
 	{
 		author: 'Josh Junon <josh.junon@protonmail.com>',
