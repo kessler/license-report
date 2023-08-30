@@ -17,12 +17,12 @@ describe('getPackageDataFromRepository without trailing slash in uri', function(
 	let originalHttpRetryLimit
 	let originalRegistryUri
 
-	beforeEach(function() {
+	beforeEach(() => {
 		originalHttpRetryLimit = config.httpRetryOptions.limit
 		originalRegistryUri = config.registry
   })
 
-  afterEach(function() {
+  afterEach(() => {
 		config.httpRetryOptions.limit = originalHttpRetryLimit
 		config.registry = originalRegistryUri
   })
@@ -47,11 +47,11 @@ describe('getPackageDataFromRepository', function() {
 
 	let originalHttpRetryLimit
 
-	beforeEach(function() {
+	beforeEach(() => {
 		originalHttpRetryLimit = config.httpRetryOptions.limit
   })
 
-  afterEach(function() {
+  afterEach(() => {
 		config.httpRetryOptions.limit = originalHttpRetryLimit
 		nock.cleanAll()
   })
@@ -90,20 +90,20 @@ describe('getPackageDataFromRepository with private repository', function() {
 	let originalConfigNpmTokenEnvVar
 	let originalHttpRetryLimit
 
-	beforeEach(function() {
+	beforeEach(() => {
 		originalConfigRegistry = config.registry
 		originalConfigNpmTokenEnvVar = config.npmTokenEnvVar
 		originalHttpRetryLimit = config.httpRetryOptions.limit
   })
 
-  afterEach(function() {
+  afterEach(() => {
 		config.registry = originalConfigRegistry
 		config.npmTokenEnvVar = originalConfigNpmTokenEnvVar
 		config.httpRetryOptions.limit = originalHttpRetryLimit
 		nock.cleanAll()
   })
 
-	it('gets npm token via environment variable given in config file', function() {
+	it('gets npm token via environment variable given in config file', () => {
 		const envVarName = 'TEST_NPM_TOKEN_LR'
 		const testToken = Math.random().toString(36).substring(2)
 		config.npmTokenEnvVar = envVarName

@@ -1,14 +1,14 @@
 import assert from 'node:assert';
 import extractAuthor from '../lib/extractAuthor.js';
 
-describe('extractAuthor', function() {
-	it('if its a string', function() {
+describe('extractAuthor', () => {
+	it('if its a string', () => {
 		const author = extractAuthor({ author: 'John Doe' })
 
 		assert.strictEqual(author, 'John Doe')
 	})
 
-	it('if its an object with name', function() {
+	it('if its an object with name', () => {
 		const packageJsonAuthor = { author: {
 			name : 'Barney Rubble'
 		} }
@@ -17,7 +17,7 @@ describe('extractAuthor', function() {
 		assert.strictEqual(author, 'Barney Rubble')
 	})
 
-	it('if its an object with email', function() {
+	it('if its an object with email', () => {
 		const packageJsonAuthor = { author: {
 			email : 'b@rubble.com'
 		} }
@@ -26,7 +26,7 @@ describe('extractAuthor', function() {
 		assert.strictEqual(author, 'b@rubble.com')
 	})
 
-	it('if its an object with name and email', function() {
+	it('if its an object with name and email', () => {
 		const packageJsonAuthor = { author: {
 			name : 'Barney Rubble',
 			email : 'b@rubble.com'
@@ -36,7 +36,7 @@ describe('extractAuthor', function() {
 		assert.strictEqual(author, 'Barney Rubble b@rubble.com')
 	})
 
-	it('if its an object with name, email, url', function() {
+	it('if its an object with name, email, url', () => {
 		const packageJsonAuthor = { author: {
 			name : 'Barney Rubble',
 			email : 'b@rubble.com',
@@ -47,7 +47,7 @@ describe('extractAuthor', function() {
 		assert.strictEqual(author, 'Barney Rubble b@rubble.com http://barnyrubble.tumblr.com/')
 	})
 	
-	it('if no author field is present', function() {
+	it('if no author field is present', () => {
 		const author = extractAuthor({})
 
 		assert.strictEqual(author, 'n/a')

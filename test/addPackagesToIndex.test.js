@@ -1,32 +1,32 @@
 import assert from 'node:assert';
 import addPackagesToIndex from '../lib/addPackagesToIndex.js';
 
-describe('addPackagesToIndex', function() {
+describe('addPackagesToIndex', () => {
 	let index
 
-	beforeEach(function() {
+	beforeEach(() => {
 		index = []
 	})
 
-	it('adds a package to the index', function() {
+	it('adds a package to the index', () => {
 		addPackagesToIndex({ "foo": "*" }, index)
 
 		assert.deepStrictEqual(index, [{ fullName: 'foo', name: 'foo', version: '*', scope: undefined, alias: '' }])
 	})
 
-	it('adds a scoped package to the index', function() {
+	it('adds a scoped package to the index', () => {
 		addPackagesToIndex({ "@bar/foo": "*" }, index)
 
 		assert.deepStrictEqual(index, [{ fullName: '@bar/foo', name: 'foo', version: '*', scope: 'bar', alias: '' }])
 	})
 
-	it('adds a local package to the index', function() {
+	it('adds a local package to the index', () => {
 		addPackagesToIndex({ "my-local-package": "file:local-libs/my-local-package" }, index)
 
 		assert.deepStrictEqual(index, [{ fullName: 'my-local-package', name: 'my-local-package', version: 'file:local-libs/my-local-package', scope: undefined, alias: '' }])
 	})
 
-	it('does not add duplicate packages, same package is a package that has the same name, version expression and scope', function() {
+	it('does not add duplicate packages, same package is a package that has the same name, version expression and scope', () => {
 		addPackagesToIndex({ "@bar/foo": "*" }, index)
 		addPackagesToIndex({ "@bar/foo": "*" }, index)
 		addPackagesToIndex({ "@bar/foo": "1.2.3" }, index)
@@ -42,7 +42,7 @@ describe('addPackagesToIndex', function() {
 		])
 	})
 
-	it('excludes package names that are specified in the exclusion parameter, currently this is a broad exclusion, i.e all packages with specified names are excluded', function() {
+	it('excludes package names that are specified in the exclusion parameter, currently this is a broad exclusion, i.e all packages with specified names are excluded', () => {
 		const exclude = ['@bar/foo']
 		addPackagesToIndex({ "@bar/foo": "1.2.3" }, index, exclude)
 		addPackagesToIndex({
@@ -53,13 +53,13 @@ describe('addPackagesToIndex', function() {
 		assert.deepStrictEqual(index, [{ fullName: 'foo', name: 'foo', version: '1.1.1', scope: undefined, alias: '' }])
 	})
 
-	it('add package with alias to the index', function() {
+	it('add package with alias to the index', () => {
 		addPackagesToIndex({ "my-mocha": "npm:mocha@^8.3.1" }, index)
 
 		assert.deepStrictEqual(index, [{ fullName: 'mocha', name: 'mocha', version: '^8.3.1', scope: undefined, alias: 'my-mocha' }])
 	})
 
-	it('add scoped package with alias to the index', function() {
+	it('add scoped package with alias to the index', () => {
 		addPackagesToIndex({ "@kessler/tableify_1.0.1": "npm:@kessler/tableify@^1.0.1" }, index)
 
 		assert.deepStrictEqual(index, [{ fullName: '@kessler/tableify', name: 'tableify', version: '^1.0.1', scope: 'kessler', alias: '@kessler/tableify_1.0.1' }])

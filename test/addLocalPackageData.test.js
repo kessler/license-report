@@ -5,7 +5,7 @@ import addLocalPackageData from '../lib/addLocalPackageData.js';
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
-describe('addLocalPackageData', function() {
+describe('addLocalPackageData', () => {
   let projectRootPath
   const fields = [
     'relatedTo',
@@ -117,7 +117,7 @@ describe('addLocalPackageData', function() {
   })
 })
 
-describe('addLocalPackageData with monorepo', function() {
+describe('addLocalPackageData with monorepo', () => {
   const fields = [
     'relatedTo',
     'name',
@@ -164,7 +164,7 @@ describe('addLocalPackageData with monorepo', function() {
   })
 })
 
-describe('addLocalPackageData with custom fields', function() {
+describe('addLocalPackageData with custom fields', () => {
   let projectRootPath
   const fields = [
     'name',

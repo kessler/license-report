@@ -40,25 +40,25 @@ describe('formatter for table', () => {
   })
 })
 
-describe('formatter for csv', function() {
+describe('formatter for csv', () => {
   let csvHeadersBackup
 
-  beforeEach(function() {
+  beforeEach(() => {
     csvHeadersBackup = config.csvHeaders
   })
 
-  afterEach(function() {
+  afterEach(() => {
     config.csvHeaders = csvHeadersBackup
   })
 
-	it('produces a report without header', function() {
+	it('produces a report without header', () => {
     const csvFormatter = getFormatter('csv')
     const csvResult = csvFormatter(testData, config)
 
 		assert.strictEqual(csvResult, EXPECTED_CSV_RESULT)
 	})
 
-	it('produces a report with header', function() {
+	it('produces a report with header', () => {
     config.csvHeaders = true
     const csvFormatter = getFormatter('csv')
     const csvResult = csvFormatter(testData, config)
@@ -67,21 +67,21 @@ describe('formatter for csv', function() {
 		assert.strictEqual(csvResult, csvExpectedResult)
 	})
 
-	it('produces a report for data with delimiter in field value', function() {
+	it('produces a report for data with delimiter in field value', () => {
     const csvFormatter = getFormatter('csv')
     const csvResult = csvFormatter(testDataWithCsvDelimiter, config)
 
 		assert.strictEqual(csvResult, EXPECTED_CSV_RESULT_WITH_DELIMITER)
 	})
 
-  it('produces a report for an empty data array', function() {
+  it('produces a report for an empty data array', () => {
     const csvFormatter = getFormatter('csv')
     const csvResult = csvFormatter([], config)
   
     assert.strictEqual(csvResult, '')
   })
 
-  it('produces a report with header for an empty data array', function() {
+  it('produces a report with header for an empty data array', () => {
     config.csvHeaders = true
     const csvFormatter = getFormatter('csv')
     const csvResult = csvFormatter([], config)

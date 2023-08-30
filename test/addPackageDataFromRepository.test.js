@@ -13,11 +13,11 @@ describe('addPackageDataFromRepository', function() {
 
 	let originalHttpRetryLimit
 
-	beforeEach(function() {
+	beforeEach(() => {
 		originalHttpRetryLimit = config.httpRetryOptions.limit
   })
 
-  afterEach(function() {
+  afterEach(() => {
 		config.httpRetryOptions.limit = originalHttpRetryLimit
 		nock.cleanAll()
   })
