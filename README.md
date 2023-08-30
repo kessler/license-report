@@ -1,8 +1,8 @@
-# license report tool
+# NPM License Report Tool
 ![Version](https://img.shields.io/badge/version-6.4.0-blue.svg?cacheSeconds=2592000)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/kefranabg/readme-md-generator/blob/master/LICENSE)
 
-> Generate a license report of the projects dependencies.
+> Generate a license report for the projects dependencies.
 
 ## Installation
 ```
@@ -134,7 +134,7 @@ license-report --output=csv --config license-report-config.json
 ```
 Besides the 'build-in' fields ("department", "name", "installedVersion", "author" "comment", "licensePeriod", "licenseType", "link", "material", "relatedTo"), any field allowed in a package.json can be used in the fields array (as "custom" field).
 
-When using "custom" field, an element named like the "custom" field with 2 properties must be addes: "value" - the default value for this field - and "label - the "heading" for generated columns. Here is an example for adding the 'homepage' field:
+When using "custom" field, an element named like the "custom" field with 2 properties must be added: "value" - the default value for this field - and "label - the "heading" for generated columns. Here is an example for adding the 'homepage' field:
 ```
   "fields": [
     "name",
@@ -212,6 +212,7 @@ Fields with data of the installed packages:
 | comment | comment | deprecated (replaced by field 'remoteVersion'); will be removed in a future version |
 | author | author | author of the package |
 
+&nbsp;   
 Fields with data set in the configuration of license-report:
 | fieldname | column title | set value |
 |--|---|---|
@@ -259,7 +260,7 @@ For list of changes and bugfixes, see [CHANGELOG.md](CHANGELOG.md).
 ## Contributing
 The [CHANGELOG.md](CHANGELOG.md) is generated with `standard-changelog` (using the command `npm run release`).
 
-To make this possible the commit messages must follow the [conventinal commits specification](https://www.conventionalcommits.org/en/v1.0.0-beta.2/#specification).
+To make this possible the commit messages must follow the [conventional commits specification](https://www.conventionalcommits.org/en/v1.0.0-beta.2/#specification).
 
 ```
 <type>: <description>
