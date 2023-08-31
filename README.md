@@ -102,9 +102,6 @@ When using the 'hcat' package to open the result in a browser, this package must
 ### Select fields for output:
 If only a few fields are required in the output, the easiest way of selecting the fields is via --fields command line arguments.
 
-There must be at least 2 --fields options ('name' and 'installedVersion'), otherwise license-report
-will throw an error.
-
 ```
 # set options with command line arguments
 license-report --output=csv --fields=name --fields=installedVersion
