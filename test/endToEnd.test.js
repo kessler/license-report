@@ -242,6 +242,25 @@ describe('end to end test for all fields', function() {
 	})
 })
 
+describe('end to end test for single field', function() {
+	this.timeout(60000)
+	this.slow(5000)
+
+	beforeEach(async  () => {
+		expectedData = EXPECTED_SINGLE_FIELD_RAW_DATA.slice(0)
+		await expectedOutput.addRemoteVersionsToExpectedData(expectedData)
+  })
+
+	it('produce a json report with a single field', async () => {
+		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsPackageJsonPath} --fields=name`)
+		const result = JSON.parse(stdout)
+		const expectedJsonResult = expectedOutput.rawDataToJson(expectedData)
+
+		assert.deepStrictEqual(result, expectedJsonResult)
+		assert.strictEqual(stderr, '', 'expected no warnings')
+	})
+})
+
 describe('end to end test package without dependencies', function() {
 	this.timeout(50000)
 	this.slow(4000)
@@ -405,6 +424,22 @@ const EXPECTED_DEFAULT_FIELDS_RAW_DATA = [
 		remoteVersion: '_VERSION_',
 		installedVersion: '7.5.4',
 		definedVersion: '^7.5.1'
+	},	
+]
+
+// raw data we use to generate the expected results for single field test
+const EXPECTED_SINGLE_FIELD_RAW_DATA = [
+	{
+		name: '@kessler/tableify'
+	},
+	{
+		name: 'mocha'
+	},		
+	{
+		name: 'lodash'
+	},	
+	{
+		name: 'semver'
 	},	
 ]
 
