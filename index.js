@@ -45,12 +45,13 @@ const debug = createDebugMessages('license-report');
     // Get a list of all the dependencies we want information about.
     const inclusions = util.isNullOrUndefined(config.only) ? null : config.only.split(',')
     const exclusions = Array.isArray(config.exclude) ? config.exclude : [config.exclude]
+    const fieldsList = Array.isArray(config.fields) ? config.fields : [config.fields]
     let depsIndex = getDependencies(packageJson, exclusions, inclusions)
 
     const projectRootPath = path.dirname(resolvedPackageJson)
     const packagesData = await Promise.all(
       depsIndex.map(async (element) => {
-        const localDataForPackage = await addLocalPackageData(element, projectRootPath, config.fields)
+        const localDataForPackage = await addLocalPackageData(element, projectRootPath, fieldsList)
         const completeDataForPackage = await addPackageDataFromRepository(localDataForPackage)
         return packageDataToReportData(completeDataForPackage, config)
       })
