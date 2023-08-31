@@ -150,6 +150,11 @@ With the 'exclude' option, single packages can be excluded from the output.
 license-report --exclude=async --exclude=rc
 ```
 
+Using the 'excludeRegex' option, packages can be excluded from the output using a regular expression.
+```
+license-report --excludeRegex=@mycompany\/.*
+```
+
 ## Format output
 
 ### Markdown Options
@@ -211,6 +216,7 @@ Fields with data of the installed packages:
 
 &nbsp;   
 Fields with data set in the configuration of license-report:
+
 | fieldname | column title | set value |
 |--|---|---|
 | department | department | --department.value=kessler |

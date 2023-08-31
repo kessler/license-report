@@ -45,8 +45,16 @@ const debug = createDebugMessages('license-report');
     // Get a list of all the dependencies we want information about.
     const inclusions = util.isNullOrUndefined(config.only) ? null : config.only.split(',')
     const exclusions = Array.isArray(config.exclude) ? config.exclude : [config.exclude]
+    let exclusionRegexp
+    if ((config.excludeRegex !== undefined)  && (typeof config.excludeRegex === 'string') && (config.excludeRegex !== '')) {
+      try {
+        exclusionRegexp = new RegExp(config.excludeRegex, 'i')
+      } catch (error) {
+        exclusionRegexp = undefined
+      }
+    }
     const fieldsList = Array.isArray(config.fields) ? config.fields : [config.fields]
-    let depsIndex = getDependencies(packageJson, exclusions, inclusions)
+    let depsIndex = getDependencies(packageJson, exclusions, inclusions, exclusionRegexp)
 
     const projectRootPath = path.dirname(resolvedPackageJson)
     const packagesData = await Promise.all(
