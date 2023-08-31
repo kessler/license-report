@@ -1,0 +1,14 @@
+{
+  "name": "license-report",
+  "description": "package.json for tests with multiple dependencies",
+  "dependencies": {
+    "@kessler/tableify": "^1.0.2",
+    "tablemark": "^3.0.0",
+    "text-table": "~0.2.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.7.1",
+    "@commitlint/config-conventional": "^17.7.0",
+    "mocha": "^9.1.1"
+  }
+}

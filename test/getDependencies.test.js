@@ -14,13 +14,19 @@ const packageJsonPath = path
 	.resolve(__dirname, 'fixture', 'default-fields', 'package.json')
 	.replace(/(\s+)/g, '\\$1')
 
-	// test data for test using package.json with empty dependencies
+// test data for test using package.json with empty dependencies
 const emptyDepsPackageJsonPath = path
 	.resolve(__dirname, 'fixture', 'dependencies', 'empty-dependency-package.json')
 	.replace(/(\s+)/g, '\\$1')
+
 // test data for test using package.json with no dependencies
 const noDepsPackageJsonPath = path
 	.resolve(__dirname, 'fixture', 'dependencies', 'no-dependency-package.json')
+	.replace(/(\s+)/g, '\\$1')
+
+// test data for test using package.json with multiple dependencies
+const multiDepsPackageJsonPath = path
+	.resolve(__dirname, 'fixture', 'dependencies', 'multi-deps-package.json')
 	.replace(/(\s+)/g, '\\$1')
 
 describe('getDependencies', () => {
@@ -77,17 +83,69 @@ describe('getDependencies', () => {
 		assert.strictEqual(depsIndex[0].fullName, 'lodash')
 	})
 
-	it('adds dependencies to output for empty dependencies property', () => {
+	it('adds dependencies to output for empty dependencies property', async () => {
 		const exclusions = []
-    let depsIndex = getDependencies(emptyDepsPackageJsonPath, exclusions)
+		packageJson = await util.readJson(emptyDepsPackageJsonPath)
+    let depsIndex = getDependencies(packageJson, exclusions)
 
 		assert.strictEqual(depsIndex.length, 0)
 	})
 
-	it('adds all dependency to output for missing dependencies properties', () => {
+	it('adds all dependencies to output for missing dependencies properties', async () => {
 		const exclusions = []
-    let depsIndex = getDependencies(noDepsPackageJsonPath, exclusions)
+		packageJson = await util.readJson(noDepsPackageJsonPath)
+    let depsIndex = getDependencies(packageJson, exclusions)
 
 		assert.strictEqual(depsIndex.length, 0)
 	})
+
+	it('adds multiple dependencies to output', async () => {
+		const exclusions = []
+		packageJson = await util.readJson(multiDepsPackageJsonPath)
+    let depsIndex = getDependencies(packageJson, exclusions)
+
+		assert.strictEqual(depsIndex.length, 6)
+	});
+
+	it('adds multiple dependencies to output with single word exclude', async () => {
+		const exclusion = 'tablemark'
+		packageJson = await util.readJson(multiDepsPackageJsonPath)
+    let depsIndex = getDependencies(packageJson, exclusion)
+
+		assert.strictEqual(depsIndex.length, 5)
+	});
+
+	it('adds multiple dependencies to output with array of excludes', async () => {
+		const exclusions = ['tablemark', 'text-table']
+		packageJson = await util.readJson(multiDepsPackageJsonPath)
+    let depsIndex = getDependencies(packageJson, exclusions)
+
+		assert.strictEqual(depsIndex.length, 4)
+	});
+
+	it('adds multiple dependencies to output with excludeRegex', async () => {
+		const exclusionRegex = new RegExp('^@commitlint\/.*', 'i')
+		packageJson = await util.readJson(multiDepsPackageJsonPath)
+    let depsIndex = getDependencies(packageJson, undefined, undefined, exclusionRegex)
+
+		assert.strictEqual(depsIndex.length, 4)
+	});
+
+	it('adds multiple dependencies to output with single word exclude and excludeRegex', async () => {
+		const exclusion = 'tablemark'
+		const exclusionRegex = new RegExp('^@commitlint\/.*', 'i')
+		packageJson = await util.readJson(multiDepsPackageJsonPath)
+    let depsIndex = getDependencies(packageJson, exclusion, undefined, exclusionRegex)
+
+		assert.strictEqual(depsIndex.length, 3)
+	});
+
+	it('adds multiple dependencies to output with array of excludes and excludeRegex', async () => {
+		const exclusions = ['tablemark', 'text-table']
+		const exclusionRegex = new RegExp('^@commitlint\/.*', 'i')
+		packageJson = await util.readJson(multiDepsPackageJsonPath)
+    let depsIndex = getDependencies(packageJson, exclusions, undefined, exclusionRegex)
+
+		assert.strictEqual(depsIndex.length, 2)
+	});
 });
