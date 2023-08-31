@@ -44,5 +44,15 @@
   },
   "engines": {
     "node": ">=16"
-  }
+  },
+  "files": [
+    "index.js",
+    "lib/",
+    "CHANGELOG.md",
+    "defaultHtmlStyle.css",
+    "html.png",
+    "ironsource.png",
+    "markdown.jpg",
+    "screenshot.png"
+  ]
 }
