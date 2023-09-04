@@ -50,6 +50,7 @@ const debug = createDebugMessages('license-report');
       try {
         exclusionRegexp = new RegExp(config.excludeRegex, 'i')
       } catch (error) {
+        console.error(error.message)
         exclusionRegexp = undefined
       }
     }
