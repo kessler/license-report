@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.5.0](https://github.com/ironSource/license-report/compare/v6.4.0...v6.5.0) (2023-10-09)
+
+
+### Features
+
+* add the configuration element 'excludeRegex' - issue [#139](https://github.com/ironSource/license-report/issues/139) ([6ce1c13](https://github.com/ironSource/license-report/commit/6ce1c1341a05cf6acd05f13c6f40e22d61bd0c61))
+
+
+### Bug Fixes
+
+* enable selecting a single field in the output via 'fields' configuration element ([#143](https://github.com/ironSource/license-report/issues/143)) ([7486bbf](https://github.com/ironSource/license-report/commit/7486bbfcd234083da6f88df833546e01904b2dae))
+* make node v16 minimal required node version ([34887d0](https://github.com/ironSource/license-report/commit/34887d0f4feb7d45e9b8e077a81554a06a1c9458))
+
 ## [6.4.0](https://github.com/ironSource/license-report/compare/v6.3.0...v6.4.0) (2023-03-14)
 
 
