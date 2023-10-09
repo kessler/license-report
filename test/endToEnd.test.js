@@ -48,32 +48,39 @@ const localPackagesConfigPath = path
 const emptyDepsPackageJsonPath = path
 	.resolve(__dirname, 'fixture', 'dependencies', 'empty-dependency-package.json')
 	.replace(/(\s+)/g, '\\$1')
+
 // test data for e2e test using package.json with no dependencies
 const noDepsPackageJsonPath = path
 	.resolve(__dirname, 'fixture', 'dependencies', 'no-dependency-package.json')
 	.replace(/(\s+)/g, '\\$1')
+
 // test data for e2e test using package.json with no dependencies
 const subPackageJsonPath = path
 	.resolve(__dirname, 'fixture', 'dependencies', 'sub-deps-package.json')
 	.replace(/(\s+)/g, '\\$1')
 
+// test data for e2e test with exclusions using package.json with multiple dependencies
+const multiPackageJsonPath = path
+	.resolve(__dirname, 'fixture', 'dependencies', 'multi-deps-package.json')
+	.replace(/(\s+)/g, '\\$1')
+
 const execAsPromise = util.promisify(cp.exec)
 
-let expectedData
+let expectedDataBase
 
 describe('end to end test for default fields', function() {
 	this.timeout(60000)
 	this.slow(5000)
 
 	beforeEach(async  () => {
-		expectedData = EXPECTED_DEFAULT_FIELDS_RAW_DATA.slice(0)
-		await expectedOutput.addRemoteVersionsToExpectedData(expectedData)
+		expectedDataBase = EXPECTED_DEFAULT_FIELDS_RAW_DATA.slice(0)
+		await expectedOutput.addRemoteVersionsToExpectedData(expectedDataBase)
   })
 
 	it('produce a json report', async () => {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsPackageJsonPath}`)
 		const result = JSON.parse(stdout)
-		const expectedJsonResult = expectedOutput.rawDataToJson(expectedData)
+		const expectedJsonResult = expectedOutput.rawDataToJson(expectedDataBase)
 
 		assert.deepStrictEqual(result, expectedJsonResult)
 		assert.strictEqual(stderr, '', 'expected no warnings')
@@ -81,7 +88,7 @@ describe('end to end test for default fields', function() {
 
 	it('produce a table report', async () => {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsPackageJsonPath} --output=table`)
-		const expectedTableResult = expectedOutput.rawDataToTable(expectedData, EXPECTED_TABLE_TEMPLATE)
+		const expectedTableResult = expectedOutput.rawDataToTable(expectedDataBase, EXPECTED_TABLE_TEMPLATE)
 
 		assert.strictEqual(stdout, expectedTableResult)
 		assert.strictEqual(stderr, '', 'expected no warnings')
@@ -89,7 +96,7 @@ describe('end to end test for default fields', function() {
 
 	it('produce a csv report', async () => {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsPackageJsonPath} --output=csv --csvHeaders`)
-		const expectedCsvResult = expectedOutput.rawDataToCsv(expectedData, EXPECTED_CSV_TEMPLATE)
+		const expectedCsvResult = expectedOutput.rawDataToCsv(expectedDataBase, EXPECTED_CSV_TEMPLATE)
 
 		assert.strictEqual(stdout, expectedCsvResult)
 		assert.strictEqual(stderr, 'Warning: field contains delimiter; value: \"Dan VerWeire, Yaniv Kessler\"\n')
@@ -99,7 +106,7 @@ describe('end to end test for default fields', function() {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsPackageJsonPath} --output=html`)
 		const actualResult = eol.auto(stdout)
 		const expectedHtmlTemplate = eol.auto(fs.readFileSync(path.join(__dirname, 'fixture', 'expectedOutput.e2e.html'), 'utf8'))
-		const expectedHtmlResult = expectedOutput.rawDataToHtml(expectedData, expectedHtmlTemplate)
+		const expectedHtmlResult = expectedOutput.rawDataToHtml(expectedDataBase, expectedHtmlTemplate)
 
 		assert.strictEqual(actualResult, expectedHtmlResult)
 		assert.strictEqual(stderr, '', 'expected no warnings')
@@ -107,7 +114,7 @@ describe('end to end test for default fields', function() {
 
 	it('produce a markdown table report', async () => {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsPackageJsonPath} --output=markdown`)
-		const expectedMarkdownTableResult = expectedOutput.rawDataToMarkdown(expectedData, EXPECTED_MARKDOWN_TABLE_TEMPLATE)
+		const expectedMarkdownTableResult = expectedOutput.rawDataToMarkdown(expectedDataBase, EXPECTED_MARKDOWN_TABLE_TEMPLATE)
 
 		assert.strictEqual(stdout, expectedMarkdownTableResult)
 		assert.strictEqual(stderr, '', 'expected no warnings')
@@ -119,14 +126,14 @@ describe('end to end test for default fields in monorepo', function() {
 	this.slow(5000)
 
 	beforeEach(async  () => {
-		expectedData = EXPECTED_DEFAULT_FIELDS_RAW_DATA.slice(0)
-		await expectedOutput.addRemoteVersionsToExpectedData(expectedData)
+		expectedDataBase = EXPECTED_DEFAULT_FIELDS_RAW_DATA.slice(0)
+		await expectedOutput.addRemoteVersionsToExpectedData(expectedDataBase)
   })
 
 	it('produce a json report', async () => {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsMonorepoPackageJsonPath}`)
 		const result = JSON.parse(stdout)
-		const expectedJsonResult = expectedOutput.rawDataToJson(expectedData)
+		const expectedJsonResult = expectedOutput.rawDataToJson(expectedDataBase)
 
 		assert.deepStrictEqual(result, expectedJsonResult)
 		assert.strictEqual(stderr, '', 'expected no warnings')
@@ -134,7 +141,7 @@ describe('end to end test for default fields in monorepo', function() {
 
 	it('produce a table report', async () => {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsMonorepoPackageJsonPath} --output=table`)
-		const expectedTableResult = expectedOutput.rawDataToTable(expectedData, EXPECTED_TABLE_TEMPLATE)
+		const expectedTableResult = expectedOutput.rawDataToTable(expectedDataBase, EXPECTED_TABLE_TEMPLATE)
 
 		assert.strictEqual(stdout, expectedTableResult)
 		assert.strictEqual(stderr, '', 'expected no warnings')
@@ -142,7 +149,7 @@ describe('end to end test for default fields in monorepo', function() {
 
 	it('produce a csv report', async () => {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsMonorepoPackageJsonPath} --output=csv --csvHeaders`)
-		const expectedCsvResult = expectedOutput.rawDataToCsv(expectedData, EXPECTED_CSV_TEMPLATE)
+		const expectedCsvResult = expectedOutput.rawDataToCsv(expectedDataBase, EXPECTED_CSV_TEMPLATE)
 
 		assert.strictEqual(stdout, expectedCsvResult)
 		assert.strictEqual(stderr, 'Warning: field contains delimiter; value: \"Dan VerWeire, Yaniv Kessler\"\n')
@@ -152,7 +159,7 @@ describe('end to end test for default fields in monorepo', function() {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsMonorepoPackageJsonPath} --output=html`)
 		const actualResult = eol.auto(stdout)
 		const expectedHtmlTemplate = eol.auto(fs.readFileSync(path.join(__dirname, 'fixture', 'expectedOutput.e2e.html'), 'utf8'))
-		const expectedHtmlResult = expectedOutput.rawDataToHtml(expectedData, expectedHtmlTemplate)
+		const expectedHtmlResult = expectedOutput.rawDataToHtml(expectedDataBase, expectedHtmlTemplate)
 
 		assert.strictEqual(actualResult, expectedHtmlResult)
 		assert.strictEqual(stderr, '', 'expected no warnings')
@@ -160,7 +167,7 @@ describe('end to end test for default fields in monorepo', function() {
 
 	it('produce a markdown table report', async () => {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsMonorepoPackageJsonPath} --output=markdown`)
-		const expectedMarkdownTableResult = expectedOutput.rawDataToMarkdown(expectedData, EXPECTED_MARKDOWN_TABLE_TEMPLATE)
+		const expectedMarkdownTableResult = expectedOutput.rawDataToMarkdown(expectedDataBase, EXPECTED_MARKDOWN_TABLE_TEMPLATE)
 
 		assert.strictEqual(stdout, expectedMarkdownTableResult)
 		assert.strictEqual(stderr, '', 'expected no warnings')
@@ -172,14 +179,14 @@ describe('end to end test for local packages', function() {
 	this.slow(4000)
 
 	beforeEach(async  () => {
-		expectedData = EXPECTED_LOCAL_PACKAGES_RAW_DATA.slice(0)
-		await expectedOutput.addRemoteVersionsToExpectedData(expectedData)
+		expectedDataBase = EXPECTED_LOCAL_PACKAGES_RAW_DATA.slice(0)
+		await expectedOutput.addRemoteVersionsToExpectedData(expectedDataBase)
   })
 
 	it('produce a json report', async () => {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${localPackagesPackageJsonPath} --config=${localPackagesConfigPath}`)
 		const result = JSON.parse(stdout)
-		const expectedJsonResult = expectedOutput.rawDataToJson(expectedData)
+		const expectedJsonResult = expectedOutput.rawDataToJson(expectedDataBase)
 
 		assert.deepStrictEqual(result, expectedJsonResult)
 	})
@@ -247,14 +254,14 @@ describe('end to end test for single field', function() {
 	this.slow(5000)
 
 	beforeEach(async  () => {
-		expectedData = EXPECTED_SINGLE_FIELD_RAW_DATA.slice(0)
-		await expectedOutput.addRemoteVersionsToExpectedData(expectedData)
+		expectedDataBase = EXPECTED_SINGLE_FIELD_RAW_DATA.slice(0)
+		await expectedOutput.addRemoteVersionsToExpectedData(expectedDataBase)
   })
 
 	it('produce a json report with a single field', async () => {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsPackageJsonPath} --fields=name`)
 		const result = JSON.parse(stdout)
-		const expectedJsonResult = expectedOutput.rawDataToJson(expectedData)
+		const expectedJsonResult = expectedOutput.rawDataToJson(expectedDataBase)
 
 		assert.deepStrictEqual(result, expectedJsonResult)
 		assert.strictEqual(stderr, '', 'expected no warnings')
@@ -369,6 +376,47 @@ describe('end to end test for custom fields', function() {
 		assert.deepStrictEqual(result, expectedResult, `expected the output to contain all the configured fields`)
 		assert.strictEqual(stderr, '', 'expected no warnings')
 	})
+})
+
+// TODO e2e for exclusions
+describe('end to end test with exclusions', function() {
+	this.timeout(50000)
+	this.slow(4000)
+
+	beforeEach(async  () => {
+		expectedDataBase = EXPECTED_MULTI_DEPS_RAW_DATA.slice(0)
+		await expectedOutput.addRemoteVersionsToExpectedData(expectedDataBase)
+  })
+
+	it('produce a report excluding a single package', async () => {
+		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${multiPackageJsonPath} --exclude=tablemark --fields=name --fields=installedVersion`)
+		const result = JSON.parse(stdout)
+		const expectedJsonResult = expectedOutput.rawDataToJson(expectedDataBase)
+		expectedJsonResult.splice(1, 1)
+
+		assert.deepStrictEqual(result, expectedJsonResult)
+		assert.strictEqual(stderr, '', 'expected no warnings')
+	});
+
+	it('produce a report excluding an array of packages', async () => {
+		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${multiPackageJsonPath} --exclude=tablemark --exclude=text-table --fields=name --fields=installedVersion`)
+		const result = JSON.parse(stdout)
+		const expectedJsonResult = expectedOutput.rawDataToJson(expectedDataBase)
+		expectedJsonResult.splice(1, 2)
+
+		assert.deepStrictEqual(result, expectedJsonResult)
+		assert.strictEqual(stderr, '', 'expected no warnings')
+	});
+
+	it('produce a report excluding packages with a regular expression', async () => {
+		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${multiPackageJsonPath} --excludeRegex=@commitlint\/.* --fields=name --fields=installedVersion`)
+		const result = JSON.parse(stdout)
+		const expectedJsonResult = expectedOutput.rawDataToJson(expectedDataBase)
+		expectedJsonResult.splice(3, 2)
+
+		assert.deepStrictEqual(result, expectedJsonResult)
+		assert.strictEqual(stderr, '', 'expected no warnings')
+	});
 })
 
 // raw data we use to generate the expected results for default fields test
@@ -542,3 +590,30 @@ const EXPECTED_MARKDOWN_TABLE_TEMPLATE =
 | {{department}}    | {{relatedTo}}      | [[semver]]            | {{licensePeriod}}      | {{material}}              | {{licenseType}}          | {{link}}       | {{remoteVersion}}          | {{installedVersion}}             | {{definedVersion}}          | {{author}}                                     |
 
 `
+
+const EXPECTED_MULTI_DEPS_RAW_DATA = [
+  {
+    name: "@kessler/tableify",
+    installedVersion: "1.0.2",
+  },
+  {
+    name: "tablemark",
+    installedVersion: "3.0.0",
+  },
+  {
+    name: "text-table",
+    installedVersion: "0.2.0",
+  },
+  {
+    name: "@commitlint/cli",
+    installedVersion: "17.7.1",
+  },
+  {
+    name: "@commitlint/config-conventional",
+    installedVersion: "17.7.0",
+  },
+  {
+    name: "mocha",
+    installedVersion: "9.1.2",
+  },
+]

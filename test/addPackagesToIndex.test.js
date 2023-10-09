@@ -42,13 +42,39 @@ describe('addPackagesToIndex', () => {
 		])
 	})
 
-	it('excludes package names that are specified in the exclusion parameter, currently this is a broad exclusion, i.e all packages with specified names are excluded', () => {
+	it('does not add excluded package to the index - single word exclude', () => {
+		const exclude = 'semver'
+		addPackagesToIndex({ "semver": "1.2.3" }, index, exclude)
+		addPackagesToIndex({
+			"@bar/foo": "*",
+			"foo": "1.1.1"
+		}, index, exclude)
+		const expectedResult = [
+			{ fullName: '@bar/foo', name: 'foo', version: '*', scope: "bar", alias: '' },
+			{ fullName: 'foo', name: 'foo', version: '1.1.1', scope: undefined, alias: '' }
+		]
+
+		assert.deepStrictEqual(index, expectedResult)
+	});
+
+	it('does not add excluded package to the index - array of excludes', () => {
 		const exclude = ['@bar/foo']
 		addPackagesToIndex({ "@bar/foo": "1.2.3" }, index, exclude)
 		addPackagesToIndex({
 			"@bar/foo": "*",
 			"foo": "1.1.1"
 		}, index, exclude)
+
+		assert.deepStrictEqual(index, [{ fullName: 'foo', name: 'foo', version: '1.1.1', scope: undefined, alias: '' }])
+	})
+
+	it('does not add excluded package to the index - excludeRegex', () => {
+		const excludeRegexp = new RegExp('@bar\/f.*')
+		addPackagesToIndex({ "@bar/foo": "1.2.3" }, index, undefined, excludeRegexp)
+		addPackagesToIndex({
+			"@bar/foo": "*",
+			"foo": "1.1.1"
+		}, index, undefined, excludeRegexp)
 
 		assert.deepStrictEqual(index, [{ fullName: 'foo', name: 'foo', version: '1.1.1', scope: undefined, alias: '' }])
 	})
