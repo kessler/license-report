@@ -39,7 +39,7 @@
     "@commitlint/config-conventional": "^18.1.0",
     "husky": "^8.0.3",
     "mocha": "^10.2.0",
-    "nock": "^13.3.6",
+    "nock": "^13.3.7",
     "standard-version": "^9.5.0"
   },
   "engines": {
