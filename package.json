@@ -35,11 +35,11 @@
     "visit-values": "^2.0.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^18.2.0",
-    "@commitlint/config-conventional": "^18.1.0",
+    "@commitlint/cli": "^18.4.3",
+    "@commitlint/config-conventional": "^18.4.3",
     "husky": "^8.0.3",
     "mocha": "^10.2.0",
-    "nock": "^13.3.7",
+    "nock": "^13.4.0",
     "standard-version": "^9.5.0"
   },
   "engines": {
