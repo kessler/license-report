@@ -1,3 +1,7 @@
+# ANNOUCEMENT: repository changing ownership
+On the 16th of March 2024 this repository will change ownership and move to the personal account of one of it's maintainers, [Yaniv Kessler](https://github.com/kessler)
+Ownership change will also occur on the npm registry to [Yaniv Kessler](https://www.npmjs.com/~kessler)
+
 # NPM License Report Tool
 ![Version](https://img.shields.io/badge/version-6.5.0-blue.svg?cacheSeconds=2592000)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/kefranabg/readme-md-generator/blob/master/LICENSE)
