@@ -1,5 +1,6 @@
 # ANNOUCEMENT: repository changing ownership
 On the 16th of March 2024 this repository will change ownership and move to the personal account of one of it's maintainers, [Yaniv Kessler](https://github.com/kessler)
+
 Ownership change will also occur on the npm registry to [Yaniv Kessler](https://www.npmjs.com/~kessler)
 
 # NPM License Report Tool
