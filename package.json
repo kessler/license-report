@@ -29,17 +29,17 @@
     "eol": "^0.9.1",
     "got": "^13.0.0",
     "rc": "^1.2.8",
-    "semver": "^7.5.4",
+    "semver": "^7.6.0",
     "tablemark": "^3.0.0",
     "text-table": "^0.2.0",
     "visit-values": "^2.0.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^18.6.0",
-    "@commitlint/config-conventional": "^18.6.0",
-    "husky": "^9.0.7",
-    "mocha": "^10.2.0",
-    "nock": "^13.5.1",
+    "@commitlint/cli": "^19.0.3",
+    "@commitlint/config-conventional": "^19.0.3",
+    "husky": "^9.0.11",
+    "mocha": "^10.3.0",
+    "nock": "^13.5.4",
     "standard-version": "^9.5.0"
   },
   "engines": {
