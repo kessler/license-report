@@ -37,10 +37,10 @@
   "devDependencies": {
     "@commitlint/cli": "^19.0.3",
     "@commitlint/config-conventional": "^19.0.3",
+    "commit-and-tag-version": "^12.2.0",
     "husky": "^9.0.11",
     "mocha": "^10.3.0",
-    "nock": "^13.5.4",
-    "standard-version": "^9.5.0"
+    "nock": "^13.5.4"
   },
   "engines": {
     "node": ">=18"
