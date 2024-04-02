@@ -378,7 +378,6 @@ describe('end to end test for custom fields', function() {
 	})
 })
 
-// TODO e2e for exclusions
 describe('end to end test with exclusions', function() {
 	this.timeout(50000)
 	this.slow(4000)
@@ -598,7 +597,7 @@ const EXPECTED_MULTI_DEPS_RAW_DATA = [
   },
   {
     name: "tablemark",
-    installedVersion: "3.0.0",
+    installedVersion: "3.1.0",
   },
   {
     name: "text-table",

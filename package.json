@@ -30,16 +30,16 @@
     "got": "^13.0.0",
     "rc": "^1.2.8",
     "semver": "^7.6.0",
-    "tablemark": "^3.0.0",
+    "tablemark": "^3.1.0",
     "text-table": "^0.2.0",
     "visit-values": "^2.0.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.0.3",
-    "@commitlint/config-conventional": "^19.0.3",
+    "@commitlint/cli": "^19.2.1",
+    "@commitlint/config-conventional": "^19.1.0",
     "commit-and-tag-version": "^12.2.0",
     "husky": "^9.0.11",
-    "mocha": "^10.3.0",
+    "mocha": "^10.4.0",
     "nock": "^13.5.4"
   },
   "engines": {
