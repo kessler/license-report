@@ -5,8 +5,8 @@ import path from 'node:path';
 import url from 'node:url';
 import assert from 'node:assert';
 
-import getDependencies from '../lib/getDependencies.js';
-import util from '../lib/util.js';
+import { getDependencies } from '../lib/getDependencies.js';
+import { readJson } from '../lib/util.js';
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
@@ -33,7 +33,7 @@ describe('getDependencies', () => {
 	let packageJson
 
 	beforeEach(async () => {
-		packageJson = await util.readJson(packageJsonPath)
+		packageJson = await readJson(packageJsonPath)
 	})
 
 	it('adds all dependency types to output (no "depsType" parameter)', () => {
@@ -85,7 +85,7 @@ describe('getDependencies', () => {
 
 	it('adds dependencies to output for empty dependencies property', async () => {
 		const exclusions = []
-		packageJson = await util.readJson(emptyDepsPackageJsonPath)
+		packageJson = await readJson(emptyDepsPackageJsonPath)
     let depsIndex = getDependencies(packageJson, exclusions)
 
 		assert.strictEqual(depsIndex.length, 0)
@@ -93,7 +93,7 @@ describe('getDependencies', () => {
 
 	it('adds all dependencies to output for missing dependencies properties', async () => {
 		const exclusions = []
-		packageJson = await util.readJson(noDepsPackageJsonPath)
+		packageJson = await readJson(noDepsPackageJsonPath)
     let depsIndex = getDependencies(packageJson, exclusions)
 
 		assert.strictEqual(depsIndex.length, 0)
@@ -101,7 +101,7 @@ describe('getDependencies', () => {
 
 	it('adds multiple dependencies to output', async () => {
 		const exclusions = []
-		packageJson = await util.readJson(multiDepsPackageJsonPath)
+		packageJson = await readJson(multiDepsPackageJsonPath)
     let depsIndex = getDependencies(packageJson, exclusions)
 
 		assert.strictEqual(depsIndex.length, 6)
@@ -109,7 +109,7 @@ describe('getDependencies', () => {
 
 	it('adds multiple dependencies to output with single word exclude', async () => {
 		const exclusion = 'tablemark'
-		packageJson = await util.readJson(multiDepsPackageJsonPath)
+		packageJson = await readJson(multiDepsPackageJsonPath)
     let depsIndex = getDependencies(packageJson, exclusion)
 
 		assert.strictEqual(depsIndex.length, 5)
@@ -117,7 +117,7 @@ describe('getDependencies', () => {
 
 	it('adds multiple dependencies to output with array of excludes', async () => {
 		const exclusions = ['tablemark', 'text-table']
-		packageJson = await util.readJson(multiDepsPackageJsonPath)
+		packageJson = await readJson(multiDepsPackageJsonPath)
     let depsIndex = getDependencies(packageJson, exclusions)
 
 		assert.strictEqual(depsIndex.length, 4)
@@ -125,7 +125,7 @@ describe('getDependencies', () => {
 
 	it('adds multiple dependencies to output with excludeRegex', async () => {
 		const exclusionRegex = new RegExp('^@commitlint\/.*', 'i')
-		packageJson = await util.readJson(multiDepsPackageJsonPath)
+		packageJson = await readJson(multiDepsPackageJsonPath)
     let depsIndex = getDependencies(packageJson, undefined, undefined, exclusionRegex)
 
 		assert.strictEqual(depsIndex.length, 4)
@@ -134,7 +134,7 @@ describe('getDependencies', () => {
 	it('adds multiple dependencies to output with single word exclude and excludeRegex', async () => {
 		const exclusion = 'tablemark'
 		const exclusionRegex = new RegExp('^@commitlint\/.*', 'i')
-		packageJson = await util.readJson(multiDepsPackageJsonPath)
+		packageJson = await readJson(multiDepsPackageJsonPath)
     let depsIndex = getDependencies(packageJson, exclusion, undefined, exclusionRegex)
 
 		assert.strictEqual(depsIndex.length, 3)
@@ -143,7 +143,7 @@ describe('getDependencies', () => {
 	it('adds multiple dependencies to output with array of excludes and excludeRegex', async () => {
 		const exclusions = ['tablemark', 'text-table']
 		const exclusionRegex = new RegExp('^@commitlint\/.*', 'i')
-		packageJson = await util.readJson(multiDepsPackageJsonPath)
+		packageJson = await readJson(multiDepsPackageJsonPath)
     let depsIndex = getDependencies(packageJson, exclusions, undefined, exclusionRegex)
 
 		assert.strictEqual(depsIndex.length, 2)

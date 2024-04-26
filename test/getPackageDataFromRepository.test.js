@@ -2,8 +2,8 @@ import assert from 'node:assert';
 
 import nock from 'nock';
 
-import config from '../lib/config.js';
-import getPackageDataFromRepository from '../lib/getPackageDataFromRepository.js';
+import { config } from '../lib/config.js';
+import { getPackageDataFromRepository } from '../lib/getPackageDataFromRepository.js';
 
 /**
  * Fetching data from the (private) repository gets mocked to get independent from

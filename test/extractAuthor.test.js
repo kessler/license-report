@@ -1,5 +1,5 @@
 import assert from 'node:assert';
-import extractAuthor from '../lib/extractAuthor.js';
+import { extractAuthor } from '../lib/extractAuthor.js';
 
 describe('extractAuthor', () => {
 	it('if its a string', () => {

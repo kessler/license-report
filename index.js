@@ -5,19 +5,19 @@ import path from 'node:path';
 
 import createDebugMessages from 'debug';
 
-import config from './lib/config.js';
-import getFormatter from './lib/getFormatter.js';
-import addLocalPackageData from './lib/addLocalPackageData.js';
-import addPackageDataFromRepository from './lib/addPackageDataFromRepository.js';
-import getDependencies from './lib/getDependencies.js';
-import packageDataToReportData from './lib/packageDataToReportData.js';
-import util from './lib/util.js';
+import { config } from './lib/config.js';
+import { getFormatter } from './lib/getFormatter.js';
+import { addLocalPackageData } from './lib/addLocalPackageData.js';
+import { addPackageDataFromRepository } from './lib/addPackageDataFromRepository.js';
+import { getDependencies } from './lib/getDependencies.js';
+import { packageDataToReportData } from './lib/packageDataToReportData.js';
+import { isNullOrUndefined, helpText, readJson } from './lib/util.js';
 
 const debug = createDebugMessages('license-report');
 
 (async () => {
   if (config.help) {
-    console.log(util.helpText)
+    console.log(helpText)
     return
   }
 
@@ -37,13 +37,13 @@ const debug = createDebugMessages('license-report');
     debug('loading %s', resolvedPackageJson)
     let packageJson
     if (fs.existsSync(resolvedPackageJson)) {
-      packageJson = await util.readJson(resolvedPackageJson)
+      packageJson = await readJson(resolvedPackageJson)
     } else {
       throw new Error(`Warning: the file '${resolvedPackageJson}' is required to get installed versions of packages`)
     }
     
     // Get a list of all the dependencies we want information about.
-    const inclusions = util.isNullOrUndefined(config.only) ? null : config.only.split(',')
+    const inclusions = isNullOrUndefined(config.only) ? null : config.only.split(',')
     const exclusions = Array.isArray(config.exclude) ? config.exclude : [config.exclude]
     let exclusionRegexp
     if ((config.excludeRegex !== undefined)  && (typeof config.excludeRegex === 'string') && (config.excludeRegex !== '')) {

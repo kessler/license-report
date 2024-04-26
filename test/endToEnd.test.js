@@ -5,7 +5,14 @@ import path from 'node:path';
 import url from 'node:url';
 import util from 'node:util';
 import eol from 'eol';
-import expectedOutput from './fixture/expectedOutput.js';
+import {
+	addRemoteVersionsToExpectedData,
+	rawDataToJson,
+	rawDataToCsv,
+	rawDataToTable,
+	rawDataToHtml,
+	rawDataToMarkdown
+} from './fixture/expectedOutput.js';
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
@@ -74,13 +81,13 @@ describe('end to end test for default fields', function() {
 
 	beforeEach(async  () => {
 		expectedDataBase = EXPECTED_DEFAULT_FIELDS_RAW_DATA.slice(0)
-		await expectedOutput.addRemoteVersionsToExpectedData(expectedDataBase)
+		await addRemoteVersionsToExpectedData(expectedDataBase)
   })
 
 	it('produce a json report', async () => {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsPackageJsonPath}`)
 		const result = JSON.parse(stdout)
-		const expectedJsonResult = expectedOutput.rawDataToJson(expectedDataBase)
+		const expectedJsonResult = rawDataToJson(expectedDataBase)
 
 		assert.deepStrictEqual(result, expectedJsonResult)
 		assert.strictEqual(stderr, '', 'expected no warnings')
@@ -88,7 +95,7 @@ describe('end to end test for default fields', function() {
 
 	it('produce a table report', async () => {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsPackageJsonPath} --output=table`)
-		const expectedTableResult = expectedOutput.rawDataToTable(expectedDataBase, EXPECTED_TABLE_TEMPLATE)
+		const expectedTableResult = rawDataToTable(expectedDataBase, EXPECTED_TABLE_TEMPLATE)
 
 		assert.strictEqual(stdout, expectedTableResult)
 		assert.strictEqual(stderr, '', 'expected no warnings')
@@ -96,7 +103,7 @@ describe('end to end test for default fields', function() {
 
 	it('produce a csv report', async () => {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsPackageJsonPath} --output=csv --csvHeaders`)
-		const expectedCsvResult = expectedOutput.rawDataToCsv(expectedDataBase, EXPECTED_CSV_TEMPLATE)
+		const expectedCsvResult = rawDataToCsv(expectedDataBase, EXPECTED_CSV_TEMPLATE)
 
 		assert.strictEqual(stdout, expectedCsvResult)
 		assert.strictEqual(stderr, 'Warning: field contains delimiter; value: \"Dan VerWeire, Yaniv Kessler\"\n')
@@ -106,7 +113,7 @@ describe('end to end test for default fields', function() {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsPackageJsonPath} --output=html`)
 		const actualResult = eol.auto(stdout)
 		const expectedHtmlTemplate = eol.auto(fs.readFileSync(path.join(__dirname, 'fixture', 'expectedOutput.e2e.html'), 'utf8'))
-		const expectedHtmlResult = expectedOutput.rawDataToHtml(expectedDataBase, expectedHtmlTemplate)
+		const expectedHtmlResult = rawDataToHtml(expectedDataBase, expectedHtmlTemplate)
 
 		assert.strictEqual(actualResult, expectedHtmlResult)
 		assert.strictEqual(stderr, '', 'expected no warnings')
@@ -114,7 +121,7 @@ describe('end to end test for default fields', function() {
 
 	it('produce a markdown table report', async () => {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsPackageJsonPath} --output=markdown`)
-		const expectedMarkdownTableResult = expectedOutput.rawDataToMarkdown(expectedDataBase, EXPECTED_MARKDOWN_TABLE_TEMPLATE)
+		const expectedMarkdownTableResult = rawDataToMarkdown(expectedDataBase, EXPECTED_MARKDOWN_TABLE_TEMPLATE)
 
 		assert.strictEqual(stdout, expectedMarkdownTableResult)
 		assert.strictEqual(stderr, '', 'expected no warnings')
@@ -127,13 +134,13 @@ describe('end to end test for default fields in monorepo', function() {
 
 	beforeEach(async  () => {
 		expectedDataBase = EXPECTED_DEFAULT_FIELDS_RAW_DATA.slice(0)
-		await expectedOutput.addRemoteVersionsToExpectedData(expectedDataBase)
+		await addRemoteVersionsToExpectedData(expectedDataBase)
   })
 
 	it('produce a json report', async () => {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsMonorepoPackageJsonPath}`)
 		const result = JSON.parse(stdout)
-		const expectedJsonResult = expectedOutput.rawDataToJson(expectedDataBase)
+		const expectedJsonResult = rawDataToJson(expectedDataBase)
 
 		assert.deepStrictEqual(result, expectedJsonResult)
 		assert.strictEqual(stderr, '', 'expected no warnings')
@@ -141,7 +148,7 @@ describe('end to end test for default fields in monorepo', function() {
 
 	it('produce a table report', async () => {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsMonorepoPackageJsonPath} --output=table`)
-		const expectedTableResult = expectedOutput.rawDataToTable(expectedDataBase, EXPECTED_TABLE_TEMPLATE)
+		const expectedTableResult = rawDataToTable(expectedDataBase, EXPECTED_TABLE_TEMPLATE)
 
 		assert.strictEqual(stdout, expectedTableResult)
 		assert.strictEqual(stderr, '', 'expected no warnings')
@@ -149,7 +156,7 @@ describe('end to end test for default fields in monorepo', function() {
 
 	it('produce a csv report', async () => {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsMonorepoPackageJsonPath} --output=csv --csvHeaders`)
-		const expectedCsvResult = expectedOutput.rawDataToCsv(expectedDataBase, EXPECTED_CSV_TEMPLATE)
+		const expectedCsvResult = rawDataToCsv(expectedDataBase, EXPECTED_CSV_TEMPLATE)
 
 		assert.strictEqual(stdout, expectedCsvResult)
 		assert.strictEqual(stderr, 'Warning: field contains delimiter; value: \"Dan VerWeire, Yaniv Kessler\"\n')
@@ -159,7 +166,7 @@ describe('end to end test for default fields in monorepo', function() {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsMonorepoPackageJsonPath} --output=html`)
 		const actualResult = eol.auto(stdout)
 		const expectedHtmlTemplate = eol.auto(fs.readFileSync(path.join(__dirname, 'fixture', 'expectedOutput.e2e.html'), 'utf8'))
-		const expectedHtmlResult = expectedOutput.rawDataToHtml(expectedDataBase, expectedHtmlTemplate)
+		const expectedHtmlResult = rawDataToHtml(expectedDataBase, expectedHtmlTemplate)
 
 		assert.strictEqual(actualResult, expectedHtmlResult)
 		assert.strictEqual(stderr, '', 'expected no warnings')
@@ -167,7 +174,7 @@ describe('end to end test for default fields in monorepo', function() {
 
 	it('produce a markdown table report', async () => {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsMonorepoPackageJsonPath} --output=markdown`)
-		const expectedMarkdownTableResult = expectedOutput.rawDataToMarkdown(expectedDataBase, EXPECTED_MARKDOWN_TABLE_TEMPLATE)
+		const expectedMarkdownTableResult = rawDataToMarkdown(expectedDataBase, EXPECTED_MARKDOWN_TABLE_TEMPLATE)
 
 		assert.strictEqual(stdout, expectedMarkdownTableResult)
 		assert.strictEqual(stderr, '', 'expected no warnings')
@@ -180,13 +187,13 @@ describe('end to end test for local packages', function() {
 
 	beforeEach(async  () => {
 		expectedDataBase = EXPECTED_LOCAL_PACKAGES_RAW_DATA.slice(0)
-		await expectedOutput.addRemoteVersionsToExpectedData(expectedDataBase)
+		await addRemoteVersionsToExpectedData(expectedDataBase)
   })
 
 	it('produce a json report', async () => {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${localPackagesPackageJsonPath} --config=${localPackagesConfigPath}`)
 		const result = JSON.parse(stdout)
-		const expectedJsonResult = expectedOutput.rawDataToJson(expectedDataBase)
+		const expectedJsonResult = rawDataToJson(expectedDataBase)
 
 		assert.deepStrictEqual(result, expectedJsonResult)
 	})
@@ -215,7 +222,7 @@ describe('end to end test for all fields', function() {
 			definedVersion: "^7.0.0",
 			author:"GitHub Inc."
 		}];
-		await expectedOutput.addRemoteVersionsToExpectedData(expectedResult)
+		await addRemoteVersionsToExpectedData(expectedResult)
 
 		assert.deepStrictEqual(result, expectedResult, `expected the output to contain all the configured fields`)
 		assert.strictEqual(stderr, '', 'expected no warnings')
@@ -255,13 +262,13 @@ describe('end to end test for single field', function() {
 
 	beforeEach(async  () => {
 		expectedDataBase = EXPECTED_SINGLE_FIELD_RAW_DATA.slice(0)
-		await expectedOutput.addRemoteVersionsToExpectedData(expectedDataBase)
+		await addRemoteVersionsToExpectedData(expectedDataBase)
   })
 
 	it('produce a json report with a single field', async () => {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${defaultFieldsPackageJsonPath} --fields=name`)
 		const result = JSON.parse(stdout)
-		const expectedJsonResult = expectedOutput.rawDataToJson(expectedDataBase)
+		const expectedJsonResult = rawDataToJson(expectedDataBase)
 
 		assert.deepStrictEqual(result, expectedJsonResult)
 		assert.strictEqual(stderr, '', 'expected no warnings')
@@ -276,7 +283,7 @@ describe('end to end test package without dependencies', function() {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${emptyDepsPackageJsonPath}`)
 		const result = JSON.parse(stdout)
 		const expectedResult = [];
-		await expectedOutput.addRemoteVersionsToExpectedData(expectedResult)
+		await addRemoteVersionsToExpectedData(expectedResult)
 
 		assert.deepStrictEqual(result, expectedResult, `expected the output to contain no entries`)
 		assert.strictEqual(stderr, '', 'expected no warnings')
@@ -286,7 +293,7 @@ describe('end to end test package without dependencies', function() {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${noDepsPackageJsonPath}`)
 		const result = JSON.parse(stdout)
 		const expectedResult = [];
-		await expectedOutput.addRemoteVersionsToExpectedData(expectedResult)
+		await addRemoteVersionsToExpectedData(expectedResult)
 
 		assert.deepStrictEqual(result, expectedResult, `expected the output to contain no entries`)
 		assert.strictEqual(stderr, '', 'expected no warnings')
@@ -322,7 +329,7 @@ describe('end to end test package without dependencies', function() {
 			remoteVersion: "9.2.2"
 		}
 	];
-		await expectedOutput.addRemoteVersionsToExpectedData(expectedResult)
+		await addRemoteVersionsToExpectedData(expectedResult)
 
 		assert.deepStrictEqual(result, expectedResult, `expected the output to contain no entries`)
 		assert.strictEqual(stderr, '', 'expected no warnings')
@@ -371,7 +378,7 @@ describe('end to end test for custom fields', function() {
 			author:"GitHub Inc.",
 			description: "The semantic version parser used by npm."
 		}];
-		await expectedOutput.addRemoteVersionsToExpectedData(expectedResult)
+		await addRemoteVersionsToExpectedData(expectedResult)
 
 		assert.deepStrictEqual(result, expectedResult, `expected the output to contain all the configured fields`)
 		assert.strictEqual(stderr, '', 'expected no warnings')
@@ -384,13 +391,13 @@ describe('end to end test with exclusions', function() {
 
 	beforeEach(async  () => {
 		expectedDataBase = EXPECTED_MULTI_DEPS_RAW_DATA.slice(0)
-		await expectedOutput.addRemoteVersionsToExpectedData(expectedDataBase)
+		await addRemoteVersionsToExpectedData(expectedDataBase)
   })
 
 	it('produce a report excluding a single package', async () => {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${multiPackageJsonPath} --exclude=tablemark --fields=name --fields=installedVersion`)
 		const result = JSON.parse(stdout)
-		const expectedJsonResult = expectedOutput.rawDataToJson(expectedDataBase)
+		const expectedJsonResult = rawDataToJson(expectedDataBase)
 		expectedJsonResult.splice(1, 1)
 
 		assert.deepStrictEqual(result, expectedJsonResult)
@@ -400,7 +407,7 @@ describe('end to end test with exclusions', function() {
 	it('produce a report excluding an array of packages', async () => {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${multiPackageJsonPath} --exclude=tablemark --exclude=text-table --fields=name --fields=installedVersion`)
 		const result = JSON.parse(stdout)
-		const expectedJsonResult = expectedOutput.rawDataToJson(expectedDataBase)
+		const expectedJsonResult = rawDataToJson(expectedDataBase)
 		expectedJsonResult.splice(1, 2)
 
 		assert.deepStrictEqual(result, expectedJsonResult)
@@ -410,7 +417,7 @@ describe('end to end test with exclusions', function() {
 	it('produce a report excluding packages with a regular expression', async () => {
 		const { stdout, stderr } = await execAsPromise(`node ${scriptPath} --package=${multiPackageJsonPath} --excludeRegex=@commitlint\/.* --fields=name --fields=installedVersion`)
 		const result = JSON.parse(stdout)
-		const expectedJsonResult = expectedOutput.rawDataToJson(expectedDataBase)
+		const expectedJsonResult = rawDataToJson(expectedDataBase)
 		expectedJsonResult.splice(3, 2)
 
 		assert.deepStrictEqual(result, expectedJsonResult)

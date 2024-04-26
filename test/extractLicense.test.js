@@ -1,5 +1,5 @@
 import assert from 'node:assert';
-import extractLicense from '../lib/extractLicense.js';
+import { extractLicense } from '../lib/extractLicense.js';
 
 describe('extractLicense', () => {
 	it('if it is a string', () => {

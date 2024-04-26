@@ -1,7 +1,7 @@
 import assert from 'node:assert';
 import nock from 'nock';
-import config from '../lib/config.js';
-import addPackageDataFromRepository from '../lib/addPackageDataFromRepository.js';
+import { config } from '../lib/config.js';
+import { addPackageDataFromRepository } from '../lib/addPackageDataFromRepository.js';
 
 /**
  * Fetching data from the repository gets mocked to get independent from

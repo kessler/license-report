@@ -1,5 +1,5 @@
 import assert from 'node:assert';
-import extractLink from '../lib/extractLink.js';
+import { extractLink } from '../lib/extractLink.js';
 
 describe('extractLink', () => {
 	it('extracts the repository link if its there', () => {

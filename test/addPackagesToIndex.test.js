@@ -1,5 +1,5 @@
 import assert from 'node:assert';
-import addPackagesToIndex from '../lib/addPackagesToIndex.js';
+import { addPackagesToIndex } from '../lib/addPackagesToIndex.js';
 
 describe('addPackagesToIndex', () => {
 	let index

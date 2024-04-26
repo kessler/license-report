@@ -3,8 +3,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import url from 'node:url';
 import eol from 'eol';
-import config from '../lib/config.js';
-import getFormatter from '../lib/getFormatter.js';
+import { config } from '../lib/config.js';
+import { getFormatter } from '../lib/getFormatter.js';
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 

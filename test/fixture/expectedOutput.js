@@ -4,7 +4,7 @@ import got from 'got';
 import semver from 'semver';
 import createDebugMessages from 'debug';
 
-import config from '../../lib/config.js';
+import { config } from '../../lib/config.js';
 
 const debug = createDebugMessages('license-report:expectedOutput');
 
@@ -79,7 +79,7 @@ async function addRemoteData(dependency) {
  * Add remoteVersion to objects in array of expectedData
  * @param {[object]} expectedData - array with expected data containing placeholders for remote versions
  */
-async function addRemoteVersionsToExpectedData(expectedData) {
+export async function addRemoteVersionsToExpectedData(expectedData) {
 	await Promise.all(expectedData.map(async (packageData) => {
 		await addRemoteData(packageData)
 	}))
@@ -88,14 +88,14 @@ async function addRemoteVersionsToExpectedData(expectedData) {
 /*
 	create expected value for json output
 */
-function rawDataToJson(rawData) {
+export function rawDataToJson(rawData) {
 	return rawData
 }
 
 /*
 	create expected value for csv output
 */
-function rawDataToCsv(expectedData, csvTemplate) {
+export function rawDataToCsv(expectedData, csvTemplate) {
 	const fieldNames = ['author', 'department', 'relatedTo', 'licensePeriod', 'material', 'licenseType', 'link', 'remoteVersion', 'installedVersion', 'definedVersion']
 	const packageNamePattern = /\[\[(.+)]]/
 	const templateLines = csvTemplate.split('\n')
@@ -123,7 +123,7 @@ function rawDataToCsv(expectedData, csvTemplate) {
 /*
 	create expected value for table output
 */
-function rawDataToTable(expectedData, tableTemplate) {
+export function rawDataToTable(expectedData, tableTemplate) {
 	const columnDefinitions = {
 		author: {title: 'author', maxColumnWidth: 0},
 		department: {title: 'department', maxColumnWidth: 0},
@@ -189,7 +189,7 @@ function rawDataToTable(expectedData, tableTemplate) {
 /*
 	create expected value for html output
 */
-function rawDataToHtml(expectedData, htmlTemplate) {
+export function rawDataToHtml(expectedData, htmlTemplate) {
 	const fieldNames = ['author', 'department', 'relatedTo', 'licensePeriod', 'material', 'licenseType', 'link', 'remoteVersion', 'installedVersion', 'definedVersion']
 	const packageNamePattern = /\[\[(.+)]]/
 
@@ -223,7 +223,7 @@ function rawDataToHtml(expectedData, htmlTemplate) {
 /*
 	create expected value for markdown output
 */
-function rawDataToMarkdown(expectedData, csvTemplate) {
+export function rawDataToMarkdown(expectedData, csvTemplate) {
 	const fieldNames = ['author', 'department', 'relatedTo', 'licensePeriod', 'material', 'licenseType', 'link', 'remoteVersion', 'installedVersion', 'definedVersion']
 	const packageNamePattern = /\[\[(.+)]]/
 	const templateLines = csvTemplate.split('\n')
@@ -246,13 +246,4 @@ function rawDataToMarkdown(expectedData, csvTemplate) {
 	})
 
 	return resultLines.join('\n')
-}
-
-export default {
-	addRemoteVersionsToExpectedData,
-	rawDataToJson,
-	rawDataToCsv,
-	rawDataToTable,
-	rawDataToHtml,
-	rawDataToMarkdown
 }

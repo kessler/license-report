@@ -11,7 +11,7 @@
     "prepare": "husky"
   },
   "bin": {
-    "license-report": "index.js"
+    "license-report": "./index.js"
   },
   "type": "module",
   "repository": {
@@ -28,7 +28,7 @@
     "@kessler/tableify": "^1.0.2",
     "debug": "^4.3.4",
     "eol": "^0.9.1",
-    "got": "^13.0.0",
+    "got": "^14.2.1",
     "rc": "^1.2.8",
     "semver": "^7.6.0",
     "tablemark": "^3.1.0",
