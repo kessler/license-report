@@ -1,6 +1,8 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
+
+## [6.5.1](https://github.com/ironSource/license-report/compare/v6.5.0...v6.5.1) (2024-04-26)
 
 ## [6.5.0](https://github.com/ironSource/license-report/compare/v6.4.0...v6.5.0) (2023-10-09)
 
