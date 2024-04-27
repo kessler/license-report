@@ -1,5 +1,5 @@
 // precommit.js
-// update the version of license-report-recurse in the README.md file
+// update the version of license-report in the README.md file
 // when running "npm run release"
 
 import cp from 'node:child_process';
