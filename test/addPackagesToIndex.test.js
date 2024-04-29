@@ -69,7 +69,7 @@ describe('addPackagesToIndex', () => {
 	})
 
 	it('does not add excluded package to the index - excludeRegex', () => {
-		const excludeRegexp = new RegExp('@bar\/f.*')
+		const excludeRegexp = new RegExp('@bar/f.*')
 		addPackagesToIndex({ "@bar/foo": "1.2.3" }, index, undefined, excludeRegexp)
 		addPackagesToIndex({
 			"@bar/foo": "*",

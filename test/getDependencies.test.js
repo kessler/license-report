@@ -124,7 +124,7 @@ describe('getDependencies', () => {
 	});
 
 	it('adds multiple dependencies to output with excludeRegex', async () => {
-		const exclusionRegex = new RegExp('^@commitlint\/.*', 'i')
+		const exclusionRegex = new RegExp('^@commitlint/.*', 'i')
 		packageJson = await readJson(multiDepsPackageJsonPath)
     let depsIndex = getDependencies(packageJson, undefined, undefined, exclusionRegex)
 
@@ -133,7 +133,7 @@ describe('getDependencies', () => {
 
 	it('adds multiple dependencies to output with single word exclude and excludeRegex', async () => {
 		const exclusion = 'tablemark'
-		const exclusionRegex = new RegExp('^@commitlint\/.*', 'i')
+		const exclusionRegex = new RegExp('^@commitlint/.*', 'i')
 		packageJson = await readJson(multiDepsPackageJsonPath)
     let depsIndex = getDependencies(packageJson, exclusion, undefined, exclusionRegex)
 
@@ -142,7 +142,7 @@ describe('getDependencies', () => {
 
 	it('adds multiple dependencies to output with array of excludes and excludeRegex', async () => {
 		const exclusions = ['tablemark', 'text-table']
-		const exclusionRegex = new RegExp('^@commitlint\/.*', 'i')
+		const exclusionRegex = new RegExp('^@commitlint/.*', 'i')
 		packageJson = await readJson(multiDepsPackageJsonPath)
     let depsIndex = getDependencies(packageJson, exclusions, undefined, exclusionRegex)
 

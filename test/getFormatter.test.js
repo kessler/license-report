@@ -8,103 +8,105 @@ import { getFormatter } from '../lib/getFormatter.js';
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
-describe('formatter for json', () => {
-  it('produces a report', () => {
-    const jsonFormatter = getFormatter('json')
-    const jsonResult = jsonFormatter(testData, config)
+describe('getFormatter', () => {
+  describe('formatter for json', () => {
+    it('produces a report', () => {
+      const jsonFormatter = getFormatter('json')
+      const jsonResult = jsonFormatter(testData, config)
 
-		assert.strictEqual(jsonResult, EXPECTED_JSON_RESULT)
+  		assert.strictEqual(jsonResult, EXPECTED_JSON_RESULT)
+    })
+
+    it('produces a report for an empty data array', () => {
+      const jsonFormatter = getFormatter('json')
+      const jsonResult = jsonFormatter([], config)
+
+  		assert.strictEqual(jsonResult, '[]')
+    })
   })
 
-  it('produces a report for an empty data array', () => {
-    const jsonFormatter = getFormatter('json')
-    const jsonResult = jsonFormatter([], config)
+  describe('formatter for table', () => {
+    it('produces a report', () => {
+      const tableFormatter = getFormatter('table')
+      const tableResult = tableFormatter(testData, config)
 
-		assert.strictEqual(jsonResult, '[]')
-  })
-})
+  		assert.strictEqual(tableResult, EXPECTED_TABLE_RESULT)
+    })
 
-describe('formatter for table', () => {
-  it('produces a report', () => {
-    const tableFormatter = getFormatter('table')
-    const tableResult = tableFormatter(testData, config)
+    it('produces a report for an empty data array', () => {
+      const tableFormatter = getFormatter('table')
+      const tableResult = tableFormatter([], config)
 
-		assert.strictEqual(tableResult, EXPECTED_TABLE_RESULT)
-  })
-
-  it('produces a report for an empty data array', () => {
-    const tableFormatter = getFormatter('table')
-    const tableResult = tableFormatter([], config)
-
-		assert.strictEqual(tableResult, EXPECTED_TABLE_RESULT_EMPTY_DATA)
-  })
-})
-
-describe('formatter for csv', () => {
-  let csvHeadersBackup
-
-  beforeEach(() => {
-    csvHeadersBackup = config.csvHeaders
+  		assert.strictEqual(tableResult, EXPECTED_TABLE_RESULT_EMPTY_DATA)
+    })
   })
 
-  afterEach(() => {
-    config.csvHeaders = csvHeadersBackup
+  describe('formatter for csv', () => {
+    let csvHeadersBackup
+
+    beforeEach(() => {
+      csvHeadersBackup = config.csvHeaders
+    })
+
+    afterEach(() => {
+      config.csvHeaders = csvHeadersBackup
+    })
+
+  	it('produces a report without header', () => {
+      const csvFormatter = getFormatter('csv')
+      const csvResult = csvFormatter(testData, config)
+
+  		assert.strictEqual(csvResult, EXPECTED_CSV_RESULT)
+  	})
+
+  	it('produces a report with header', () => {
+      config.csvHeaders = true
+      const csvFormatter = getFormatter('csv')
+      const csvResult = csvFormatter(testData, config)
+      const csvExpectedResult = EXPECTED_CSV_HEADER + "\n" + EXPECTED_CSV_RESULT
+
+  		assert.strictEqual(csvResult, csvExpectedResult)
+  	})
+
+  	it('produces a report for data with delimiter in field value', () => {
+      const csvFormatter = getFormatter('csv')
+      const csvResult = csvFormatter(testDataWithCsvDelimiter, config)
+
+  		assert.strictEqual(csvResult, EXPECTED_CSV_RESULT_WITH_DELIMITER)
+  	})
+
+    it('produces a report for an empty data array', () => {
+      const csvFormatter = getFormatter('csv')
+      const csvResult = csvFormatter([], config)
+    
+      assert.strictEqual(csvResult, '')
+    })
+
+    it('produces a report with header for an empty data array', () => {
+      config.csvHeaders = true
+      const csvFormatter = getFormatter('csv')
+      const csvResult = csvFormatter([], config)
+    
+      assert.strictEqual(csvResult, EXPECTED_CSV_HEADER)
+    })
   })
 
-	it('produces a report without header', () => {
-    const csvFormatter = getFormatter('csv')
-    const csvResult = csvFormatter(testData, config)
+  describe('formatter for html', () => {
+    it('produces a report', () => {
+      const htmlFormatter = getFormatter('html')
+      const htmlResult = eol.auto(htmlFormatter(testData, config))
+      const expectedResult = eol.auto(fs.readFileSync(path.join(__dirname, 'fixture', 'expectedOutput.formatter.html'), 'utf8'))
 
-		assert.strictEqual(csvResult, EXPECTED_CSV_RESULT)
-	})
+  		assert.strictEqual(htmlResult, expectedResult)
+    })
 
-	it('produces a report with header', () => {
-    config.csvHeaders = true
-    const csvFormatter = getFormatter('csv')
-    const csvResult = csvFormatter(testData, config)
-    const csvExpectedResult = EXPECTED_CSV_HEADER + "\n" + EXPECTED_CSV_RESULT
+    it('produces a report for an empty data array', () => {
+      const htmlFormatter = getFormatter('html')
+      const htmlResult = eol.auto(htmlFormatter([], config))
+      const expectedResult = eol.auto(fs.readFileSync(path.join(__dirname, 'fixture', 'expectedOutput.formatter.empty.html'), 'utf8'))
 
-		assert.strictEqual(csvResult, csvExpectedResult)
-	})
-
-	it('produces a report for data with delimiter in field value', () => {
-    const csvFormatter = getFormatter('csv')
-    const csvResult = csvFormatter(testDataWithCsvDelimiter, config)
-
-		assert.strictEqual(csvResult, EXPECTED_CSV_RESULT_WITH_DELIMITER)
-	})
-
-  it('produces a report for an empty data array', () => {
-    const csvFormatter = getFormatter('csv')
-    const csvResult = csvFormatter([], config)
-  
-    assert.strictEqual(csvResult, '')
-  })
-
-  it('produces a report with header for an empty data array', () => {
-    config.csvHeaders = true
-    const csvFormatter = getFormatter('csv')
-    const csvResult = csvFormatter([], config)
-  
-    assert.strictEqual(csvResult, EXPECTED_CSV_HEADER)
-  })
-})
-
-describe('formatter for html', () => {
-  it('produces a report', () => {
-    const htmlFormatter = getFormatter('html')
-    const htmlResult = eol.auto(htmlFormatter(testData, config))
-    const expectedResult = eol.auto(fs.readFileSync(path.join(__dirname, 'fixture', 'expectedOutput.formatter.html'), 'utf8'))
-
-		assert.strictEqual(htmlResult, expectedResult)
-  })
-
-  it('produces a report for an empty data array', () => {
-    const htmlFormatter = getFormatter('html')
-    const htmlResult = eol.auto(htmlFormatter([], config))
-    const expectedResult = eol.auto(fs.readFileSync(path.join(__dirname, 'fixture', 'expectedOutput.formatter.empty.html'), 'utf8'))
-
-		assert.strictEqual(htmlResult, expectedResult)
+  		assert.strictEqual(htmlResult, expectedResult)
+    })
   })
 })
 

@@ -8,14 +8,15 @@ import { config } from '../../lib/config.js';
 
 const debug = createDebugMessages('license-report:expectedOutput');
 
-/*
-	Add all required data from the remote repository and add it to the entry
-  in the expectedData;
-	the field 'definedVersion' in the packagesData entries must contain the
-	package name with the range character from the package.json to find the
-	latest version satisfying the defined range (the range character will be
-	removed later).
-*/
+/**
+ * Add all required data from the remote repository and add it to the entry
+ * in the expectedData;
+ * the field 'definedVersion' in the packagesData entries must contain the
+ * package name with the range character from the package.json to find the
+ * latest version satisfying the defined range (the range character will be
+ * removed later).
+ * @param {object} dependency - dependency defining a package (name, version etc.); will be modified.
+ */
 async function addRemoteData(dependency) {
 	let uri = path.join(config.registry, dependency.name)
 
@@ -26,6 +27,7 @@ async function addRemoteData(dependency) {
 		timeout: config.httpTimeoutOptions,
 		hooks: {
 			beforeRetry: [
+				// eslint-disable-next-line no-unused-vars
 				(options, error, retryCount) => {
 					debug(`http request to npm for package "${dependency.name}" failed, retrying again soon...`)
 				}
@@ -77,7 +79,7 @@ async function addRemoteData(dependency) {
 
 /**
  * Add remoteVersion to objects in array of expectedData
- * @param {[object]} expectedData - array with expected data containing placeholders for remote versions
+ * @param {object[]} expectedData - array with expected data containing placeholders for remote versions
  */
 export async function addRemoteVersionsToExpectedData(expectedData) {
 	await Promise.all(expectedData.map(async (packageData) => {
@@ -85,16 +87,21 @@ export async function addRemoteVersionsToExpectedData(expectedData) {
 	}))
 }
 
-/*
-	create expected value for json output
-*/
+/**
+ * Create expected value for json output
+ * @param {object} rawData - json object to be converted
+ * @returns {object} rawData as json object
+ */
 export function rawDataToJson(rawData) {
 	return rawData
 }
 
-/*
-	create expected value for csv output
-*/
+/**
+ * Create expected value for csv output
+ * @param {object} expectedData - object to be converted
+ * @param {string} csvTemplate - string describing the output lines with placeholders
+ * @returns {string} expectedData as csv
+ */
 export function rawDataToCsv(expectedData, csvTemplate) {
 	const fieldNames = ['author', 'department', 'relatedTo', 'licensePeriod', 'material', 'licenseType', 'link', 'remoteVersion', 'installedVersion', 'definedVersion']
 	const packageNamePattern = /\[\[(.+)]]/
@@ -120,9 +127,12 @@ export function rawDataToCsv(expectedData, csvTemplate) {
 	return resultLines.join('\n')
 }
 
-/*
-	create expected value for table output
-*/
+/**
+ * Create expected value for table output
+ * @param {object} expectedData - object to be converted
+ * @param {string} tableTemplate - string describing the output lines with placeholders
+ * @returns {string} expectedData as table
+ */
 export function rawDataToTable(expectedData, tableTemplate) {
 	const columnDefinitions = {
 		author: {title: 'author', maxColumnWidth: 0},
@@ -186,9 +196,12 @@ export function rawDataToTable(expectedData, tableTemplate) {
 	return templateLines.join('\n')
 }
 
-/*
-	create expected value for html output
-*/
+/**
+ * Create expected value for html output
+ * @param {object} expectedData - object to be converted
+ * @param {string} htmlTemplate - string describing the output with placeholders
+ * @returns {string} expectedData as html page
+ */
 export function rawDataToHtml(expectedData, htmlTemplate) {
 	const fieldNames = ['author', 'department', 'relatedTo', 'licensePeriod', 'material', 'licenseType', 'link', 'remoteVersion', 'installedVersion', 'definedVersion']
 	const packageNamePattern = /\[\[(.+)]]/
@@ -220,13 +233,16 @@ export function rawDataToHtml(expectedData, htmlTemplate) {
 	return updatedTemplate
 }
 
-/*
-	create expected value for markdown output
-*/
-export function rawDataToMarkdown(expectedData, csvTemplate) {
+/**
+ * Create expected value for markdown output
+ * @param {object} expectedData - object to be converted
+ * @param {string} markdownTemplate - string describing the output lines with placeholders
+ * @returns {string} expectedData as markdown table
+ */
+export function rawDataToMarkdown(expectedData, markdownTemplate) {
 	const fieldNames = ['author', 'department', 'relatedTo', 'licensePeriod', 'material', 'licenseType', 'link', 'remoteVersion', 'installedVersion', 'definedVersion']
 	const packageNamePattern = /\[\[(.+)]]/
-	const templateLines = csvTemplate.split('\n')
+	const templateLines = markdownTemplate.split('\n')
 	const resultLines = templateLines.map( line => {
 		// find package name in line
 		const found = line.match(packageNamePattern)
