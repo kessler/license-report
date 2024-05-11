@@ -9,8 +9,6 @@ import mochaPlugin from 'eslint-plugin-mocha';
 export default [
   pluginJs.configs.recommended,
   pluginJsdoc.configs['flat/recommended'],
-  // TODO pluginJson.configs.recommended throws error - see following issue
-  // https://github.com/azeemba/eslint-plugin-json/issues/80
   mochaPlugin.configs.flat.recommended,
   {
     files: [ '**/*.js' ],
@@ -26,7 +24,8 @@ export default [
   },
   {
     files: [ '**/*.json' ],
-    // HACK pluginJson - allowComments throws; wait for fix; until then exclude files with comments
+    // TODO pluginJson - allowComments throws; wait for fix; until then exclude files with comments
+    // see https://github.com/azeemba/eslint-plugin-json/pull/82#issuecomment-2081391823
     ignores: [ '**/.vscode/launch.json' ],
     plugins: {
       pluginJson,
