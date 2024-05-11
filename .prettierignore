@@ -1,0 +1,6 @@
+# The settings are a copy of the .gitignore file.
+
+/node_modules
+*.log
+npm-debug.log
+/.vscode
