@@ -11,6 +11,10 @@ on:
     branches: [ $default-branch ]
   workflow_dispatch:
 
+env:
+  # Avoid installing Git Hooks
+  HUSKY: 0
+
 jobs:
   build:
 
@@ -18,13 +22,13 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x, 21.x]
+        node-version: [18.x, 20.x, 22.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/previous-releases/
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'

@@ -7,7 +7,8 @@
     "test": "npx mocha -R spec",
     "release": "commit-and-tag-version --commit-all",
     "lint-commits": "commitlint --from 59f5e4b90d2d --to HEAD --verbose",
-    "activate-commitlint": "npx husky install && npx husky add .husky/commit-msg \"npx --no -- commitlint --edit $1\""
+    "activate-commitlint": "npx husky install && npx husky add .husky/commit-msg \"npx --no -- commitlint --edit $1\"",
+    "prepare": "husky"
   },
   "bin": {
     "license-report": "index.js"
