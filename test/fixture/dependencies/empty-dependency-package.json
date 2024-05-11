@@ -1,12 +1,8 @@
 {
   "name": "license-report",
   "description": "package.json for e2e tests with empty dependencies",
-  "dependencies": {
-  },
-  "devDependencies": {
-  },
-  "optionalDependencies": {
-  },
-  "peerDependencies": {
-  }
+  "dependencies": {},
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "peerDependencies": {}
 }

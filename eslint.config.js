@@ -1,7 +1,7 @@
-import globals from "globals";
-import pluginJs from "@eslint/js";
-import pluginJsdoc from "eslint-plugin-jsdoc";
-import pluginJson from "eslint-plugin-json";
+import globals from 'globals';
+import pluginJs from '@eslint/js';
+import pluginJsdoc from 'eslint-plugin-jsdoc';
+import pluginJson from 'eslint-plugin-json';
 import mochaPlugin from 'eslint-plugin-mocha';
 // TODO wait for eslint-plugin-import to be usable in eslint v9; corresponding
 // issue see https://github.com/import-js/eslint-plugin-import/issues/2948
@@ -11,7 +11,7 @@ export default [
   pluginJsdoc.configs['flat/recommended'],
   mochaPlugin.configs.flat.recommended,
   {
-    files: [ '**/*.js' ],
+    files: ['**/*.js'],
     languageOptions: {
       globals: {
         ...globals.nodeBuiltin,
@@ -19,14 +19,14 @@ export default [
       },
     },
     rules: {
-      "mocha/no-mocha-arrows": "off",
+      'mocha/no-mocha-arrows': 'off',
     },
   },
   {
-    files: [ '**/*.json' ],
+    files: ['**/*.json'],
     // TODO pluginJson - allowComments throws; wait for fix; until then exclude files with comments
     // see https://github.com/azeemba/eslint-plugin-json/pull/82#issuecomment-2081391823
-    ignores: [ '**/.vscode/launch.json' ],
+    ignores: ['**/.vscode/launch.json'],
     plugins: {
       pluginJson,
     },
@@ -35,5 +35,5 @@ export default [
       // TODO allowComments throws; wait for fix 'pluginJson/*': ['error', { allowComments: true }],
       'pluginJson/*': 'error',
     },
-  }
+  },
 ];

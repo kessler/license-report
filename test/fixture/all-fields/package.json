@@ -1,7 +1,7 @@
 {
-    "name": "license-report",
-    "description": "package.json for e2e tests",
-    "dependencies": {
-        "semver": "^7.0.0"
-    }
+  "name": "license-report",
+  "description": "package.json for e2e tests",
+  "dependencies": {
+    "semver": "^7.0.0"
+  }
 }
