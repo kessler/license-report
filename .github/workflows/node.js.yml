@@ -6,9 +6,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ $default-branch ]
+    branches: ['master']
   pull_request:
-    branches: [ $default-branch ]
+    branches: ['master']
   workflow_dispatch:
 
 env:
@@ -17,7 +17,6 @@ env:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
