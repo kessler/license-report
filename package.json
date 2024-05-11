@@ -22,7 +22,7 @@
   "bugs": {
     "url": "https://github.com/ironSource/license-report/issues"
   },
-  "homepage": "https://github.com/ironSource/license-report",
+  "homepage": "https://github.com/kessler/license-report",
   "dependencies": {
     "@kessler/tableify": "^1.0.2",
     "debug": "^4.3.4",
