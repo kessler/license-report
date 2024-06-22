@@ -6,10 +6,8 @@
   "scripts": {
     "lint": "npx eslint **/*.js **/*.json",
     "test": "npx mocha -R spec",
-    "release": "commit-and-tag-version --commit-all",
-    "lint-commits": "commitlint --from 59f5e4b90d2d --to HEAD --verbose",
-    "activate-commitlint": "npx husky install && npx husky add .husky/commit-msg \"npx --no -- commitlint --edit $1\"",
-    "prepare": "husky"
+    "release": "commit-and-tag-version -i CHANGELOG.md --same-file",
+    "lint-commits": "commitlint --from 59f5e4b90d2d --to HEAD --verbose"
   },
   "bin": {
     "license-report": "./index.js"
@@ -65,5 +63,32 @@
   ],
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "commit-and-tag-version": {
+    "packageFiles": [
+      {
+        "filename": "package.json",
+        "type": "json"
+      }
+    ],
+    "bumpFiles": [
+      {
+        "filename": "package.json",
+        "type": "json"
+      },
+      {
+        "filename": "package-lock.json",
+        "type": "json"
+      },
+      {
+        "filename": "README.md",
+        "updater": "scripts/readme-updater.cjs"
+      }
+    ]
   }
 }
