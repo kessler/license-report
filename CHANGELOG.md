@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [6.6.0](https://github.com/kessler/license-report/compare/v6.5.1...v6.6.0) (2024-06-23)
+
+### Features
+
+* change the project from 'default' to named exports ([1e526eb](https://github.com/kessler/license-report/commit/1e526eb2ebd4395a45473e588a6d3e774fc9dd0d))
+
 ## [6.5.1](https://github.com/ironSource/license-report/compare/v6.5.0...v6.5.1) (2024-04-26)
 
 ## [6.5.0](https://github.com/ironSource/license-report/compare/v6.4.0...v6.5.0) (2023-10-09)
