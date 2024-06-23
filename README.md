@@ -306,10 +306,6 @@ export DEBUG=license-report*
 
 For list of changes and bugfixes, see [CHANGELOG.md](CHANGELOG.md).
 
-## Hints
-
-`license-report` actively supports all 'supported release lines' of node.js (currently 18.x, 20.x, 21-x). As `got` now requires at least node v20.x (see [got releases](https://github.com/sindresorhus/got/releases)), we will stay with got@13.x until node v18 is no longer supports.
-
 ## Contributing
 
 The [CHANGELOG.md](CHANGELOG.md) is generated with `standard-changelog` (using the command `npm run release`).
