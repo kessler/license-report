@@ -121,6 +121,7 @@ describe('getPackageDataFromRepository', () => {
 
     it('gets npm token via environment variable given in config file', () => {
       const envVarName = 'TEST_NPM_TOKEN_LR';
+      // eslint-disable-next-line security-node/detect-insecure-randomness
       const testToken = Math.random().toString(36).substring(2);
       config.npmTokenEnvVar = envVarName;
       process.env[envVarName] = testToken;
