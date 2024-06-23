@@ -4,14 +4,13 @@
   "description": "creates a short report about project's dependencies (license, url etc)",
   "main": "index.js",
   "scripts": {
+    "lint": "npx eslint index.js lib/**/*.js test/**/*.js **/*.json",
     "test": "npx mocha -R spec",
-    "release": "commit-and-tag-version --commit-all",
-    "lint-commits": "commitlint --from 59f5e4b90d2d --to HEAD --verbose",
-    "activate-commitlint": "npx husky install && npx husky add .husky/commit-msg \"npx --no -- commitlint --edit $1\"",
-    "prepare": "husky"
+    "release": "commit-and-tag-version -i CHANGELOG.md --same-file",
+    "lint-commits": "commitlint --from 59f5e4b90d2d --to HEAD --verbose"
   },
   "bin": {
-    "license-report": "index.js"
+    "license-report": "./index.js"
   },
   "type": "module",
   "repository": {
@@ -26,11 +25,11 @@
   "homepage": "https://github.com/kessler/license-report",
   "dependencies": {
     "@kessler/tableify": "^1.0.2",
-    "debug": "^4.3.4",
+    "debug": "^4.3.5",
     "eol": "^0.9.1",
-    "got": "^13.0.0",
+    "got": "^14.4.1",
     "rc": "^1.2.8",
-    "semver": "^7.6.0",
+    "semver": "^7.6.2",
     "tablemark": "^3.1.0",
     "text-table": "^0.2.0",
     "visit-values": "^2.0.0"
@@ -38,10 +37,20 @@
   "devDependencies": {
     "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^19.2.2",
-    "commit-and-tag-version": "^12.4.0",
+    "commit-and-tag-version": "^12.4.1",
+    "eslint": "^9.5.0",
+    "eslint-plugin-chai-expect": "^3.1.0",
+    "eslint-plugin-jsdoc": "^48.2.13",
+    "eslint-plugin-json": "^4.0.0",
+    "eslint-plugin-mocha": "^10.4.3",
+    "eslint-plugin-n": "^17.9.0",
+    "eslint-plugin-security": "^3.0.1",
+    "eslint-plugin-security-node": "^1.1.4",
     "husky": "^9.0.11",
+    "lint-staged": "^15.2.7",
     "mocha": "^10.4.0",
-    "nock": "^13.5.4"
+    "nock": "^13.5.4",
+    "prettier": "^3.3.2"
   },
   "engines": {
     "node": ">=18"
@@ -55,5 +64,35 @@
     "ironsource.png",
     "markdown.jpg",
     "screenshot.png"
-  ]
+  ],
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "commit-and-tag-version": {
+    "packageFiles": [
+      {
+        "filename": "package.json",
+        "type": "json"
+      }
+    ],
+    "bumpFiles": [
+      {
+        "filename": "package.json",
+        "type": "json"
+      },
+      {
+        "filename": "package-lock.json",
+        "type": "json"
+      },
+      {
+        "filename": "README.md",
+        "updater": "scripts/readme-updater.cjs"
+      }
+    ]
+  }
 }
