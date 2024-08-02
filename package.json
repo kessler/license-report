@@ -25,11 +25,11 @@
   "homepage": "https://github.com/kessler/license-report",
   "dependencies": {
     "@kessler/tableify": "^1.0.2",
-    "debug": "^4.3.5",
+    "debug": "^4.3.6",
     "eol": "^0.9.1",
-    "got": "^14.4.1",
+    "got": "^14.4.2",
     "rc": "^1.2.8",
-    "semver": "^7.6.2",
+    "semver": "^7.6.3",
     "tablemark": "^3.1.0",
     "text-table": "^0.2.0",
     "visit-values": "^2.0.0"
@@ -38,19 +38,19 @@
     "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^19.2.2",
     "commit-and-tag-version": "^12.4.1",
-    "eslint": "^9.6.0",
+    "eslint": "^9.8.0",
     "eslint-plugin-chai-expect": "^3.1.0",
-    "eslint-plugin-jsdoc": "^48.5.0",
+    "eslint-plugin-jsdoc": "^48.11.0",
     "eslint-plugin-json": "^4.0.0",
-    "eslint-plugin-mocha": "^10.4.3",
-    "eslint-plugin-n": "^17.9.0",
+    "eslint-plugin-mocha": "^10.5.0",
+    "eslint-plugin-n": "^17.10.1",
     "eslint-plugin-security": "^3.0.1",
     "eslint-plugin-security-node": "^1.1.4",
-    "husky": "^9.0.11",
+    "husky": "^9.1.4",
     "lint-staged": "^15.2.7",
-    "mocha": "^10.5.2",
+    "mocha": "^10.7.0",
     "nock": "^13.5.4",
-    "prettier": "^3.3.2"
+    "prettier": "^3.3.3"
   },
   "engines": {
     "node": ">=18"
