@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [6.6.1](https://github.com/kessler/license-report/compare/v6.6.0...v6.6.1) (2024-08-02)
+
 ## [6.6.0](https://github.com/kessler/license-report/compare/v6.5.1...v6.6.0) (2024-06-23)
 
 ### Features
