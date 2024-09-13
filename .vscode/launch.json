@@ -42,6 +42,16 @@
       ],
       "program": "${workspaceFolder}\\index.js",
       "args": ["--package=${workspaceFolder}\\test\\fixture\\all-fields\\package.json", "--config=${workspaceFolder}\\test\\fixture\\local-packages\\license-report-config.json"]
+    },
+    {
+      "name": "Debug with custom fields",
+      "type": "node",
+      "request": "launch",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}\\index.js",
+      "args": ["--package=${workspaceFolder}\\test\\fixture\\all-fields\\package.json", "--fields=name", "--fields=repository.url", "--repository.url.label=", "--repository.url.value=n/a", "--fields=nonexist", "--nonexist.label=NonExist", "--nonexist.value=n/a"]
     }
   ]
 }

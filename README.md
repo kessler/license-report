@@ -163,20 +163,38 @@ license-report --output=csv --config license-report-config.json
 }
 ```
 
+### Custom fields
+
 Besides the 'build-in' fields ("department", "name", "installedVersion", "author" "comment", "licensePeriod", "licenseType", "link", "material", "relatedTo"), any field allowed in a package.json can be used in the fields array (as "custom" field).
 
-When using "custom" field, an element named like the "custom" field with 2 properties must be added: "value" - the default value for this field - and "label - the "heading" for generated columns. Here is an example for adding the 'homepage' field:
+When using a "custom" field, an element named like the "custom" field with 2 properties must be added: "value" - the default value for this field - and "label - the "heading" for generated columns.
+
+When the selected field is an object (e.g. the repository field is often an object) the object will be in the json output. If the output is of type table (or any of the other text based formats) the result of the toString function is used (resulting in "[object Object]" as default).
+
+Here is an example for adding the 'homepage' and the repository field:
 
 ```
   "fields": [
     "name",
     "installedVersion",
-    "homepage"
+    "homepage",
+    "repository",
+    "repository.url",
   ],
   "homepage": {
     "value": 'n/a',
     "label": 'Homepage'
-  }
+  },
+  "repository": {
+    "value": 'n/a',
+    "label": 'Repo'
+  },
+  "repository": {
+    "url": {
+      "value": 'n/a',
+      "label": 'RepoURL'
+    }
+  },
 ```
 
 ### Exclude packages:
@@ -197,7 +215,7 @@ license-report --excludeRegex=@mycompany\/.*
 
 ### Markdown Options
 
-If you want to change the default markdown table look and feel, e.g. center-align the text, you have to use a custom config file (`--config=license-report-config.json`) and in the config file use the `tablemarkConfig` property.
+If you want to change the default markdown table look and feel, e.g. center-align the text, you have to use a custom config file )`--config=license-report-config.json`) and in the config file use the `tablemarkConfig` property.
 
 Example config for markdown table with center-aligned content:
 
