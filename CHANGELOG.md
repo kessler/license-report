@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [6.7.0](https://github.com/kessler/license-report/compare/v6.6.1...v6.7.0) (2024-09-13)
+
+
+### Features
+
+* use properties of object entries as custom field ([#194](https://github.com/kessler/license-report/issues/194)) ([d9519b2](https://github.com/kessler/license-report/commit/d9519b23d4cdf11c8659c28644eb4fe206df1b5a))
+
 ## [6.6.1](https://github.com/kessler/license-report/compare/v6.6.0...v6.6.1) (2024-08-02)
 
 ## [6.6.0](https://github.com/kessler/license-report/compare/v6.5.1...v6.6.0) (2024-06-23)
