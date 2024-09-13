@@ -1,0 +1,17 @@
+{
+  "fields": [
+    "name",
+    "licenseType",
+    "link",
+    "installedFrom",
+    "remoteVersion",
+    "installedVersion",
+    "definedVersion",
+    "latestRemoteVersion",
+    "latestRemoteModified",
+    "author",
+    "description",
+    "repository",
+    "repository.url"
+  ]
+}

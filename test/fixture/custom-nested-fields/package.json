@@ -1,0 +1,8 @@
+{
+  "name": "license-report",
+  "description": "package.json for e2e tests",
+  "dependencies": {
+    "debug": "^4.3.6",
+    "got": "^14.4.2"
+  }
+}

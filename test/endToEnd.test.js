@@ -530,6 +530,64 @@ describe('end to end test', () => {
       );
       assert.strictEqual(stderr, '', 'expected no warnings');
     });
+
+    it('produce a json report with custom nested field', async () => {
+      const nestedFieldsPackageJsonPath = path
+       .resolve(__dirname, 'fixture', 'custom-nested-fields', 'package.json')
+       .replace(/(\s+)/g, '\\$1');
+
+      const nestedFieldsConfigPath = path
+        .resolve(__dirname, 'fixture', 'custom-nested-fields', 'config-nested-fields.json')
+        .replace(/(\s+)/g, '\\$1');
+
+      const { stdout, stderr } = await execAsPromise(
+        `node ${scriptPath} --package=${nestedFieldsPackageJsonPath} --config=${nestedFieldsConfigPath}`,
+      );
+      const result = JSON.parse(stdout);
+      const expectedResult = [
+        {
+          name: "debug",
+          licenseType: "MIT",
+          link: "git://github.com/debug-js/debug.git",
+          installedFrom: "https://registry.npmjs.org/debug/-/debug-4.3.6.tgz",
+          remoteVersion: "4.3.7",
+          installedVersion: "4.3.6",
+          definedVersion: "^4.3.6",
+          latestRemoteVersion: "4.3.7",
+          latestRemoteModified: "2024-09-06T00:52:57.861Z",
+          author: "Josh Junon (https://github.com/qix-)",
+          description: "Lightweight debugging utility for Node.js and the browser",
+          repository: {
+            type: "git",
+            url: "git://github.com/debug-js/debug.git",
+          },
+          "repository.url": "git://github.com/debug-js/debug.git",
+        },
+        {
+          name: "got",
+          licenseType: "MIT",
+          link: "git+https://github.com/sindresorhus/got.git",
+          installedFrom: "https://registry.npmjs.org/got/-/got-14.4.2.tgz",
+          remoteVersion: "14.4.2",
+          installedVersion: "14.4.2",
+          definedVersion: "^14.4.2",
+          latestRemoteVersion: "14.4.2",
+          latestRemoteModified: "2024-08-21T20:39:07.774Z",
+          author: "n/a",
+          description: "Human-friendly and powerful HTTP request library for Node.js",
+          repository: "sindresorhus/got",
+          "repository.url": "n/a",
+        },
+      ];
+      await addRemoteVersionsToExpectedData(expectedResult);
+
+      assert.deepStrictEqual(
+        result,
+        expectedResult,
+        `expected the output to contain all the configured fields`,
+      );
+      assert.strictEqual(stderr, '', 'expected no warnings');
+    });
   });
 
   describe('end to end test with exclusions', function () {
