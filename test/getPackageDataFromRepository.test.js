@@ -126,7 +126,7 @@ describe('getPackageDataFromRepository', () => {
       config.npmTokenEnvVar = envVarName;
       process.env[envVarName] = testToken;
 
-      const npmTokenFromConfig = process.env[config.npmTokenEnvVar] || '';
+      const npmTokenFromConfig = process.env[config.npmTokenEnvVar] ?? '';
 
       assert.strictEqual(npmTokenFromConfig, testToken);
     });
