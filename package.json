@@ -7,7 +7,8 @@
     "lint": "npx eslint index.js lib/**/*.js test/**/*.js **/*.json",
     "test": "npx mocha -R spec",
     "release": "commit-and-tag-version -i CHANGELOG.md --same-file",
-    "lint-commits": "commitlint --from 59f5e4b90d2d --to HEAD --verbose"
+    "lint-commits": "commitlint --from 59f5e4b90d2d --to HEAD --verbose",
+    "prepare": "husky"
   },
   "bin": {
     "license-report": "./index.js"
@@ -67,11 +68,6 @@
   ],
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
   },
   "commit-and-tag-version": {
     "packageFiles": [
