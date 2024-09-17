@@ -127,14 +127,18 @@ describe('addLocalPackageData', () => {
         name: 'my-local-package',
         version: 'file:local-libs/my-local-package',
       };
-      const customFields = [
-        'author',
-        'description',
-      ];
-      await addLocalPackageData(depsIndexElement, projectRootPath, customFields);
+      const customFields = ['author', 'description'];
+      await addLocalPackageData(
+        depsIndexElement,
+        projectRootPath,
+        customFields,
+      );
 
       assert.ok(depsIndexElement.description);
-      assert.strictEqual(depsIndexElement.description, 'A list of color names and its values');
+      assert.strictEqual(
+        depsIndexElement.description,
+        'A list of color names and its values',
+      );
     });
 
     it('adds package data for object property of custom field', async () => {
@@ -144,14 +148,18 @@ describe('addLocalPackageData', () => {
         name: 'my-local-package',
         version: 'file:local-libs/my-local-package',
       };
-      const customFields = [
-        'author',
-        'repository',
-      ];
-      await addLocalPackageData(depsIndexElement, projectRootPath, customFields);
+      const customFields = ['author', 'repository'];
+      await addLocalPackageData(
+        depsIndexElement,
+        projectRootPath,
+        customFields,
+      );
 
       assert.ok(depsIndexElement.repository);
-      assert.deepStrictEqual(depsIndexElement.repository, {type: "git",url: "git@github.com:colors/my-local-package.git"});
+      assert.deepStrictEqual(depsIndexElement.repository, {
+        type: 'git',
+        url: 'git@github.com:colors/my-local-package.git',
+      });
     });
 
     it('adds package data for nested property of custom field', async () => {
@@ -161,14 +169,18 @@ describe('addLocalPackageData', () => {
         name: 'my-local-package',
         version: 'file:local-libs/my-local-package',
       };
-      const customFields = [
-        'name',
-        'repository.url',
-      ];
-      await addLocalPackageData(depsIndexElement, projectRootPath, customFields);
+      const customFields = ['name', 'repository.url'];
+      await addLocalPackageData(
+        depsIndexElement,
+        projectRootPath,
+        customFields,
+      );
 
       assert.ok(depsIndexElement['repository.url']);
-      assert.strictEqual(depsIndexElement['repository.url'], 'git@github.com:colors/my-local-package.git');
+      assert.strictEqual(
+        depsIndexElement['repository.url'],
+        'git@github.com:colors/my-local-package.git',
+      );
     });
   });
 
@@ -250,7 +262,7 @@ describe('addLocalPackageData', () => {
         'author',
         'bugs',
       ];
-  
+
       const depsIndexElement = {
         fullName: '@kessler/tableify',
         alias: '',
@@ -260,17 +272,17 @@ describe('addLocalPackageData', () => {
       };
 
       const expectedResult = {
-        fullName: "@kessler/tableify",
-        alias: "",
-        name: "tableify",
-        version: "^1.0.2",
-        scope: "@kessler",
-        installedVersion: "1.0.2",
-        author: "Dan VerWeire, Yaniv Kessler",
-        licenseType: "MIT",
-        homepage: "https://github.com/kessler/node-tableify",
+        fullName: '@kessler/tableify',
+        alias: '',
+        name: 'tableify',
+        version: '^1.0.2',
+        scope: '@kessler',
+        installedVersion: '1.0.2',
+        author: 'Dan VerWeire, Yaniv Kessler',
+        licenseType: 'MIT',
+        homepage: 'https://github.com/kessler/node-tableify',
         bugs: {
-          url: "https://github.com/kessler/node-tableify/issues",
+          url: 'https://github.com/kessler/node-tableify/issues',
         },
       };
 
@@ -280,12 +292,8 @@ describe('addLocalPackageData', () => {
     });
 
     it('adds package data for for nested custom field', async () => {
-      const fields = [
-        'name',
-        'repository',
-        'repository.url',
-      ];
-  
+      const fields = ['name', 'repository', 'repository.url'];
+
       const depsIndexElement = {
         fullName: '@kessler/tableify',
         alias: '',
@@ -295,19 +303,19 @@ describe('addLocalPackageData', () => {
       };
 
       const expectedResult = {
-        fullName: "@kessler/tableify",
-        alias: "",
-        name: "tableify",
-        version: "^1.0.2",
-        scope: "@kessler",
-        installedVersion: "1.0.2",
-        author: "Dan VerWeire, Yaniv Kessler",
-        licenseType: "MIT",
+        fullName: '@kessler/tableify',
+        alias: '',
+        name: 'tableify',
+        version: '^1.0.2',
+        scope: '@kessler',
+        installedVersion: '1.0.2',
+        author: 'Dan VerWeire, Yaniv Kessler',
+        licenseType: 'MIT',
         repository: {
-          type: "git",
-          url: "https://github.com/kessler/node-tableify.git",
+          type: 'git',
+          url: 'https://github.com/kessler/node-tableify.git',
         },
-        "repository.url": "https://github.com/kessler/node-tableify.git",
+        'repository.url': 'https://github.com/kessler/node-tableify.git',
       };
 
       await addLocalPackageData(depsIndexElement, projectRootPath, fields);
