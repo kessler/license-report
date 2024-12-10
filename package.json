@@ -26,7 +26,7 @@
   "homepage": "https://github.com/kessler/license-report",
   "dependencies": {
     "@kessler/tableify": "^1.0.2",
-    "debug": "^4.3.7",
+    "debug": "^4.4.0",
     "eol": "^0.10.0",
     "got": "^14.4.5",
     "rc": "^1.2.8",
@@ -44,14 +44,14 @@
     "eslint-plugin-jsdoc": "^50.6.0",
     "eslint-plugin-json": "^4.0.1",
     "eslint-plugin-mocha": "^10.5.0",
-    "eslint-plugin-n": "^17.14.0",
+    "eslint-plugin-n": "^17.15.0",
     "eslint-plugin-security": "^3.0.1",
     "eslint-plugin-security-node": "^1.1.4",
     "husky": "^9.1.7",
-    "lint-staged": "^15.2.10",
-    "mocha": "^10.8.2",
+    "lint-staged": "^15.2.11",
+    "mocha": "^11.0.1",
     "nock": "^13.5.6",
-    "prettier": "^3.4.1"
+    "prettier": "^3.4.2"
   },
   "engines": {
     "node": ">=18"
