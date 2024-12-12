@@ -1,8 +1,8 @@
 # ANNOUNCEMENT: repository changing ownership
 
-On the 16th of March 2024 this repository will change ownership and move to the personal account of one of it's maintainers, [Yaniv Kessler](https://github.com/kessler)
+On the 16th of March 2024 this repository has changed ownership and moved to the personal account of one of it's maintainers, [Yaniv Kessler](https://github.com/kessler)
 
-Ownership change will also occur on the npm registry to [Yaniv Kessler](https://www.npmjs.com/~kessler)
+Ownership change also occurred on the npm registry to [Yaniv Kessler](https://www.npmjs.com/~kessler)
 
 # NPM License Report Tool
 
@@ -350,5 +350,17 @@ The following is the list of supported types:
 - test: changes that add missing tests or correct existing tests.
 
 To ensure the syntax of commit messages `commitlint` is used, triggered by `husky`. This feature must be activated with `npm run activate-commitlint` once for every local clone of `license-report`.
+
+## Associated packages
+
+To cover special needs there is a short list of "associated" packages
+
+- [license-report-recursive](https://www.npmjs.com/package/license-report-recursive) - a clone of license-report that covers dependencies of dependencies too.
+
+- [license-downloader](https://www.npmjs.com/package/license-downloader) - downloads all the license files of the dependencies using the output of license-report as input.
+
+- [license-report-check](https://www.npmjs.com/package/license-report-check) - validates the types of the licenses of dependencies based on a list of allowed / forbidden license types. This package uses the output of license-report as input.
+
+---
 
 ![ironSource logo](ironsource.png)
