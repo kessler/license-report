@@ -5,6 +5,7 @@ import semver from 'semver';
 import createDebugMessages from 'debug';
 
 import { config } from '../../lib/config.js';
+import { joinUrlPath } from '../../lib/util.js';
 
 const debug = createDebugMessages('license-report:expectedOutput');
 
@@ -18,7 +19,7 @@ const debug = createDebugMessages('license-report:expectedOutput');
  * @param {object} dependency - dependency defining a package (name, version etc.); will be modified.
  */
 async function addRemoteData(dependency) {
-  let uri = path.join(config.registry, dependency.name);
+  let uri = joinUrlPath(config.registry, dependency.name);
 
   debug('addRemoteVersion - REQUEST %s', uri);
 
