@@ -1,5 +1,3 @@
-import path from 'node:path';
-
 import got from 'got';
 import semver from 'semver';
 import createDebugMessages from 'debug';
