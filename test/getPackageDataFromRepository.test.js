@@ -105,6 +105,7 @@ describe('getPackageDataFromRepository', () => {
       assert.ok(
         packageJson.versions['7.3.7']['repository'].hasOwnProperty('url'),
       );
+      assert.ok(scope.isDone());
     });
 
     it('gets empty object for non existing package', async () => {
