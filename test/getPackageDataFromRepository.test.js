@@ -20,38 +20,22 @@ describe('getPackageDataFromRepository', () => {
     this.timeout(20000);
     this.slow(250);
 
+    let originalConfigRegistry;
     let originalHttpRetryLimit;
-    let originalRegistryUri;
 
     beforeEach(() => {
+      originalConfigRegistry = config.registry;
       originalHttpRetryLimit = config.httpRetryOptions.limit;
-      originalRegistryUri = config.registry;
     });
 
     afterEach(() => {
+      config.registry = originalConfigRegistry;
       config.httpRetryOptions.limit = originalHttpRetryLimit;
-      config.registry = originalRegistryUri;
-    });
-
-    it('gets the information about the package "semver" from server', async () => {
-      const packageName = 'semver';
-
-      const packageJson = await getPackageDataFromRepository('semver');
-
-      assert.strictEqual(packageJson.name, packageName);
-      assert.ok(packageJson.versions.hasOwnProperty('7.3.7'));
-      assert.ok(packageJson.versions['7.3.7'].hasOwnProperty('dist'));
-      assert.ok(
-        packageJson.versions['7.3.7']['dist'].hasOwnProperty('tarball'),
-      );
-      assert.ok(packageJson.versions['7.3.7'].hasOwnProperty('repository'));
-      assert.ok(
-        packageJson.versions['7.3.7']['repository'].hasOwnProperty('url'),
-      );
+      nock.cleanAll();
     });
   });
 
-  describe('getPackageDataFromRepository', function () {
+  describe('getPackageDataFromRepository with default repository', function () {
     this.timeout(20000);
     this.slow(2000);
 
@@ -66,7 +50,11 @@ describe('getPackageDataFromRepository', () => {
       nock.cleanAll();
     });
 
-    it('gets the information about the package "semver" from server', async () => {
+    it('gets the information about the package "semver" from server with trailing slash', async () => {
+      config.httpRetryOptions.limit = 1;
+      config.registry = config.registry.endsWith('/')
+        ? config.registry
+        : config.registry.concat('/');
       const packageName = 'semver';
 
       // Mock the npm private repository response
@@ -88,6 +76,35 @@ describe('getPackageDataFromRepository', () => {
         packageJson.versions['7.3.7']['repository'].hasOwnProperty('url'),
       );
       assert.ok(scope.isDone());
+    });
+
+    it('gets the information about the package "semver" from server without trailing slash', async () => {
+      config.httpRetryOptions.limit = 1;
+      config.registry = config.registry.endsWith('/')
+        ? config.registry.slice(0, -1)
+        : config.registry;
+      const packageName = 'semver';
+
+      // Mock the npm private repository response
+      config.httpRetryOptions.limit = 1;
+      const scope = nock(config.registry.concat('/'), {
+        encodedQueryParams: true,
+      })
+        .get(`/${packageName}`)
+        .reply(200, responses.semver);
+
+      const packageJson = await getPackageDataFromRepository('semver');
+
+      assert.strictEqual(packageJson.name, packageName);
+      assert.ok(packageJson.versions.hasOwnProperty('7.3.7'));
+      assert.ok(packageJson.versions['7.3.7'].hasOwnProperty('dist'));
+      assert.ok(
+        packageJson.versions['7.3.7']['dist'].hasOwnProperty('tarball'),
+      );
+      assert.ok(packageJson.versions['7.3.7'].hasOwnProperty('repository'));
+      assert.ok(
+        packageJson.versions['7.3.7']['repository'].hasOwnProperty('url'),
+      );
     });
 
     it('gets empty object for non existing package', async () => {
