@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [6.7.2](https://github.com/kessler/license-report/compare/v6.7.1...v6.7.2) (2025-03-01)
+
+### Bug Fixes
+
+- replace path.join for uri with own function ([2f30a8b](https://github.com/kessler/license-report/commit/2f30a8bae9050fc2a75c228f5eea10cf91a88ab5))
+
 ## [6.7.1](https://github.com/kessler/license-report/compare/v6.7.0...v6.7.1) (2024-12-10)
 
 ## [6.7.0](https://github.com/kessler/license-report/compare/v6.6.1...v6.7.0) (2024-09-13)
