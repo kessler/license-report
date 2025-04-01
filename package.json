@@ -28,7 +28,7 @@
     "@kessler/tableify": "^1.0.2",
     "debug": "^4.4.0",
     "eol": "^0.10.0",
-    "got": "^14.4.6",
+    "got": "^14.4.7",
     "rc": "^1.2.8",
     "semver": "^7.7.1",
     "tablemark": "^3.1.0",
@@ -36,22 +36,22 @@
     "visit-values": "^2.0.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.7.1",
-    "@commitlint/config-conventional": "^19.7.1",
+    "@commitlint/cli": "^19.8.0",
+    "@commitlint/config-conventional": "^19.8.0",
     "commit-and-tag-version": "^12.5.0",
-    "eslint": "^9.21.0",
+    "eslint": "^9.23.0",
     "eslint-plugin-chai-expect": "^3.1.0",
-    "eslint-plugin-jsdoc": "^50.6.3",
+    "eslint-plugin-jsdoc": "^50.6.9",
     "eslint-plugin-json": "^4.0.1",
     "eslint-plugin-mocha": "^10.5.0",
-    "eslint-plugin-n": "^17.15.1",
+    "eslint-plugin-n": "^17.17.0",
     "eslint-plugin-security": "^3.0.1",
     "eslint-plugin-security-node": "^1.1.4",
     "husky": "^9.1.7",
-    "lint-staged": "^15.4.3",
+    "lint-staged": "^15.5.0",
     "mocha": "^11.1.0",
     "nock": "^13.5.6",
-    "prettier": "^3.5.2"
+    "prettier": "^3.5.3"
   },
   "engines": {
     "node": ">=18"

@@ -324,6 +324,10 @@ export DEBUG=license-report*
 
 For list of changes and bugfixes, see [CHANGELOG.md](CHANGELOG.md).
 
+## Hints
+
+As `nock` V14 shows eventemitter problems, it cannot be updated to a version 14.x until [nock issue 2830](https://github.com/nock/nock/issues/2830) got fixed.
+
 ## Contributing
 
 The [CHANGELOG.md](CHANGELOG.md) is generated with `standard-changelog` (using the command `npm run release`).
