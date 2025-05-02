@@ -16,7 +16,7 @@ export default [
   },
   pluginJs.configs.recommended,
   pluginJsdoc.configs['flat/recommended'],
-  pluginMocha.configs.flat.recommended,
+  pluginMocha.configs.recommended,
   pluginNode.configs['flat/recommended-module'],
   pluginChaiExpect.configs['recommended-flat'],
   pluginSecurity.configs.recommended,
