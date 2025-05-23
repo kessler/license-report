@@ -7,6 +7,11 @@ import { addPackageDataFromRepository } from '../lib/addPackageDataFromRepositor
  * Fetching data from the repository gets mocked to get independent from
  * the latest data on the repository.
  */
+
+const npmConfig = {
+  defaultRegistry: config.registry,
+};
+
 describe('addPackageDataFromRepository', function () {
   this.timeout(20000);
   this.slow(200);
@@ -34,11 +39,14 @@ describe('addPackageDataFromRepository', function () {
 
     // Mock the npm repository response
     config.httpRetryOptions.limit = 1;
-    const scope = nock(config.registry, { encodedQueryParams: true })
+    const scope = nock(npmConfig.defaultRegistry, { encodedQueryParams: true })
       .get(`/${packageEntry.fullName}`)
       .reply(200, responses[packageEntry.fullName]);
 
-    const packageReportData = await addPackageDataFromRepository(packageEntry);
+    const packageReportData = await addPackageDataFromRepository(
+      packageEntry,
+      npmConfig,
+    );
 
     assert.strictEqual(packageReportData.name, 'async');
     assert.strictEqual(
@@ -72,11 +80,14 @@ describe('addPackageDataFromRepository', function () {
 
     // Mock the npm repository response
     config.httpRetryOptions.limit = 1;
-    const scope = nock(config.registry, { encodedQueryParams: true })
+    const scope = nock(npmConfig.defaultRegistry, { encodedQueryParams: true })
       .get(`/${packageEntry.fullName}`)
       .reply(200, responses[packageEntry.fullName]);
 
-    const packageReportData = await addPackageDataFromRepository(packageEntry);
+    const packageReportData = await addPackageDataFromRepository(
+      packageEntry,
+      npmConfig,
+    );
 
     assert.strictEqual(packageReportData.name, '@kessler/tableify');
     assert.strictEqual(
@@ -108,11 +119,14 @@ describe('addPackageDataFromRepository', function () {
 
     // Mock the npm repository response
     config.httpRetryOptions.limit = 1;
-    const scope = nock(config.registry, { encodedQueryParams: true })
+    const scope = nock(npmConfig.defaultRegistry, { encodedQueryParams: true })
       .get(`/${packageEntry.fullName}`)
       .reply(200, responses[packageEntry.fullName]);
 
-    const packageReportData = await addPackageDataFromRepository(packageEntry);
+    const packageReportData = await addPackageDataFromRepository(
+      packageEntry,
+      npmConfig,
+    );
 
     assert.strictEqual(packageReportData.name, 'async');
     assert.strictEqual(packageReportData.link, 'n/a');
@@ -144,11 +158,14 @@ describe('addPackageDataFromRepository', function () {
 
     // Mock the npm repository response
     config.httpRetryOptions.limit = 1;
-    const scope = nock(config.registry, { encodedQueryParams: true })
+    const scope = nock(npmConfig.defaultRegistry, { encodedQueryParams: true })
       .get(`/${packageEntry.fullName}`)
       .reply(200, responses[packageEntry.fullName]);
 
-    const packageReportData = await addPackageDataFromRepository(packageEntry);
+    const packageReportData = await addPackageDataFromRepository(
+      packageEntry,
+      npmConfig,
+    );
 
     assert.strictEqual(packageReportData.name, 'async');
     assert.strictEqual(packageReportData.link, 'n/a');
@@ -180,11 +197,14 @@ describe('addPackageDataFromRepository', function () {
 
     // Mock the npm repository response
     config.httpRetryOptions.limit = 1;
-    const scope = nock(config.registry, { encodedQueryParams: true })
+    const scope = nock(npmConfig.defaultRegistry, { encodedQueryParams: true })
       .get(`/${packageEntry.fullName}`)
       .reply(200, responses[packageEntry.fullName]);
 
-    const packageReportData = await addPackageDataFromRepository(packageEntry);
+    const packageReportData = await addPackageDataFromRepository(
+      packageEntry,
+      npmConfig,
+    );
 
     assert.strictEqual(packageReportData.name, 'ol');
     assert.strictEqual(
@@ -220,11 +240,14 @@ describe('addPackageDataFromRepository', function () {
 
     // Mock the npm repository response
     config.httpRetryOptions.limit = 1;
-    const scope = nock(config.registry, { encodedQueryParams: true })
+    const scope = nock(npmConfig.defaultRegistry, { encodedQueryParams: true })
       .get(`/${packageEntry.fullName}`)
       .reply(200, responses[packageEntry.fullName]);
 
-    const packageReportData = await addPackageDataFromRepository(packageEntry);
+    const packageReportData = await addPackageDataFromRepository(
+      packageEntry,
+      npmConfig,
+    );
 
     assert.strictEqual(packageReportData.name, '@parcel/optimizer-cssnano');
     assert.strictEqual(
@@ -257,11 +280,14 @@ describe('addPackageDataFromRepository', function () {
 
     // Mock the npm repository response
     config.httpRetryOptions.limit = 1;
-    const scope = nock(config.registry, { encodedQueryParams: true })
+    const scope = nock(npmConfig.defaultRegistry, { encodedQueryParams: true })
       .get(`/${packageEntry.fullName}`)
       .reply(200, responses[packageEntry.fullName]);
 
-    const packageReportData = await addPackageDataFromRepository(packageEntry);
+    const packageReportData = await addPackageDataFromRepository(
+      packageEntry,
+      npmConfig,
+    );
 
     assert.strictEqual(packageReportData.name, 'mocha');
     assert.strictEqual(
@@ -291,7 +317,10 @@ describe('addPackageDataFromRepository', function () {
       licenseType: 'n/a',
       author: 'n/a',
     };
-    const packageReportData = await addPackageDataFromRepository(packageEntry);
+    const packageReportData = await addPackageDataFromRepository(
+      packageEntry,
+      npmConfig,
+    );
 
     assert.strictEqual(packageReportData.name, 'my-local-package');
     assert.strictEqual(packageReportData.link, 'n/a');
@@ -314,7 +343,10 @@ describe('addPackageDataFromRepository', function () {
       licenseType: 'n/a',
       author: 'n/a',
     };
-    const packageReportData = await addPackageDataFromRepository(packageEntry);
+    const packageReportData = await addPackageDataFromRepository(
+      packageEntry,
+      npmConfig,
+    );
 
     assert.strictEqual(packageReportData.name, 'debug');
     assert.strictEqual(packageReportData.link, 'n/a');
@@ -337,7 +369,10 @@ describe('addPackageDataFromRepository', function () {
       licenseType: 'n/a',
       author: 'n/a',
     };
-    const packageReportData = await addPackageDataFromRepository(packageEntry);
+    const packageReportData = await addPackageDataFromRepository(
+      packageEntry,
+      npmConfig,
+    );
 
     assert.strictEqual(packageReportData.name, 'async');
     assert.strictEqual(packageReportData.link, 'n/a');

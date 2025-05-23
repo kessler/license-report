@@ -70,6 +70,22 @@ To define the package.json to inspect, use the 'package' option.
 license-report --package=/path/to/package.json
 ```
 
+### Use .npmrc file
+
+To use `.npmrc` file to get the uri and the authorization tokens for the registries to use, set the cli parameters as follows:
+
+```
+# use .npmrc file in project folder or from current user
+license-report --useNpmrc
+```
+
+or
+
+```
+# use other .npmrc file (e.g. for CI)
+license-report --useNpmrc --npmrc=/path/to/.npmrc
+```
+
 ### Customize a field's label:
 
 The configurable labels are used as column headers in table / csv / html output. For html output the labels of all fields in the output must be unique.
@@ -104,6 +120,8 @@ license-report --registry=https://myregistry.com/ --npmTokenEnvVar=NPM_TOKEN
 ```
 
 The name of this environment variable (in the example: 'npm_token') should not be added as an option to the license-report config file, as this implies a severe security risk, when this file is checked in into a git repository. A warning is emitted if such an option is found in the config file.
+
+If a .npmrc file is used (via config.useNpmrc), then this authorization token is used for the uri of the default registry.
 
 ### Generate different outputs:
 

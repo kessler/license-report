@@ -10,6 +10,7 @@ import { getFormatter } from './lib/getFormatter.js';
 import { addLocalPackageData } from './lib/addLocalPackageData.js';
 import { addPackageDataFromRepository } from './lib/addPackageDataFromRepository.js';
 import { getDependencies } from './lib/getDependencies.js';
+import { getNpmConfig } from './lib/getNpmrc.js';
 import { packageDataToReportData } from './lib/packageDataToReportData.js';
 import { isNullOrUndefined, helpText, readJson } from './lib/util.js';
 
@@ -24,6 +25,9 @@ const debug = createDebugMessages('license-report');
   if (!config.package) {
     config.package = './package.json';
   }
+
+  // get path to .npmrc to use; 'config.npmrc' can be undefined
+  let npmrc = getNpmConfig(config.npmrc);
 
   if (path.extname(config.package) !== '.json') {
     throw new Error('invalid package.json ' + config.package);
@@ -84,8 +88,10 @@ const debug = createDebugMessages('license-report');
           projectRootPath,
           fieldsList,
         );
-        const completeDataForPackage =
-          await addPackageDataFromRepository(localDataForPackage);
+        const completeDataForPackage = await addPackageDataFromRepository(
+          localDataForPackage,
+          npmrc,
+        );
         return packageDataToReportData(completeDataForPackage, config);
       }),
     );
