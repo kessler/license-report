@@ -1,0 +1,5 @@
+registry=https://some-other-default-registry.com/
+@myorg:registry=https://somewhere-else.com/myorg
+@another:registry=https://somewhere-else.com/another
+//somewhere-else.com/myorg/:_authToken=MYTOKEN1
+//somewhere-else.com/another/:_authToken=MYTOKEN2

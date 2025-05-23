@@ -16,28 +16,13 @@ import { getPackageDataFromRepository } from '../lib/getPackageDataFromRepositor
  */
 
 describe('getPackageDataFromRepository', () => {
-  describe('getPackageDataFromRepository without trailing slash in uri', function () {
-    this.timeout(20000);
-    this.slow(250);
-
-    let originalConfigRegistry;
-    let originalHttpRetryLimit;
-
-    beforeEach(() => {
-      originalConfigRegistry = config.registry;
-      originalHttpRetryLimit = config.httpRetryOptions.limit;
-    });
-
-    afterEach(() => {
-      config.registry = originalConfigRegistry;
-      config.httpRetryOptions.limit = originalHttpRetryLimit;
-      nock.cleanAll();
-    });
-  });
-
   describe('getPackageDataFromRepository with default repository', function () {
     this.timeout(20000);
     this.slow(2000);
+
+    const npmrc = {
+      defaultRegistry: config.registry,
+    };
 
     let originalHttpRetryLimit;
 
@@ -52,18 +37,14 @@ describe('getPackageDataFromRepository', () => {
 
     it('gets the information about the package "semver" from server with trailing slash', async () => {
       config.httpRetryOptions.limit = 1;
-      config.registry = config.registry.endsWith('/')
-        ? config.registry
-        : config.registry.concat('/');
       const packageName = 'semver';
 
       // Mock the npm private repository response
-      config.httpRetryOptions.limit = 1;
-      const scope = nock(config.registry, { encodedQueryParams: true })
+      const scope = nock(npmrc.defaultRegistry, { encodedQueryParams: true })
         .get(`/${packageName}`)
         .reply(200, responses.semver);
 
-      const packageJson = await getPackageDataFromRepository('semver');
+      const packageJson = await getPackageDataFromRepository('semver', npmrc);
 
       assert.strictEqual(packageJson.name, packageName);
       assert.ok(packageJson.versions.hasOwnProperty('7.3.7'));
@@ -79,21 +60,19 @@ describe('getPackageDataFromRepository', () => {
     });
 
     it('gets the information about the package "semver" from server without trailing slash', async () => {
+      // Remove trailing slash
+      npmrc.defaultRegistry = npmrc.defaultRegistry.slice(0, -1);
       config.httpRetryOptions.limit = 1;
-      config.registry = config.registry.endsWith('/')
-        ? config.registry.slice(0, -1)
-        : config.registry;
       const packageName = 'semver';
 
       // Mock the npm private repository response
-      config.httpRetryOptions.limit = 1;
-      const scope = nock(config.registry.concat('/'), {
+      const scope = nock(npmrc.defaultRegistry.concat('/'), {
         encodedQueryParams: true,
       })
         .get(`/${packageName}`)
         .reply(200, responses.semver);
 
-      const packageJson = await getPackageDataFromRepository('semver');
+      const packageJson = await getPackageDataFromRepository('semver', npmrc);
 
       assert.strictEqual(packageJson.name, packageName);
       assert.ok(packageJson.versions.hasOwnProperty('7.3.7'));
@@ -111,6 +90,7 @@ describe('getPackageDataFromRepository', () => {
     it('gets empty object for non existing package', async () => {
       const packageJson = await getPackageDataFromRepository(
         'packagedoesnotexist',
+        npmrc,
       );
       assert.deepEqual(packageJson, {});
     });
@@ -137,25 +117,15 @@ describe('getPackageDataFromRepository', () => {
       nock.cleanAll();
     });
 
-    it('gets npm token via environment variable given in config file', () => {
-      const envVarName = 'TEST_NPM_TOKEN_LR';
-      // eslint-disable-next-line security-node/detect-insecure-randomness
-      const testToken = Math.random().toString(36).substring(2);
-      config.npmTokenEnvVar = envVarName;
-      process.env[envVarName] = testToken;
-
-      const npmTokenFromConfig = process.env[config.npmTokenEnvVar] ?? '';
-
-      assert.strictEqual(npmTokenFromConfig, testToken);
-    });
-
     it('gets data from repository without authorization', async () => {
       const packageName = 'async';
 
       // Mock the config for accessing a npm private repository
       const npmRegistryHost = 'my.private.registry.com';
       const npmRegistry = `https://${npmRegistryHost}/`;
-      config.registry = npmRegistry;
+      const npmrc = {
+        defaultRegistry: npmRegistry,
+      };
       process.env['NPM_TOKEN'] = '';
       config.httpRetryOptions.limit = 1;
 
@@ -164,7 +134,10 @@ describe('getPackageDataFromRepository', () => {
         .get(`/${packageName}`)
         .reply(200, responses.async);
 
-      const packageReportData = await getPackageDataFromRepository(packageName);
+      const packageReportData = await getPackageDataFromRepository(
+        packageName,
+        npmrc,
+      );
 
       assert.strictEqual(packageReportData.name, packageName);
       assert.ok(packageReportData.versions.hasOwnProperty('3.2.0'));
@@ -178,6 +151,9 @@ describe('getPackageDataFromRepository', () => {
       assert.ok(
         packageReportData.versions['3.2.0']['repository'].hasOwnProperty('url'),
       );
+      if (!scope.isDone()) {
+        console.error('pending mocks: %j', scope.pendingMocks());
+      }
       assert.ok(scope.isDone());
     });
 
@@ -186,10 +162,15 @@ describe('getPackageDataFromRepository', () => {
 
       // Mock the config for accessing a npm private repository
       const npmRegistryHost = 'my.private.registry.com';
+      const npmRegistryUri = `//${npmRegistryHost}/`;
       const npmRegistry = `https://${npmRegistryHost}/`;
       const npmToken = 'pp6j6gzcge';
-      config.registry = npmRegistry;
-      process.env['NPM_TOKEN'] = npmToken;
+      const authToken = {};
+      authToken[npmRegistryUri] = npmToken;
+      const npmrc = {
+        defaultRegistry: npmRegistry,
+        authTokens: [authToken],
+      };
       config.httpRetryOptions.limit = 1;
 
       // Mock the npm private repository response
@@ -199,7 +180,10 @@ describe('getPackageDataFromRepository', () => {
         .get(`/${packageName}`)
         .reply(200, responses.async);
 
-      const packageReportData = await getPackageDataFromRepository('async');
+      const packageReportData = await getPackageDataFromRepository(
+        'async',
+        npmrc,
+      );
 
       assert.strictEqual(packageReportData.name, packageName);
       assert.ok(packageReportData.versions.hasOwnProperty('3.2.0'));
@@ -221,10 +205,15 @@ describe('getPackageDataFromRepository', () => {
 
       // Mock the config for accessing a npm private repository
       const npmRegistryHost = 'my.private.registry.com';
+      const npmRegistryUri = `//${npmRegistryHost}/`;
       const npmRegistry = `https://${npmRegistryHost}/`;
       const npmToken = 'pp6j6gzcge';
-      config.registry = npmRegistry;
-      process.env['NPM_TOKEN'] = npmToken;
+      const authToken = {};
+      authToken[npmRegistryUri] = npmToken;
+      const npmrc = {
+        defaultRegistry: npmRegistry,
+        authTokens: [authToken],
+      };
       config.httpRetryOptions.limit = 1;
 
       // Mock the npm private repository response
@@ -235,11 +224,14 @@ describe('getPackageDataFromRepository', () => {
         .reply(401, {});
 
       try {
-        await getPackageDataFromRepository('async');
+        await getPackageDataFromRepository('async', npmrc);
       } catch (error) {
         assert.strictEqual(error.name, 'HTTPError');
         assert.strictEqual(error.message, 'Response code 401 (Unauthorized)');
       } finally {
+        if (!scope.isDone()) {
+          console.error('pending mocks: %j', scope.pendingMocks());
+        }
         assert.ok(scope.isDone());
       }
     });
