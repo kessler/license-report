@@ -6,7 +6,7 @@ Ownership change also occurred on the npm registry to [Yaniv Kessler](https://ww
 
 # NPM License Report Tool
 
-![Version](https://img.shields.io/badge/version-6.7.2-blue.svg?cacheSeconds=2592000)
+![Version](https://img.shields.io/badge/version-6.8.0-blue.svg?cacheSeconds=2592000)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/kefranabg/readme-md-generator/blob/master/LICENSE)
 
 > Generate a license report for the projects dependencies.

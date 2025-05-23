@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [6.8.0](https://github.com/kessler/license-report/compare/v6.7.2...v6.8.0) (2025-05-23)
+
+### Features
+
+- enable usage of .npmrc file (solves issue [#205](https://github.com/kessler/license-report/issues/205)) ([#208](https://github.com/kessler/license-report/issues/208)) ([9356088](https://github.com/kessler/license-report/commit/935608872386d531226e41bb90a4f1b71148aac5))
+
 ## [6.7.2](https://github.com/kessler/license-report/compare/v6.7.1...v6.7.2) (2025-03-01)
 
 ### Bug Fixes
