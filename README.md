@@ -1,9 +1,3 @@
-# ANNOUNCEMENT: repository changing ownership
-
-On the 16th of March 2024 this repository has changed ownership and moved to the personal account of one of it's maintainers, [Yaniv Kessler](https://github.com/kessler)
-
-Ownership change also occurred on the npm registry to [Yaniv Kessler](https://www.npmjs.com/~kessler)
-
 # NPM License Report Tool
 
 ![Version](https://img.shields.io/badge/version-6.8.0-blue.svg?cacheSeconds=2592000)
