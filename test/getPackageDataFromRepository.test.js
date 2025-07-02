@@ -20,11 +20,14 @@ describe('getPackageDataFromRepository', () => {
     this.timeout(20000);
     this.slow(2000);
 
-    const npmrc = {
-      defaultRegistry: config.registry,
-    };
-
+    let npmrc;
     let originalHttpRetryLimit;
+
+    before(() => {
+      npmrc = {
+        defaultRegistry: config.registry,
+      };
+    });
 
     beforeEach(() => {
       originalHttpRetryLimit = config.httpRetryOptions.limit;
