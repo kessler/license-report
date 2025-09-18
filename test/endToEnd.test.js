@@ -822,7 +822,7 @@ const EXPECTED_MULTI_DEPS_RAW_DATA = [
   },
   {
     name: 'tablemark',
-    installedVersion: '3.1.0',
+    installedVersion: '4.0.0',
   },
   {
     name: 'text-table',

@@ -39,6 +39,7 @@ export default [
       // disable redundant checks (already exists as security/detect-possible-timing-attacks)
       'security-node/detect-possible-timing-attacks': 'off',
       'security-node/non-literal-reg-expr': 'off',
+      'jsdoc/reject-any-type': 'off',
     },
   },
   {
