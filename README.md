@@ -338,7 +338,7 @@ For list of changes and bugfixes, see [CHANGELOG.md](CHANGELOG.md).
 
 ## Hints
 
-As `nock` V14 shows eventemitter problems, it cannot be updated to a version 14.x until [nock issue 2830](https://github.com/nock/nock/issues/2830) got fixed.
+No dependencies cannot be updated due to unfulfilled prerequisites.
 
 ## Contributing
 
