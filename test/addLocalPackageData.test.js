@@ -1,5 +1,6 @@
 import assert from 'node:assert';
 import path from 'node:path';
+import { beforeEach, describe, it } from 'node:test';
 import url from 'node:url';
 import { addLocalPackageData } from '../lib/addLocalPackageData.js';
 

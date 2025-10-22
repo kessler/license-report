@@ -1,4 +1,5 @@
 import assert from 'node:assert';
+import { afterEach, beforeEach, describe, it } from 'node:test';
 import nock from 'nock';
 import { config } from '../lib/config.js';
 import { addPackageDataFromRepository } from '../lib/addPackageDataFromRepository.js';
@@ -12,10 +13,7 @@ const npmConfig = {
   defaultRegistry: config.registry,
 };
 
-describe('addPackageDataFromRepository', function () {
-  this.timeout(20000);
-  this.slow(200);
-
+describe('addPackageDataFromRepository', { timeout: 20000 }, function () {
   let originalHttpRetryLimit;
 
   beforeEach(() => {

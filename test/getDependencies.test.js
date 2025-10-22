@@ -1,10 +1,10 @@
 // During the test the env variable is set to test
 process.env.NODE_ENV = 'test';
 
-import path from 'node:path';
-import url from 'node:url';
 import assert from 'node:assert';
-
+import path from 'node:path';
+import { beforeEach, describe, it } from 'node:test';
+import url from 'node:url';
 import { getDependencies } from '../lib/getDependencies.js';
 import { readJson } from '../lib/util.js';
 

@@ -1,6 +1,7 @@
 import assert from 'node:assert';
 import fs from 'node:fs';
 import path from 'node:path';
+import { afterEach, beforeEach, describe, it } from 'node:test';
 import url from 'node:url';
 import eol from 'eol';
 import { config } from '../lib/config.js';

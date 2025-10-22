@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "npx eslint index.js lib/**/*.js test/**/*.js **/*.json",
-    "test": "npx mocha -R spec",
+    "test": "node --test",
     "release": "commit-and-tag-version -i CHANGELOG.md --same-file",
     "lint-commits": "commitlint --from 59f5e4b90d2d --to HEAD --verbose",
     "prepare": "husky"
@@ -45,13 +45,11 @@
     "eslint-plugin-chai-expect": "^3.1.0",
     "eslint-plugin-jsdoc": "^59.0.1",
     "eslint-plugin-json": "^4.0.1",
-    "eslint-plugin-mocha": "^11.1.0",
     "eslint-plugin-n": "^17.23.1",
     "eslint-plugin-security": "^3.0.1",
     "eslint-plugin-security-node": "^1.1.4",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.6",
-    "mocha": "^11.7.2",
     "nock": "^14.0.10",
     "prettier": "^3.6.2"
   },

@@ -1,7 +1,7 @@
 import assert from 'node:assert';
 import path from 'node:path';
+import { afterEach, beforeEach, describe, it } from 'node:test';
 import url from 'node:url';
-
 import { getNpmConfig } from '../lib/getNpmrc.js';
 import { config } from '../lib/config.js';
 
@@ -141,7 +141,9 @@ describe('getNpmrc', () => {
 
         assert.deepEqual(npmrc, expected);
       } else {
-        this.skip();
+        this.skip(
+          `test skipped running on windows (here environment variables are case insensitive)`,
+        );
       }
     });
   });

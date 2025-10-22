@@ -1,4 +1,5 @@
 import assert from 'node:assert';
+import { describe, it } from 'node:test';
 import { extractLink } from '../lib/extractLink.js';
 
 describe('extractLink', () => {
