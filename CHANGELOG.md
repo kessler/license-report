@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [6.8.1](https://github.com/kessler/license-report/compare/v6.8.0...v6.8.1) (2025-10-22)
+
+### Bug Fixes
+
+- update packages to fix security warnings ([de28bd7](https://github.com/kessler/license-report/commit/de28bd74a0c98b24b09470fd48ce4324fa3e193b))
+
 ## [6.8.0](https://github.com/kessler/license-report/compare/v6.7.2...v6.8.0) (2025-05-23)
 
 ### Features
