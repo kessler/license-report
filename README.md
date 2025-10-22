@@ -1,7 +1,7 @@
 # NPM License Report Tool
 
-[![Version](https://img.shields.io/badge/version-6.8.0-blue.svg?cacheSeconds=2592000)](https://github.com/kessler/license-report/blob/master/CHANGELOG.md)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/kefranabg/readme-md-generator/blob/master/LICENSE)
+[![Version](https://img.shields.io/badge/version-6.8.0-blue.svg?cacheSeconds=86400)](https://github.com/kessler/license-report/blob/master/CHANGELOG.md)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?cacheSeconds=2592000)](https://github.com/kessler/license-report/blob/master/LICENSE)
 
 > Generate a license report for the projects dependencies.
 
