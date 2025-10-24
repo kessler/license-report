@@ -28,9 +28,7 @@ export default [
     rules: {
       'n/no-unsupported-features/node-builtins': [
         'error',
-        {
-          ignores: ['test.describe'],
-        },
+        { ignores: ['test.describe'] },
       ],
       'security/detect-non-literal-fs-filename': 'off',
       'security/detect-object-injection': 'off',
