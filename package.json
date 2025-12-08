@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "npx eslint index.js lib/**/*.js test/**/*.js **/*.json",
-    "test": "node --test",
+    "test": "node --test --test-reporter=spec",
     "release": "commit-and-tag-version -i CHANGELOG.md --same-file",
     "lint-commits": "commitlint --from 59f5e4b90d2d --to HEAD --verbose",
     "prepare": "husky"
@@ -29,8 +29,8 @@
     "debug": "^4.4.3",
     "eol": "^0.10.0",
     "find-up-simple": "^1.0.1",
-    "got": "^14.6.0",
-    "ini": "^5.0.0",
+    "got": "^14.6.5",
+    "ini": "^6.0.0",
     "rc": "^1.2.8",
     "semver": "^7.7.3",
     "tablemark": "^4.1.0",
@@ -38,20 +38,20 @@
     "visit-values": "^2.0.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^20.1.0",
-    "@commitlint/config-conventional": "^20.0.0",
-    "commit-and-tag-version": "^12.6.0",
-    "eslint": "^9.38.0",
+    "@commitlint/cli": "^20.2.0",
+    "@commitlint/config-conventional": "^20.2.0",
+    "commit-and-tag-version": "^12.6.1",
+    "eslint": "^9.39.1",
     "eslint-plugin-chai-expect": "^3.1.0",
-    "eslint-plugin-jsdoc": "^61.1.5",
+    "eslint-plugin-jsdoc": "^61.5.0",
     "eslint-plugin-json": "^4.0.1",
     "eslint-plugin-n": "^17.23.1",
     "eslint-plugin-security": "^3.0.1",
     "eslint-plugin-security-node": "^1.1.4",
     "husky": "^9.1.7",
-    "lint-staged": "^16.2.5",
+    "lint-staged": "^16.2.7",
     "nock": "^14.0.10",
-    "prettier": "^3.6.2"
+    "prettier": "^3.7.4"
   },
   "engines": {
     "node": ">=20"
