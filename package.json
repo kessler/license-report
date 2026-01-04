@@ -29,7 +29,7 @@
     "debug": "^4.4.3",
     "eol": "^0.10.0",
     "find-up-simple": "^1.0.1",
-    "got": "^14.6.5",
+    "got": "^14.6.6",
     "ini": "^6.0.0",
     "rc": "^1.2.8",
     "semver": "^7.7.3",
@@ -38,10 +38,10 @@
     "visit-values": "^2.0.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^20.2.0",
-    "@commitlint/config-conventional": "^20.2.0",
+    "@commitlint/cli": "^20.3.0",
+    "@commitlint/config-conventional": "^20.3.0",
     "commit-and-tag-version": "^12.6.1",
-    "eslint": "^9.39.1",
+    "eslint": "^9.39.2",
     "eslint-plugin-chai-expect": "^3.1.0",
     "eslint-plugin-jsdoc": "^61.5.0",
     "eslint-plugin-json": "^4.0.1",
