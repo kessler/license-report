@@ -3,6 +3,7 @@
   "version": "6.8.1",
   "description": "creates a short report about project's dependencies (license, url etc)",
   "main": "index.js",
+  "packageManager": "pnpm@10.28.2",
   "scripts": {
     "lint": "npx eslint index.js lib/**/*.js test/**/*.js **/*.json",
     "test": "node --test --test-reporter=spec",
