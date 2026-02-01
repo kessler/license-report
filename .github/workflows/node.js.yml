@@ -28,13 +28,18 @@ jobs:
       - name: Check out
         uses: actions/checkout@v4
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+          cache: 'pnpm'
 
-      - run: npm ci
-      - run: npm run lint
-      - run: npm run build --if-present
-      - run: npm test
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm build --if-present
+      - run: pnpm test

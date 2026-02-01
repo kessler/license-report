@@ -8,7 +8,7 @@
 ## Installation
 
 ```
-npm install -g license-report
+pnpm add -g license-report
 ```
 
 ## Functionality
@@ -139,7 +139,7 @@ license-report --output=html --html.cssFile=/a/b/c.css
 license-report --output=html | hcat
 ```
 
-When using the 'hcat' package to open the result in a browser, this package must be globally installed with `npm i -g hcat`.
+When using the 'hcat' package to open the result in a browser, this package must be globally installed with `pnpm add -g hcat`.
 
 ### Select fields for output:
 
@@ -342,7 +342,7 @@ No dependencies cannot be updated due to unfulfilled prerequisites.
 
 ## Contributing
 
-The [CHANGELOG.md](CHANGELOG.md) is generated with `standard-changelog` (using the command `npm run release`).
+The [CHANGELOG.md](CHANGELOG.md) is generated with `standard-changelog` (using the command `pnpm release`).
 
 To make this possible the commit messages must follow the [conventional commits specification](https://www.conventionalcommits.org/en/v1.0.0-beta.2/#specification).
 
@@ -365,7 +365,7 @@ The following is the list of supported types:
 - style: changes that don't affect code logic, such as white-spaces, formatting, missing semi-colons.
 - test: changes that add missing tests or correct existing tests.
 
-To ensure the syntax of commit messages `commitlint` is used, triggered by `husky`. This feature must be activated with `npm run activate-commitlint` once for every local clone of `license-report`.
+To ensure the syntax of commit messages `commitlint` is used, triggered by `husky`. This feature must be activated with `pnpm activate-commitlint` once for every local clone of `license-report`.
 
 ## Associated packages
 
