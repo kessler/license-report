@@ -84,10 +84,6 @@
       {
         "filename": "package-lock.json",
         "type": "json"
-      },
-      {
-        "filename": "README.md",
-        "updater": "scripts/readme-updater.cjs"
       }
     ]
   }
