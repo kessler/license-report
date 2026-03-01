@@ -46,7 +46,7 @@
     "eslint-plugin-jsdoc": "^62.5.5",
     "eslint-plugin-json": "^4.0.1",
     "eslint-plugin-n": "^17.24.0",
-    "eslint-plugin-security": "^3.0.1",
+    "eslint-plugin-security": "^4.0.0",
     "eslint-plugin-security-node": "^1.1.4",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
