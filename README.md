@@ -342,6 +342,8 @@ No dependencies cannot be updated due to unfulfilled prerequisites.
 
 ## Contributing
 
+The end-to-end tests request data from the npmjs.org registry (fetching the remoteVersion value for a package). As these values may change from time to time, the tests in `endToEnd.test.js` may fail. When this happens the corresponding expected values must be manually updated.
+
 The [CHANGELOG.md](CHANGELOG.md) is generated with `standard-changelog` (using the command `npm run release`).
 
 To make this possible the commit messages must follow the [conventional commits specification](https://www.conventionalcommits.org/en/v1.0.0-beta.2/#specification).
