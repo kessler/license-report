@@ -49,12 +49,12 @@ license-report --only=prod,opt,peer
 
 The 'only' option is a comma separated list of the dependencies to use.  
 Possible values are:
-|value|segment of package.json|
-|---|---|
-|prod|dependencies|
-|dev|devDependencies|
-|opt|optionalDependencies|
-|peer|peerDependencies|
+| value | segment of package.json |
+| ----- | ----------------------- |
+| prod | dependencies |
+| dev | devDependencies |
+| opt | optionalDependencies |
+| peer | peerDependencies |
 
 ### Explicit package.json:
 
@@ -273,7 +273,7 @@ For an explanation of all available options see https://github.com/haltcase/tabl
 
 Fields with data of the installed packages:
 | fieldname | column title | data source |
-|---|---|---|
+| -------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
 | name | name | name of the package |
 | licenseType | license type | type of the license of the package (e.g. MIT) |
 | link | link | link to the repository of the package |
