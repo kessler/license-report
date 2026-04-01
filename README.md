@@ -339,7 +339,7 @@ For list of changes and bugfixes, see [CHANGELOG.md](CHANGELOG.md).
 
 ## Hints
 
-No dependencies cannot be updated due to unfulfilled prerequisites.
+Eslint cannot be updated to v10 as eslint-plugin-json is not compatible (see azeemba/eslint-plugin-json#97).
 
 ## Contributing
 

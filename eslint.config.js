@@ -19,7 +19,7 @@ export default [
     files: ['**/*.js'],
     languageOptions: {
       globals: {
-        ...globals.nodeBuiltin,
+        ...globals.node,
       },
     },
     plugins: {
