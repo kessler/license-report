@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [6.8.3](https://github.com/kessler/license-report/compare/v6.8.1...v6.8.3) (2026-04-01)
+
+### Bug Fixes
+
+- update packages to fix dependabot security warnings ([90d3967](https://github.com/kessler/license-report/commit/90d39679d5c458c7d59545bb06b61c32a16bf746))
+- update packages to fix github dependabot security warnings ([02ab3bc](https://github.com/kessler/license-report/commit/02ab3bcd7baaa7985ed3a3164aef5b66a3c58ad0))
+
 ## [6.8.1](https://github.com/kessler/license-report/compare/v6.8.0...v6.8.1) (2025-10-22)
 
 ### Bug Fixes
