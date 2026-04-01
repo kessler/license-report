@@ -808,7 +808,7 @@ const EXPECTED_MARKDOWN_TABLE_TEMPLATE = `| Department | Related to | Name      
 | :--------- | :--------- | :---------------- | :------------- | :-------------------- | :----------- | :----------------------------------------------- | :------------- | :---------------- | :-------------- | :---------------------------------------------- |
 | {{department}}    | {{relatedTo}}      | [[@kessler/tableify]] | {{licensePeriod}}      | {{material}}              | {{licenseType}}          | {{link}} | {{remoteVersion}}          | {{installedVersion}}             | {{definedVersion}}          | {{author}}                     |
 | {{department}}    | {{relatedTo}}      | [[mocha]]             | {{licensePeriod}}      | {{material}}              | {{licenseType}}          | {{link}}         | {{remoteVersion}}          | {{installedVersion}}             | {{definedVersion}}          | {{author}}             |
-| {{department}}    | {{relatedTo}}      | [[lodash]]            | {{licensePeriod}}      | {{material}}              | {{licenseType}}          | {{link}}         | {{remoteVersion}}        | {{installedVersion}}           | {{definedVersion}}        | {{author}} |
+| {{department}}    | {{relatedTo}}      | [[lodash]]            | {{licensePeriod}}      | {{material}}              | {{licenseType}}          | {{link}}         | {{remoteVersion}}         | {{installedVersion}}           | {{definedVersion}}        | {{author}} |
 | {{department}}    | {{relatedTo}}      | [[semver]]            | {{licensePeriod}}      | {{material}}              | {{licenseType}}          | {{link}}       | {{remoteVersion}}          | {{installedVersion}}             | {{definedVersion}}          | {{author}}                                     |
 
 `;
