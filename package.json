@@ -42,7 +42,7 @@
     "@commitlint/config-conventional": "^20.4.3",
     "commit-and-tag-version": "^12.6.1",
     "eslint": "^9.39.4",
-    "eslint-plugin-chai-expect": "^3.1.0",
+    "eslint-plugin-chai-expect": "^4.0.0",
     "eslint-plugin-jsdoc": "^62.7.1",
     "eslint-plugin-json": "^4.0.1",
     "eslint-plugin-n": "^17.24.0",
