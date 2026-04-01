@@ -41,6 +41,7 @@
     "@commitlint/cli": "^20.5.0",
     "@commitlint/config-conventional": "^20.5.0",
     "commit-and-tag-version": "^12.7.1",
+    "conventional-commits-filter": "^5.0.0",
     "eslint": "^9.39.4",
     "eslint-plugin-chai-expect": "^4.0.0",
     "eslint-plugin-jsdoc": "^62.9.0",
