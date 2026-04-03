@@ -387,5 +387,3 @@ To cover special needs there is a short list of "associated" packages
 - [license-report-check](https://www.npmjs.com/package/license-report-check) - validates the types of the licenses of dependencies based on a list of allowed / forbidden license types. This package uses the output of license-report as input.
 
 ---
-
-![ironSource logo](ironsource.png)
