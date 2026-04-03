@@ -1,3 +1,9 @@
+# ANNOUNCEMENT: repository changing ownership
+
+On the 1st of May 2026 this repository will change ownership and move to the personal account of one of it's maintainers, [BePo65](https://github.com/BePo65)
+
+Ownership change will also occur on the npm registry to [BePo65](https://www.npmjs.com/~bepo65)
+
 # NPM License Report Tool
 
 [![npm version](https://img.shields.io/npm/v/license-report.svg)](https://www.npmjs.com/package/license-report)
